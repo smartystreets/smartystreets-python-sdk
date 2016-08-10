@@ -11,4 +11,5 @@ class Lookup:
         self.lastline = None
         self.addressee = None
         self.urbanization = None
+        self.match = None
         self.candidates = 1

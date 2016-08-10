@@ -30,6 +30,7 @@ class TestClient(unittest.TestCase):
         lookup.zipcode = "7"
         lookup.lastline = "8"
         lookup.candidates = 9
+        lookup.match = "10"
 
         client.send_lookup(lookup)
 
@@ -43,6 +44,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual("7", sender.request.parameters['zipcode'])
         self.assertEqual("8", sender.request.parameters['lastline'])
         self.assertEqual(9, sender.request.parameters['candidates'])
+        self.assertEqual("10", sender.request.parameters['match'])
 
     def test_empty_batch_not_sent(self):
         sender = RequestCapturingSender()

@@ -20,7 +20,7 @@ class Client:
             return
 
         if batch.size() == 1:
-            self.set_parameters(batch[0], smartyrequest)
+            set_parameters(batch[0], smartyrequest)
         else:
             smartyrequest.payload = self.serializer.serialize(batch.all_lookups)
 
@@ -29,22 +29,25 @@ class Client:
         candidates = self.serializer.deserialize(response.payload)
         if candidates is None:
             candidates = []
-        self.assign_candidates_to_lookups(batch, candidates)
+        assign_candidates_to_lookups(batch, candidates)
 
-    def set_parameters(self, address, request):
-        request.parameters['street'] = address.street
-        request.parameters['street2'] = address.street2
-        request.parameters['secondary'] = address.secondary
-        request.parameters['city'] = address.city
-        request.parameters['state'] = address.state
-        request.parameters['zipcode'] = address.zipcode
-        request.parameters['lastline'] = address.lastline
-        request.parameters['addressee'] = address.addressee
-        request.parameters['urbanization'] = address.urbanization
 
-        if address.candidates != 1:
-            request.parameters['candidates'] = address.candidates
+def set_parameters(address, request):
+    request.parameters['street'] = address.street
+    request.parameters['street2'] = address.street2
+    request.parameters['secondary'] = address.secondary
+    request.parameters['city'] = address.city
+    request.parameters['state'] = address.state
+    request.parameters['zipcode'] = address.zipcode
+    request.parameters['lastline'] = address.lastline
+    request.parameters['addressee'] = address.addressee
+    request.parameters['urbanization'] = address.urbanization
+    request.parameters['match'] = address.match
 
-    def assign_candidates_to_lookups(self, batch, candidates):
-        for candidate in candidates:
-            batch[candidate.inputindex].result.append(candidate)
+    if address.candidates != 1:
+        request.parameters['candidates'] = address.candidates
+
+
+def assign_candidates_to_lookups(batch, candidates):
+    for candidate in candidates:
+        batch[candidate.inputindex].result.append(candidate)
