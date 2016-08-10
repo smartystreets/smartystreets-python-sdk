@@ -1,6 +1,6 @@
 class Lookup:
     def __init__(self, freeform=None):
-        self.result = None
+        self.result = []
         self.input_id = None
         self.street = freeform
         self.street2 = None
