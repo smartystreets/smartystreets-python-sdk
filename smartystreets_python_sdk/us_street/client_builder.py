@@ -1,5 +1,5 @@
 import smartystreets_python_sdk as smarty
-from smartystreets_python_sdk.us_street import Client
+from client import Client
 
 
 class ClientBuilder:
@@ -31,5 +31,16 @@ class ClientBuilder:
         return Client(self.urlprefix, self.buildsender(), self.serializer)
 
     def buildsender(self):
-        # TODO: Implement this
-        pass
+        if self.http_sender is not None:
+            return self.http_sender
+
+        sender = smarty.RequestsSender(self.maxtimeout)
+
+        sender = smarty.StatusCodeSender(sender)
+
+        if self.signer is not None:
+            sender = smarty.SigningSender(self.signer, sender)
+
+        # TODO: Figure out how retrying is going to work
+
+        return sender
