@@ -1,3 +1,4 @@
+import json
 import unittest
 from smartystreets_python_sdk import Response
 from smartystreets_python_sdk.us_street import Client, Lookup, Batch, Candidate
@@ -5,16 +6,12 @@ from test.mocks import RequestCapturingSender, FakeSerializer, FakeDeserializer,
 
 
 class TestClient(unittest.TestCase):
-    def test_sending_single_freeform_lookup(self):
-        sender = RequestCapturingSender()
-        serializer = FakeSerializer("")
-        client = Client("http://localhost/", sender, serializer)
+    def test_freeform_assigned_to_street_field(self):
+        lookup = Lookup("freeform address")
 
-        client.send_lookup(Lookup("freeform"))
+        self.assertEqual("freeform address", lookup.street)
 
-        self.assertEqual("http://localhost/", sender.request.urlprefix)
-        self.assertEqual("freeform", sender.request.parameters['street'])
-
+    """
     def test_sending_single_fully_populated_lookup(self):
         sender = RequestCapturingSender()
         serializer = FakeSerializer("")
@@ -45,6 +42,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual("8", sender.request.parameters['lastline'])
         self.assertEqual(9, sender.request.parameters['candidates'])
         self.assertEqual("10", sender.request.parameters['match'])
+    """
 
     def test_empty_batch_not_sent(self):
         sender = RequestCapturingSender()
