@@ -2,10 +2,10 @@ import smartystreets_python_sdk as smarty
 import unittest
 
 
-class TestRequestsSerializer(unittest.TestCase):
+class TestStandardSerializer(unittest.TestCase):
 
     def test_serialize(self):
-        serializer = smarty.RequestsSerializer()
+        serializer = smarty.StandardSerializer()
 
         result = serializer.serialize({'street': '123 fake street'})
 
@@ -20,7 +20,7 @@ class TestRequestsSerializer(unittest.TestCase):
             \"default_city\":true,\"mailable_city\":true}],\"zipcodes\":[{\"zipcode\":\"84606\",\"zipcode_type\":\"S\",\
             \"county_fips\":\"11501\",\"county_name\":\"Utah\",\"latitude\":38.89769,\"longitude\":-77.03869}]},\
             {\"input_index\":2,\"status\":\"invalid_zipcode\",\"reason\":\"Invalid ZIP Code.\"}]"
-        serializer = smarty.RequestsSerializer()
+        serializer = smarty.StandardSerializer()
 
         results = serializer.deserialize(expected_json_output)
 

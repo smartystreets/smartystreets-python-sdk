@@ -1,7 +1,7 @@
 import json
 
 
-class RequestsSerializer:
+class StandardSerializer:
     def __init__(self):
         pass
 

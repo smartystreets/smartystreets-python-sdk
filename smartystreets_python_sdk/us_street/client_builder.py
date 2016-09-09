@@ -5,7 +5,7 @@ from client import Client
 class ClientBuilder:
     def __init__(self, signer):
         self.signer = signer
-        self.serializer = smarty.RequestsSerializer()
+        self.serializer = smarty.StandardSerializer()
         self.http_sender = None
         self.maxretries = 5
         self.maxtimeout = 10000

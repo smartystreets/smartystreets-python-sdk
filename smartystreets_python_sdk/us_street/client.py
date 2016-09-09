@@ -19,10 +19,7 @@ class Client:
         if batch.size() == 0:
             return
 
-        if batch.size() == 1:
-            set_parameters(batch[0], smartyrequest)
-        else:
-            smartyrequest.payload = self.serializer.serialize(batch.all_lookups)
+        smartyrequest.payload = self.serializer.serialize(batch.all_lookups)
 
         response = self.sender.send(smartyrequest)
 
@@ -30,22 +27,6 @@ class Client:
         if candidates is None:
             candidates = []
         assign_candidates_to_lookups(batch, candidates)
-
-
-def set_parameters(address, request):
-    request.parameters['street'] = address.street
-    request.parameters['street2'] = address.street2
-    request.parameters['secondary'] = address.secondary
-    request.parameters['city'] = address.city
-    request.parameters['state'] = address.state
-    request.parameters['zipcode'] = address.zipcode
-    request.parameters['lastline'] = address.lastline
-    request.parameters['addressee'] = address.addressee
-    request.parameters['urbanization'] = address.urbanization
-    request.parameters['match'] = address.match
-
-    if address.candidates != 1:
-        request.parameters['candidates'] = address.candidates
 
 
 def assign_candidates_to_lookups(batch, candidates):

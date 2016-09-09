@@ -2,16 +2,17 @@ from time import sleep
 
 
 class RetrySender:
-    def __init__(self, maxretries, inner):
+    MAX_BACKOFF_DURATION = 10
+
+    def __init__(self, max_retries, inner):
         self.inner = inner
-        self.maxretries = maxretries
-        self.MAX_BACKOFF_DURATION = 10
+        self.max_retries = max_retries
 
     def send(self, request):
-        if self.maxretries == 0:
+        if self.max_retries == 0:
             return self.inner.send(request)
 
-        for i in range(self.maxretries):
+        for i in range(self.max_retries):
             response = self.inner.send(request)
 
             if response.status_code == 200:
@@ -22,18 +23,8 @@ class RetrySender:
         return response
 
     def backoff(self, attempt):
-        sleep(min_duration(attempt, self.MAX_BACKOFF_DURATION))
+        sleep(min_duration(attempt, RetrySender.MAX_BACKOFF_DURATION))
         return
-
-    """
-    def trysend(self, request, attempt):
-        response = self.inner.send(request)
-
-        if response.status_code != 200 and attempt >= self.maxretries:
-            return response
-
-        return None
-    """
 
 
 def min_duration(a, b):
