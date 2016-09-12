@@ -6,11 +6,11 @@ from mock import patch
 def mocked_session_send(request, **kwargs):
     class MockResponse:
         def __init__(self, payload, status_code):
-            self.payload = payload
+            self.content = payload
             self.status_code = status_code
 
         def json(self):
-            return self.payload
+            return self.content
 
     if request.url == 'http://localhost/error':
         mockresponse = MockResponse("Error test", 400)

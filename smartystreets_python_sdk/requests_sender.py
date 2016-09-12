@@ -4,14 +4,14 @@ from version import Version
 
 
 class RequestsSender:
-    def __init__(self, maxtimeout=10000):
+    def __init__(self, max_timeout=10000):
         self.session = Session()
-        self.maxtimeout = maxtimeout
+        self.max_timeout = max_timeout
 
     def send(self, smartyrequest):
         request = self.build_request(smartyrequest)
 
-        response = self.session.send(request, timeout=self.maxtimeout)
+        response = self.session.send(request, timeout=self.max_timeout)
 
         return self.build_smartyresponse(response)
 
@@ -20,8 +20,8 @@ class RequestsSender:
         request.headers['User-Agent'] = "smartystreets (sdk:python@" + Version.CURRENT + ")"
         request.data = smartyrequest.payload
         request.method = "GET" if smartyrequest.payload is None else "POST"
-        preppedrequest = self.session.prepare_request(request)
-        return preppedrequest
+        prepped_request = self.session.prepare_request(request)
+        return prepped_request
 
-    def build_smartyresponse(self, response):
-        return Response(response.payload, response.status_code)
+    def build_smartyresponse(self, inner_response):
+        return Response(inner_response.content, inner_response.status_code)

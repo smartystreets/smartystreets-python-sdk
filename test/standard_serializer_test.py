@@ -1,5 +1,6 @@
 import smartystreets_python_sdk as smarty
 import unittest
+from smartystreets_python_sdk import us_street
 
 
 class TestStandardSerializer(unittest.TestCase):
@@ -7,9 +8,11 @@ class TestStandardSerializer(unittest.TestCase):
     def test_serialize(self):
         serializer = smarty.StandardSerializer()
 
-        result = serializer.serialize({'street': '123 fake street'})
+        result = serializer.serialize([us_street.Lookup("123 fake street")])
 
-        self.assertEqual('{"street": "123 fake street"}', result)
+        self.assertEqual('[{"city": null, "addressee": null, "street2": null, "zipcode": null, "urbanization": null, \
+"state": null, "street": "123 fake street", "input_id": null, "result": [], "lastline": null, "candidates": 1, \
+"match": null, "secondary": null}]', result)
 
     def test_deserializer(self):
         expected_json_output = "[{\"input_index\":0,\"city_states\":[{\"city\":\"Washington\",\"state_abbreviation\":\

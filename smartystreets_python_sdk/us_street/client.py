@@ -23,6 +23,7 @@ class Client:
         response = self.sender.send(smartyrequest)
 
         candidates = self.serializer.deserialize(response.payload)
+        print candidates
         if candidates is None:
             candidates = []
         assign_candidates_to_lookups(batch, candidates)
@@ -30,4 +31,4 @@ class Client:
 
 def assign_candidates_to_lookups(batch, candidates):
     for candidate in candidates:
-        batch[candidate.input_index].result.append(candidate)
+        batch[candidate['input_index']].result.append(candidate)
