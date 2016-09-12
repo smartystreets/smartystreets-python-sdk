@@ -3,8 +3,7 @@ from smartystreets_python_sdk import Request
 
 
 class Client:
-    def __init__(self, urlprefix, sender, serializer):
-        self.urlprefix = urlprefix
+    def __init__(self, sender, serializer):
         self.sender = sender
         self.serializer = serializer
 
@@ -14,7 +13,7 @@ class Client:
         self.send_batch(batch)
 
     def send_batch(self, batch):
-        smartyrequest = Request(self.urlprefix)
+        smartyrequest = Request()
 
         if batch.size() == 0:
             return
@@ -31,4 +30,4 @@ class Client:
 
 def assign_candidates_to_lookups(batch, candidates):
     for candidate in candidates:
-        batch[candidate.inputindex].result.append(candidate)
+        batch[candidate.input_index].result.append(candidate)

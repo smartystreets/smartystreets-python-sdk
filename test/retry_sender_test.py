@@ -51,7 +51,7 @@ class TestRetrySender(unittest.TestCase):
 
 
 def send_with_retry(retries, inner):
-    request = Request("test")
+    request = Request()
     sender = RetrySender(retries, inner)
     return sender.send(request)
 

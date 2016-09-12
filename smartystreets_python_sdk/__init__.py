@@ -6,6 +6,7 @@ from static_credentials import StaticCredentials
 from status_code_sender import StatusCodeSender
 from signing_sender import SigningSender
 from retry_sender import RetrySender
+from url_prefix_sender import URLPrefixSender
 import errors
 import us_street
 

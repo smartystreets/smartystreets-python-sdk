@@ -7,40 +7,43 @@ class ClientBuilder:
         self.signer = signer
         self.serializer = smarty.StandardSerializer()
         self.http_sender = None
-        self.maxretries = 5
-        self.maxtimeout = 10000
-        self.urlprefix = "https://api.smartystreets.com/street-address"
+        self.max_retries = 5
+        self.max_timeout = 10000
+        self.url_prefix = "https://api.smartystreets.com/street-address"
 
-    def retry_at_most(self, maxretries):
-        self.maxretries = maxretries
+    def retry_at_most(self, max_retries):
+        self.max_retries = max_retries
         return self
 
-    def with_max_timeout(self, maxtimeout):
-        self.maxtimeout = maxtimeout
+    def with_max_timeout(self, max_timeout):
+        self.max_timeout = max_timeout
         return self
 
     def with_serializer(self, serializer):
         self.serializer = serializer
         return self
 
-    def with_url(self, urlprefix):
-        self.urlprefix = urlprefix
+    def with_url(self, url_prefix):
+        self.url_prefix = url_prefix
         return self
 
     def build(self):
-        return Client(self.urlprefix, self.buildsender(), self.serializer)
+        return Client(self.build_sender(), self.serializer)
 
-    def buildsender(self):
+    def build_sender(self):
         if self.http_sender is not None:
             return self.http_sender
 
-        sender = smarty.RequestsSender(self.maxtimeout)
+        sender = smarty.RequestsSender(self.max_timeout)
 
         sender = smarty.StatusCodeSender(sender)
 
         if self.signer is not None:
             sender = smarty.SigningSender(self.signer, sender)
 
-        # TODO: Figure out how retrying is going to work
+        if self.max_retries > 0:
+            sender = smarty.RetrySender(self.max_retries, sender)
+
+        sender = smarty.URLPrefixSender(self.url_prefix, sender)
 
         return sender
