@@ -1,11 +1,11 @@
 import unittest
-from smartystreets_python_sdk import Request, RetrySender
+from smartystreets_python_sdk import Request, RetrySender, retry_sender
 from mock import patch
 from mocks import FailingSender
 
 
 def mock_backoff(attempt):
-    TestRetrySender.sleep_durations.append(attempt)
+    TestRetrySender.sleep_durations.append(retry_sender.min_duration(attempt, 10))
 
 
 class TestRetrySender(unittest.TestCase):
@@ -41,11 +41,19 @@ class TestRetrySender(unittest.TestCase):
         self.assertEqual([0,1,2,3], TestRetrySender.sleep_durations)
         self.assertEqual(500, response.status_code)
 
+    @patch('smartystreets_python_sdk.retry_sender.backoff', side_effect=mock_backoff)
+    def test_backoff_does_not_exceed_max(self, mocked):
+        inner = FailingSender([401, 402, 400, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 200])
+
+        response = send_with_retry(20, inner)
+
+        self.assertEqual([0,1,2,3,4,5,6,7,8,9,10,10,10], TestRetrySender.sleep_durations)
+
 
 def send_with_retry(retries, inner):
     request = Request("test")
-    retry_sender = RetrySender(retries, inner)
-    return retry_sender.send(request)
+    sender = RetrySender(retries, inner)
+    return sender.send(request)
 
 
 
