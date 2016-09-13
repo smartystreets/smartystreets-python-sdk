@@ -1,4 +1,4 @@
-from smartystreets_python_sdk.us_street import Batch
+from smartystreets_python_sdk.us_street import Batch, Candidate
 from smartystreets_python_sdk import Request
 
 
@@ -23,12 +23,12 @@ class Client:
         response = self.sender.send(smartyrequest)
 
         candidates = self.serializer.deserialize(response.payload)
-        print candidates
         if candidates is None:
             candidates = []
         assign_candidates_to_lookups(batch, candidates)
 
 
 def assign_candidates_to_lookups(batch, candidates):
-    for candidate in candidates:
-        batch[candidate['input_index']].result.append(candidate)
+    for raw_candidate in candidates:
+        candidate = Candidate(raw_candidate)
+        batch[candidate.input_index].result.append(candidate)

@@ -1,4 +1,3 @@
-import json
 import unittest
 from smartystreets_python_sdk import Response
 from smartystreets_python_sdk.us_street import Client, Lookup, Batch, Candidate
@@ -43,16 +42,21 @@ class TestClient(unittest.TestCase):
         self.assertEqual(response.payload, deserializer.input)
 
     def test_Candidates_Correctly_Assigned_To_Corresponding_Lookup(self):
-        expected_candidates = [Candidate(0), Candidate(1), Candidate(1)]
+        candidate0 = {'input_index': 0, 'candidate_index': 0, 'addressee': 'Mister 0'}
+        candidate1 = {'input_index': 1, 'candidate_index': 0, 'addressee': 'Mister 1'}
+        candidate2 = {'input_index': 1, 'candidate_index': 1, 'addressee': 'Mister 2'}
+        raw_candidates = [candidate0, candidate1, candidate2]
+
+        expected_candidates = [Candidate(candidate0), Candidate(candidate1), Candidate(candidate2)]
         batch = Batch()
         batch.add(Lookup())
         batch.add(Lookup())
         sender = MockSender(Response("[]", 0))
-        deserializer = FakeDeserializer(expected_candidates)
+        deserializer = FakeDeserializer(raw_candidates)
         client = Client(sender, deserializer)
 
         client.send_batch(batch)
 
-        self.assertEqual(expected_candidates[0], batch[0].result[0])
-        self.assertEqual(expected_candidates[1], batch[1].result[0])
-        self.assertEqual(expected_candidates[2], batch[1].result[1])
+        self.assertEqual(expected_candidates[0].addressee, batch[0].result[0].addressee)
+        self.assertEqual(expected_candidates[1].addressee, batch[1].result[0].addressee)
+        self.assertEqual(expected_candidates[2].addressee, batch[1].result[1].addressee)
