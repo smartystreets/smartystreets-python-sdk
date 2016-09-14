@@ -36,7 +36,7 @@ class TestRequestsSender(unittest.TestCase):
     def test_http_request_contains_get_when_appropriate(self):
         sender = smarty.RequestsSender()
         smartyrequest = smarty.Request()
-        smartyrequest.urlprefix = "http://localhost"
+        smartyrequest.url_prefix = "http://localhost"
 
         request = sender.build_request(smartyrequest)
 
@@ -45,7 +45,7 @@ class TestRequestsSender(unittest.TestCase):
     def test_http_request_contains_post_when_appropriate(self):
         sender = smarty.RequestsSender()
         smartyrequest = smarty.Request()
-        smartyrequest.urlprefix = "http://localhost"
+        smartyrequest.url_prefix = "http://localhost"
 
         smartyrequest.payload = "Test Payload"
         request = sender.build_request(smartyrequest)
@@ -55,7 +55,7 @@ class TestRequestsSender(unittest.TestCase):
     def test_request_contains_correct_content(self):
         sender = smarty.RequestsSender()
         smartyrequest = smarty.Request()
-        smartyrequest.urlprefix = "http://localhost"
+        smartyrequest.url_prefix = "http://localhost"
         smartyrequest.payload = "This is the test content."
 
         request = sender.build_request(smartyrequest)
@@ -66,7 +66,7 @@ class TestRequestsSender(unittest.TestCase):
     def test_smartyresponse_contains_correct_payload(self, mock_send):
         sender = smarty.RequestsSender()
         smartyrequest = smarty.Request()
-        smartyrequest.urlprefix = "http://localhost"
+        smartyrequest.url_prefix = "http://localhost"
         smartyrequest.payload = "This is the test content."
 
         response = sender.send(smartyrequest)
@@ -77,7 +77,7 @@ class TestRequestsSender(unittest.TestCase):
     def test_smartyresponse_contains_status_code_200_on_success(self, mock_send):
         sender = smarty.RequestsSender()
         smartyrequest = smarty.Request()
-        smartyrequest.urlprefix = "http://localhost"
+        smartyrequest.url_prefix = "http://localhost"
 
         response = sender.send(smartyrequest)
 
@@ -87,7 +87,7 @@ class TestRequestsSender(unittest.TestCase):
     def test_smartyresponse_contains_status_code_400_when_server_gives_a_400(self, mock_send):
         sender = smarty.RequestsSender()
         smartyrequest = smarty.Request()
-        smartyrequest.urlprefix = "http://localhost/error"
+        smartyrequest.url_prefix = "http://localhost/error"
 
         response = sender.send(smartyrequest)
 

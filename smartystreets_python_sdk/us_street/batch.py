@@ -9,7 +9,7 @@ class Batch:
         return self.all_lookups[item]
 
     def add(self, lookup):
-        if self.isfull():
+        if self.is_full():
             return False
 
         self.all_lookups.append(lookup)
@@ -28,7 +28,7 @@ class Batch:
     def size(self):
         return len(self.all_lookups)
 
-    def isfull(self):
+    def is_full(self):
         return self.size() >= Batch.MAX_BATCH_SIZE
 
     def get_by_input_id(self, input_id):

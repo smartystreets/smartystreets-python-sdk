@@ -5,4 +5,5 @@ class Request:
     def __init__(self):
         self.parameters = OrderedDict()
         self.payload = None
-        self.urlprefix = None
+        self.url_prefix = None
+        self.referer = None
