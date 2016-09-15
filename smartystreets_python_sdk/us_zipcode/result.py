@@ -1,3 +1,6 @@
+from smartystreets_python_sdk.us_zipcode import City, ZipCode
+
+
 class Result:
     def __init__(self, obj):
         self.status = obj.get('status', None)
@@ -6,11 +9,27 @@ class Result:
         self.cities = obj.get('city_states', [])
         self.zipcodes = obj.get('zipcodes', [])
 
-        self.convert_cities()
-        self.convert_zipcodes()
+        self.cities = convert_cities(self.cities)
+        self.zipcodes = convert_zipcodes(self.zipcodes)
 
-    def convert_cities(self):
-        pass
+    def is_valid(self):
+        return self.status is None and self.reason is None
 
-    def convert_zipcodes(self):
-        pass
+
+def convert_cities(cities):
+    converted_cities = []
+
+    for city in cities:
+        converted_cities.append(City(city))
+
+    return converted_cities
+
+
+def convert_zipcodes(zipcodes):
+    converted_zipcodes = []
+
+    for zipcode in zipcodes:
+        converted_zipcodes.append(ZipCode(zipcode))
+
+    return converted_zipcodes
+
