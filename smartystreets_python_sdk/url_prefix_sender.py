@@ -4,6 +4,6 @@ class URLPrefixSender:
         self.inner = inner
 
     def send(self, request):
-        request.urlprefix = self.url_prefix
+        request.url_prefix = self.url_prefix
 
         return self.inner.send(request)
