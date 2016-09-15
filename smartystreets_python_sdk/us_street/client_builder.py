@@ -9,7 +9,7 @@ class ClientBuilder:
         self.http_sender = None
         self.max_retries = 5
         self.max_timeout = 10000
-        self.url_prefix = "https://api.smartystreets.com/street-address"
+        self.url_prefix = "https://us-street.api.smartystreets.com/street-address"
 
     def retry_at_most(self, max_retries):
         self.max_retries = max_retries
