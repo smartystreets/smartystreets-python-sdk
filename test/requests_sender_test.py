@@ -34,33 +34,30 @@ class TestRequestsSender(unittest.TestCase):
         self.assertEqual("value2", request.headers['X-name2'])
     """
     def test_http_request_contains_get_when_appropriate(self):
-        sender = smarty.RequestsSender()
         smartyrequest = smarty.Request()
         smartyrequest.url_prefix = "http://localhost"
 
-        request = sender.build_request(smartyrequest)
+        request = smarty.requests_sender.build_request(smartyrequest)
 
         self.assertEqual("GET", request.method)
 
     def test_http_request_contains_post_when_appropriate(self):
-        sender = smarty.RequestsSender()
         smartyrequest = smarty.Request()
         smartyrequest.url_prefix = "http://localhost"
 
         smartyrequest.payload = "Test Payload"
-        request = sender.build_request(smartyrequest)
+        request = smarty.requests_sender.build_request(smartyrequest)
 
         self.assertEqual("POST", request.method)
 
     def test_request_contains_correct_content(self):
-        sender = smarty.RequestsSender()
         smartyrequest = smarty.Request()
         smartyrequest.url_prefix = "http://localhost"
         smartyrequest.payload = "This is the test content."
 
-        request = sender.build_request(smartyrequest)
+        request = smarty.requests_sender.build_request(smartyrequest)
 
-        self.assertEqual("This is the test content.", request.body)
+        self.assertEqual("This is the test content.", request.data)
 
     @patch('requests.Session.send', side_effect=mocked_session_send)
     def test_smartyresponse_contains_correct_payload(self, mock_send):
