@@ -3,3 +3,4 @@ from zipcode import ZipCode
 from result import Result
 from lookup import Lookup
 from batch import Batch
+from client import Client

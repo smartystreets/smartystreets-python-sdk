@@ -31,4 +31,4 @@ class Client:
 def assign_results_to_lookups(batch, results):
     for raw_result in results:
         result = Result(raw_result)
-        batch[result.input_index].result.append(result)
+        batch[result.input_index].result = result

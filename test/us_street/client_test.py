@@ -41,7 +41,7 @@ class TestClient(unittest.TestCase):
 
         self.assertEqual(response.payload, deserializer.input)
 
-    def test_Candidates_Correctly_Assigned_To_Corresponding_Lookup(self):
+    def test_candidates_correctly_assigned_to_corresponding_lookup(self):
         candidate0 = {'input_index': 0, 'candidate_index': 0, 'addressee': 'Mister 0'}
         candidate1 = {'input_index': 1, 'candidate_index': 0, 'addressee': 'Mister 1'}
         candidate2 = {'input_index': 1, 'candidate_index': 1, 'addressee': 'Mister 2'}
