@@ -1,7 +1,7 @@
 import os
 
 from smartystreets_python_sdk import StaticCredentials
-from smartystreets_python_sdk.us_street import ClientBuilder, Batch, Lookup, Components, Metadata
+from smartystreets_python_sdk.us_street import ClientBuilder, Batch, Lookup
 
 
 def run():
