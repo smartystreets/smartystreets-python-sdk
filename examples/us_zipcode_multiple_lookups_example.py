@@ -45,7 +45,6 @@ def run():
             print "Reason: " + result.reason
             continue
         
-
         cities = result.cities
         print "{} City and State match(es):".format(len(cities))
 
