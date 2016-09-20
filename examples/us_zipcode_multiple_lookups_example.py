@@ -11,33 +11,22 @@ def run():
 
     client = ClientBuilder(credentials).build()
     batch = Batch()
-    lookups = []
 
-    lookup0 = Lookup()
-    lookup0.zipcode = "12345"  # A Lookup may have a ZIP Code, city and state, or city, state, and ZIP Code
-    lookups.append(lookup0)
+    batch.add(Lookup())
+    batch[0].zipcode = "12345"  # A Lookup may have a ZIP Code, city and state, or city, state, and ZIP Code
 
-    lookup1 = Lookup()
-    lookup1.city = "Phoenix"
-    lookup1.state = "Arizona"
-    lookups.append(lookup1)
+    batch.add(Lookup())
+    batch[1].city = "Phoenix"
+    batch[1].state = "Arizona"
 
-    lookup2 = Lookup("cupertino", "CA", "95014")  # You can also set these with arguments
-    lookups.append(lookup2)
+    batch.add(Lookup("cupertino", "CA", "95014"))  # You can also set these with arguments
 
-    for lookup in lookups:
-        if batch.is_full():
-            print "Batch is full"
-            break
-
-        batch.add(lookup)
-
-    assert batch.size() == 3
+    assert len(batch) == 3
 
     client.send_batch(batch)
 
-    for i in range(0, batch.size()):
-        result = lookups[i].result
+    for i, lookup in enumerate(batch):
+        result = lookup.result
         print "Lookup {}:\n".format(i)
 
         if result.status is not None:
