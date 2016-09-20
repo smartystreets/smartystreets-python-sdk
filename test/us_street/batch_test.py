@@ -26,7 +26,7 @@ class TestBatch(unittest.TestCase):
         self.batch.add(us_street.Lookup())
         self.batch.add(us_street.Lookup())
 
-        self.assertEqual(3, self.batch.size())
+        self.assertEqual(3, len(self.batch))
 
     def test_clear_method_clears_both_lookup_collections(self):
         lookup = us_street.Lookup()

@@ -15,7 +15,7 @@ class Client:
     def send_batch(self, batch):
         smartyrequest = Request()
 
-        if batch.size() == 0:
+        if len(batch) == 0:
             return
 
         smartyrequest.payload = self.serializer.serialize(batch.all_lookups)

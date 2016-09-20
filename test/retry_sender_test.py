@@ -1,11 +1,11 @@
 import unittest
-from smartystreets_python_sdk import Request, RetrySender, retry_sender
+from smartystreets_python_sdk import Request, RetrySender
 from mock import patch
 from mocks import FailingSender
 
 
 def mock_backoff(attempt):
-    TestRetrySender.sleep_durations.append(retry_sender.min_duration(attempt, 10))
+    TestRetrySender.sleep_durations.append(min(attempt, 10))
 
 
 class TestRetrySender(unittest.TestCase):

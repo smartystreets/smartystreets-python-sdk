@@ -11,31 +11,27 @@ def run():
 
     client = ClientBuilder(credentials).build()
     batch = Batch()
-    addresses = []
 
-    addresses.append(Lookup())
-    addresses[0].street = "1600 amphitheatre parkway"
-    addresses[0].city = "Mountain view"
-    addresses[0].state = "california"
+    batch.add(Lookup())
+    batch[0].street = "1600 amphitheatre parkway"
+    batch[0].city = "Mountain view"
+    batch[0].state = "california"
 
-    addresses.append(Lookup("1 Rosedale, Baltimore, Maryland"))  # Freeform addresses work too.
-    addresses[1].candidates = 10  # Allows up to ten possible matches to be returned (default is 1).
+    batch.add(Lookup("1 Rosedale, Baltimore, Maryland"))  # Freeform addresses work too.
+    batch[1].candidates = 10  # Allows up to ten possible matches to be returned (default is 1).
 
-    addresses.append(Lookup("123 Bogus Street, Pretend Lake, Oklahoma"))
+    batch.add(Lookup("123 Bogus Street, Pretend Lake, Oklahoma"))
 
-    addresses.append(Lookup())
-    addresses[3].street = "1 Infinite Loop"
-    addresses[3].zipcode = "95014"  # You can just input the street and ZIP if you want.
+    batch.add(Lookup())
+    batch[3].street = "1 Infinite Loop"
+    batch[3].zipcode = "95014"  # You can just input the street and ZIP if you want.
 
-    for address in addresses:
-        batch.add(address)
-
-    assert batch.size() == 4
+    assert len(batch) == 4
 
     client.send_batch(batch)
 
-    for i in range(0, batch.size()):
-        candidates = addresses[i].result
+    for i, lookup in enumerate(batch):
+        candidates = lookup.result
 
         if len(candidates) == 0:
             print("Address {} is invalid.\n".format(i))
