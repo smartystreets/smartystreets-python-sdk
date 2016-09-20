@@ -3,9 +3,9 @@ from smartystreets_python_sdk.us_zipcode import City, ZipCode
 
 class Result:
     def __init__(self, obj):
-        self.status = obj.get('status', None)
-        self.reason = obj.get('reason', None)
-        self.input_index = obj.get('input_index', None)
+        self.status = obj.get('status')
+        self.reason = obj.get('reason')
+        self.input_index = obj.get('input_index')
         self.cities = obj.get('city_states', [])
         self.zipcodes = obj.get('zipcodes', [])
 

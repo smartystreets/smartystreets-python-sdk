@@ -32,7 +32,7 @@ class TestRequestsSender(unittest.TestCase):
 
         self.assertEqual("value1", request.headers['X-name1'])
         self.assertEqual("value2", request.headers['X-name2'])
-    """
+
     def test_http_request_contains_get_when_appropriate(self):
         smartyrequest = smarty.Request()
         smartyrequest.url_prefix = "http://localhost"
@@ -40,7 +40,7 @@ class TestRequestsSender(unittest.TestCase):
         request = smarty.requests_sender.build_request(smartyrequest)
 
         self.assertEqual("GET", request.method)
-
+    """
     def test_http_request_contains_post_when_appropriate(self):
         smartyrequest = smarty.Request()
         smartyrequest.url_prefix = "http://localhost"

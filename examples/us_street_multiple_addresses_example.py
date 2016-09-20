@@ -18,7 +18,7 @@ def run():
     addresses[0].city = "Mountain view"
     addresses[0].state = "california"
 
-    addresses.append(Lookup("1 Rosedale, Baltimore, Maryland")) # Freeform addresses work too.
+    addresses.append(Lookup("1 Rosedale, Baltimore, Maryland"))  # Freeform addresses work too.
     addresses[1].candidates = 10  # Allows up to ten possible matches to be returned (default is 1).
 
     addresses.append(Lookup("123 Bogus Street, Pretend Lake, Oklahoma"))
@@ -54,7 +54,7 @@ def run():
             print("County:          {}".format(metadata.county_name))
             print("Latitude:        {}".format(metadata.latitude))
             print("Longitude:       {}".format(metadata.longitude))
-        print ""
+        print
 
 
 if __name__ == "__main__":

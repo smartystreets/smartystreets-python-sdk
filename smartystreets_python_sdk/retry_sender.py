@@ -23,12 +23,6 @@ class RetrySender:
         return response
 
 
-def min_duration(a, b):
-    if a < b:
-        return a
-    return b
-
-
 def backoff(attempt):
-    sleep(min_duration(attempt, RetrySender.MAX_BACKOFF_DURATION))
+    sleep(min(attempt, RetrySender.MAX_BACKOFF_DURATION))
     return
