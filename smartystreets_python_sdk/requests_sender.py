@@ -12,7 +12,10 @@ class RequestsSender:
         request = build_request(smarty_request)
         prepped_request = self.session.prepare_request(request)
 
-        response = self.session.send(prepped_request, timeout=self.max_timeout)
+        try:
+            response = self.session.send(prepped_request, timeout=self.max_timeout)
+        except Exception as e:
+            return Response(None, None, e)
 
         return build_smarty_response(response)
 

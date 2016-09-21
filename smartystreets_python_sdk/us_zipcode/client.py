@@ -22,6 +22,9 @@ class Client:
 
         response = self.sender.send(smartyrequest)
 
+        if response.error:
+            raise response.error
+
         results = self.serializer.deserialize(response.payload)
         if results is None:
             results = []

@@ -1,6 +1,6 @@
 import os
 
-from smartystreets_python_sdk import StaticCredentials
+from smartystreets_python_sdk import StaticCredentials, exceptions
 from smartystreets_python_sdk.us_zipcode import ClientBuilder, Batch, Lookup
 
 
@@ -23,7 +23,11 @@ def run():
 
     assert len(batch) == 3
 
-    client.send_batch(batch)
+    try:
+        client.send_batch(batch)
+    except exceptions.SmartyException as e:
+        print e.message
+        return
 
     for i, lookup in enumerate(batch):
         result = lookup.result

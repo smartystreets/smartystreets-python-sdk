@@ -10,5 +10,6 @@ from url_prefix_sender import URLPrefixSender
 import errors
 import us_street
 import us_zipcode
+import exceptions
 
 __version__ = '0.0.0'

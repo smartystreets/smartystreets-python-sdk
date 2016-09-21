@@ -1,4 +1,5 @@
 import errors
+import exceptions
 
 
 class StatusCodeSender:
@@ -8,16 +9,50 @@ class StatusCodeSender:
     def send(self, request):
         response = self.inner.send(request)
 
-        response.status = statuses[response.status_code]
+        if not response.error:
+            response.error = statuses.get(response.status_code)
 
         return response
 
-statuses = {200: "OK",
-            401: errors.BAD_CREDENTIALS,
-            402: errors.PAYMENT_REQUIRED,
-            413: errors.REQUEST_ENTITY_TOO_LARGE,
-            400: errors.BAD_REQUEST,
-            429: errors.TOO_MANY_REQUESTS,
-            500: errors.INTERNAL_SERVER_ERROR,
-            503: errors.SERVICE_UNAVAILABLE
+
+def ok():
+    return None
+
+
+def bad_credentials():
+    return exceptions.BadCredentialsError(errors.BAD_CREDENTIALS)
+
+
+def payment_required():
+    return exceptions.PaymentRequiredError(errors.PAYMENT_REQUIRED)
+
+
+def request_entity_too_large():
+    return exceptions.RequestEntityTooLargeError(errors.REQUEST_ENTITY_TOO_LARGE)
+
+
+def bad_request():
+    return exceptions.BadRequestError(errors.BAD_REQUEST)
+
+
+def too_many_requests():
+    return exceptions.TooManyRequestsError(errors.TOO_MANY_REQUESTS)
+
+
+def internal_server_error():
+    return exceptions.InternalServerError(errors.INTERNAL_SERVER_ERROR)
+
+
+def service_unavailable():
+    return exceptions.ServiceUnavailableError(errors.SERVICE_UNAVAILABLE)
+
+
+statuses = {200: ok(),
+            401: bad_credentials(),
+            402: payment_required(),
+            413: request_entity_too_large(),
+            400: bad_request(),
+            429: too_many_requests(),
+            500: internal_server_error(),
+            503: service_unavailable()
             }

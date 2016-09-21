@@ -1,5 +1,5 @@
 import os
-from smartystreets_python_sdk import StaticCredentials
+from smartystreets_python_sdk import StaticCredentials, exceptions
 from smartystreets_python_sdk.us_street import ClientBuilder, Lookup
 
 
@@ -15,7 +15,11 @@ def run():
     lookup.city = "Mountain View"
     lookup.state = "CA"
 
-    client.send_lookup(lookup)
+    try:
+        client.send_lookup(lookup)
+    except exceptions.SmartyException as e:
+        print e.message
+        return
 
     result = lookup.result
 
