@@ -6,11 +6,7 @@ class StandardSerializer:
         pass
 
     def serialize(self, obj):
-        converted_obj = []
-        for item in obj:
-            converted_obj.append(item.__dict__)
-
-        return json.dumps(converted_obj).encode("UTF-8")
+        return json.dumps(obj).encode("UTF-8")
 
     def deserialize(self, payload):
         return json.loads(payload)

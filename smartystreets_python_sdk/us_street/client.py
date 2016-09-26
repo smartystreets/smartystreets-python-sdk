@@ -18,7 +18,8 @@ class Client:
         if len(batch) == 0:
             return
 
-        smartyrequest.payload = self.serializer.serialize(batch.all_lookups)
+        converted_lookups = remap_keys(batch.all_lookups)
+        smartyrequest.payload = self.serializer.serialize(converted_lookups)
 
         response = self.sender.send(smartyrequest)
 
@@ -35,3 +36,25 @@ def assign_candidates_to_lookups(batch, candidates):
     for raw_candidate in candidates:
         candidate = Candidate(raw_candidate)
         batch[candidate.input_index].result.append(candidate)
+
+
+def remap_keys(obj):
+    converted_obj = []
+    for lookup in obj:
+        converted_lookup = {}
+
+        converted_lookup['street'] = lookup.street
+        converted_lookup['street2'] = lookup.street2
+        converted_lookup['secondary'] = lookup.secondary
+        converted_lookup['city'] = lookup.city
+        converted_lookup['state'] = lookup.state
+        converted_lookup['zipcode'] = lookup.zipcode
+        converted_lookup['lastline'] = lookup.lastline
+        converted_lookup['addressee'] = lookup.addressee
+        converted_lookup['urbanization'] = lookup.urbanization
+        converted_lookup['match'] = lookup.match
+        converted_lookup['candidates'] = lookup.candidates
+
+        converted_obj.append(converted_lookup)
+
+    return converted_obj

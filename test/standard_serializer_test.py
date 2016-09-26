@@ -8,7 +8,7 @@ class TestStandardSerializer(unittest.TestCase):
     def test_serialize(self):
         serializer = smarty.StandardSerializer()
 
-        result = serializer.serialize([us_street.Lookup("123 fake street")])
+        result = serializer.serialize([us_street.Lookup("123 fake street").__dict__])
 
         self.assertEqual('[{"city": null, "addressee": null, "street2": null, "zipcode": null, "urbanization": null, \
 "state": null, "street": "123 fake street", "input_id": null, "result": [], "lastline": null, "candidates": 1, \
