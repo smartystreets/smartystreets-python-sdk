@@ -26,38 +26,38 @@ def run():
     try:
         client.send_batch(batch)
     except exceptions.SmartyException as e:
-        print e.message
+        print(e.message)
         return
 
     for i, lookup in enumerate(batch):
         result = lookup.result
-        print "Lookup {}:\n".format(i)
+        print("Lookup {}:\n".format(i))
 
         if result.status is not None:
-            print "Status: " + result.status
-            print "Reason: " + result.reason
+            print("Status: " + result.status)
+            print("Reason: " + result.reason)
             continue
         
         cities = result.cities
-        print "{} City and State match(es):".format(len(cities))
+        print("{} City and State match(es):".format(len(cities)) )
 
         for city in cities:
-            print "City: " + city.city
-            print "State: " + city.state
-            print "Mailable City: {}".format(city.mailable_city)
-            print ""
+            print("City: " + city.city)
+            print("State: " + city.state)
+            print("Mailable City: {}".format(city.mailable_city))
+            print()
 
         zipcodes = result.zipcodes
-        print "{} ZIP Code match(es):".format(len(zipcodes))
+        print("{} ZIP Code match(es):".format(len(zipcodes)) )
 
         for zipcode in zipcodes:
-            print "ZIP Code: " + zipcode.zipcode
-            print "County: " + zipcode.county_name
-            print "Latitude: {}".format(zipcode.latitude)
-            print "Longitude: {}".format(zipcode.longitude)
-            print ""
+            print("ZIP Code: " + zipcode.zipcode)
+            print("County: " + zipcode.county_name)
+            print("Latitude: {}".format(zipcode.latitude))
+            print("Longitude: {}".format(zipcode.longitude))
+            print()
 
-        print "***********************************"
+        print("***********************************")
 
 if __name__ == "__main__":
     run()

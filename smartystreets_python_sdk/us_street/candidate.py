@@ -1,6 +1,6 @@
-from components import Components
-from metadata import Metadata
-from analysis import Analysis
+from .components import Components
+from .metadata import Metadata
+from .analysis import Analysis
 
 
 class Candidate:

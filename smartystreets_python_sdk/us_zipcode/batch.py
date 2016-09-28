@@ -11,7 +11,7 @@ class Batch:
 
     def __iter__(self):
         self.current_index = 0
-        return self
+        return self.all_lookups.__iter__()
 
     def next(self):
         if self.current_index >= self.__len__():

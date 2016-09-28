@@ -18,22 +18,22 @@ def run():
     try:
         client.send_lookup(lookup)
     except exceptions.SmartyException as e:
-        print e.message
+        print(e.message)
         return
 
     result = lookup.result
 
     if not result:
-        print "No candidates. This means the address is not valid."
+        print("No candidates. This means the address is not valid.")
         return
 
     first_candidate = result[0]
 
-    print "Address is valid. (There is at least one candidate)\n"
-    print "ZIP Code: " + first_candidate.components.zipcode
-    print "County: " + first_candidate.metadata.county_name
-    print "Latitude: {}".format(first_candidate.metadata.latitude)
-    print "Longitude: {}".format(first_candidate.metadata.longitude)
+    print("Address is valid. (There is at least one candidate)\n")
+    print("ZIP Code: " + first_candidate.components.zipcode)
+    print("County: " + first_candidate.metadata.county_name)
+    print("Latitude: {}".format(first_candidate.metadata.latitude))
+    print("Longitude: {}".format(first_candidate.metadata.longitude))
 
 if __name__ == "__main__":
     run()

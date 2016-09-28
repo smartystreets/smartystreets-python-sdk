@@ -24,7 +24,7 @@ class RetrySender:
 
 
 def backoff(attempt):
-    print "There was an error processing the request. Retrying in {} seconds...".format(
+    print("There was an error processing the request. Retrying in {} seconds...").format(
         min(attempt, RetrySender.MAX_BACKOFF_DURATION))
     sleep(min(attempt, RetrySender.MAX_BACKOFF_DURATION))
     return

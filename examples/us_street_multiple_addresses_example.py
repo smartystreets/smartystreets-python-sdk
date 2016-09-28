@@ -31,7 +31,7 @@ def run():
     try:
         client.send_batch(batch)
     except exceptions.SmartyException as e:
-        print e.message
+        print(e.message)
         return
 
     for i, lookup in enumerate(batch):
@@ -54,7 +54,7 @@ def run():
             print("County:          {}".format(metadata.county_name))
             print("Latitude:        {}".format(metadata.latitude))
             print("Longitude:       {}".format(metadata.longitude))
-        print
+        print()
 
 
 if __name__ == "__main__":

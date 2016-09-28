@@ -6,11 +6,11 @@ from mock import patch
 def mocked_session_send(request, **kwargs):
     class MockResponse:
         def __init__(self, payload, status_code):
-            self.content = payload
+            self.text = payload
             self.status_code = status_code
 
         def json(self):
-            return self.content
+            return self.text
 
     if request.url == 'http://localhost/error':
         mockresponse = MockResponse("Error test", 400)
@@ -21,26 +21,6 @@ def mocked_session_send(request, **kwargs):
 
 
 class TestRequestsSender(unittest.TestCase):
-    """
-    def test_request_contains_correct_headers(self):
-        sender = smarty.RequestsSender()
-        smartyrequest = smarty.Request("http://localhost")
-        smartyrequest.headers['X-name1'] = "value1"
-        smartyrequest.headers['X-name2'] = "value2"
-
-        request = sender.build_request(smartyrequest)
-
-        self.assertEqual("value1", request.headers['X-name1'])
-        self.assertEqual("value2", request.headers['X-name2'])
-
-    def test_http_request_contains_get_when_appropriate(self):
-        smartyrequest = smarty.Request()
-        smartyrequest.url_prefix = "http://localhost"
-
-        request = smarty.requests_sender.build_request(smartyrequest)
-
-        self.assertEqual("GET", request.method)
-    """
     def test_http_request_contains_post_when_appropriate(self):
         smartyrequest = smarty.Request()
         smartyrequest.url_prefix = "http://localhost"

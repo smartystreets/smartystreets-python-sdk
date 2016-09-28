@@ -1,6 +1,6 @@
 from requests import Session, Request
-from response import Response
-from version import Version
+from .response import Response
+from .version import Version
 
 
 class RequestsSender:
@@ -31,4 +31,4 @@ def build_request(smarty_request):
 
 
 def build_smarty_response(inner_response):
-    return Response(inner_response.content, inner_response.status_code)
+    return Response(inner_response.text, inner_response.status_code)

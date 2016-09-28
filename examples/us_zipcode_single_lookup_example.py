@@ -18,7 +18,7 @@ def run():
     try:
         client.send_lookup(lookup)
     except exceptions.SmartyException as e:
-        print e.message
+        print(e.message)
         return
 
     result = lookup.result
@@ -26,14 +26,14 @@ def run():
     cities = result.cities
 
     for city in cities:
-        print "\nCity: " + city.city
-        print "State: " + city.state
-        print "Mailable City: {}".format(city.mailable_city)
+        print("\nCity: " + city.city)
+        print("State: " + city.state)
+        print("Mailable City: {}".format(city.mailable_city))
 
     for zipcode in zipcodes:
-        print "\nZIP Code: " + zipcode.zipcode
-        print "Latitude: {}".format(zipcode.latitude)
-        print "Longitude: {}".format(zipcode.longitude)
+        print("\nZIP Code: " + zipcode.zipcode)
+        print("Latitude: {}".format(zipcode.latitude))
+        print("Longitude: {}".format(zipcode.longitude))
 
 
 if __name__ == "__main__":

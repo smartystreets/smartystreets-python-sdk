@@ -1,5 +1,5 @@
 import smartystreets_python_sdk as smarty
-from client import Client
+from .client import Client
 
 
 class ClientBuilder:

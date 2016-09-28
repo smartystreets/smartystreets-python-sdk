@@ -1,5 +1,4 @@
-import errors
-import exceptions
+from smartystreets_python_sdk import errors, exceptions
 
 
 class StatusCodeSender:
