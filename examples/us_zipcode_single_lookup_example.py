@@ -17,8 +17,8 @@ def run():
 
     try:
         client.send_lookup(lookup)
-    except exceptions.SmartyException as e:
-        print(e.message)
+    except exceptions.SmartyException as err:
+        print(err)
         return
 
     result = lookup.result

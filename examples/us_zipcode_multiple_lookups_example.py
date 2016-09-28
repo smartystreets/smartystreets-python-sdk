@@ -25,8 +25,8 @@ def run():
 
     try:
         client.send_batch(batch)
-    except exceptions.SmartyException as e:
-        print(e.message)
+    except exceptions.SmartyException as err:
+        print(err)
         return
 
     for i, lookup in enumerate(batch):
