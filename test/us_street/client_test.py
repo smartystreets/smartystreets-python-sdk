@@ -1,7 +1,7 @@
 import unittest
-from smartystreets_python_sdk import Response
+from smartystreets_python_sdk import Response, exceptions
 from smartystreets_python_sdk.us_street import Client, Lookup, Batch, Candidate
-from test.mocks import RequestCapturingSender, FakeSerializer, FakeDeserializer, MockSender
+from test.mocks import RequestCapturingSender, FakeSerializer, FakeDeserializer, MockSender, MockExceptionSender
 
 
 class TestClient(unittest.TestCase):
@@ -60,3 +60,9 @@ class TestClient(unittest.TestCase):
         self.assertEqual(expected_candidates[0].addressee, batch[0].result[0].addressee)
         self.assertEqual(expected_candidates[1].addressee, batch[1].result[0].addressee)
         self.assertEqual(expected_candidates[2].addressee, batch[1].result[1].addressee)
+
+    def test_raises_exception_when_response_has_error(self):
+        exception = exceptions.BadCredentialsError
+        client = Client(MockExceptionSender(exception), FakeSerializer(None))
+
+        self.assertRaises(exception, client.send_lookup, Lookup())
