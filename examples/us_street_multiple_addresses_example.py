@@ -54,7 +54,7 @@ def run():
             print("County:          {}".format(metadata.county_name))
             print("Latitude:        {}".format(metadata.latitude))
             print("Longitude:       {}".format(metadata.longitude))
-        print()
+        print("")
 
 
 if __name__ == "__main__":

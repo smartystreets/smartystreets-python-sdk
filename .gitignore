@@ -1,3 +1,5 @@
 .cache/v/cache
 .idea
 *.pyc
+.coverage
+htmlcov
