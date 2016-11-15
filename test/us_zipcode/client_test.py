@@ -1,6 +1,6 @@
 from test.mocks import RequestCapturingSender, FakeSerializer, FakeDeserializer, MockSender
-from smartystreets_python_sdk import Response
-from smartystreets_python_sdk.us_zipcode import Client, Batch, Lookup, Result
+from smartystreets_python_sdk import Response, Batch
+from smartystreets_python_sdk.us_zipcode import Client, Lookup, Result
 
 
 import unittest

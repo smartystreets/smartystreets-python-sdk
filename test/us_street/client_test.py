@@ -1,6 +1,6 @@
 import unittest
-from smartystreets_python_sdk import Response, exceptions
-from smartystreets_python_sdk.us_street import Client, Lookup, Batch, Candidate
+from smartystreets_python_sdk import Response, exceptions, Batch
+from smartystreets_python_sdk.us_street import Client, Lookup, Candidate
 from test.mocks import RequestCapturingSender, FakeSerializer, FakeDeserializer, MockSender, MockExceptionSender
 
 

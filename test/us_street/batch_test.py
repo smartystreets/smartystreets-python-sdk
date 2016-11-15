@@ -1,10 +1,10 @@
 import unittest
-from smartystreets_python_sdk import us_street
+from smartystreets_python_sdk import Batch, us_street
 
 
 class TestBatch(unittest.TestCase):
     def setUp(self):
-        self.batch = us_street.Batch()
+        self.batch = Batch()
 
     def test_gets_lookup_by_input_id(self):
         lookup = us_street.Lookup()
@@ -42,7 +42,7 @@ class TestBatch(unittest.TestCase):
         lookup = us_street.Lookup()
         success = None
 
-        for i in range(0, us_street.Batch.MAX_BATCH_SIZE):
+        for i in range(0, Batch.MAX_BATCH_SIZE):
             success = self.batch.add(lookup)
 
         self.assertTrue(success)
