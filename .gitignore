@@ -3,3 +3,6 @@
 *.pyc
 .coverage
 htmlcov
+MANIFEST
+*.gz
+*.py-r
