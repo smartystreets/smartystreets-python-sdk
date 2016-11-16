@@ -6,3 +6,4 @@ htmlcov
 MANIFEST
 *.gz
 *.py-r
+.vagrant/machines/default/virtualbox
