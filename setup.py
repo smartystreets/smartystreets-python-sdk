@@ -1,5 +1,8 @@
+import os
 from distutils.core import setup
 import smartystreets_python_sdk as smarty
+
+del os.link
 
 setup(
     name='smartystreets_python_sdk',
