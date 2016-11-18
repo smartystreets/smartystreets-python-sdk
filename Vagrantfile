@@ -14,7 +14,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 end
 
 $provision = <<-END
-  cat <<EOF > .pyirc
+  cat <<EOF > .pypirc
 [distutils]
 index-servers =
   pypi
