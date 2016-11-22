@@ -7,6 +7,7 @@ test-publish: version
 	python setup.py register -r pypitest
 	python setup.py sdist upload -r pypitest
 	git checkout smartystreets_python_sdk/__init__.py
+	git checkout setup.py
 
 publish: version
 	git push origin --tags
@@ -16,6 +17,7 @@ publish: version
 
 version: tag
 	@sed -i -r "s/0\.0\.0/$(shell git describe)/g" smartystreets_python_sdk/__init__.py
+	@sed -i -r "s/0\.0\.0/$(shell git describe)/g" setup.py
 
 tag:
 	$(eval PREFIX := $(SOURCE_VERSION).)
