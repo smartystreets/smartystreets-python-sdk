@@ -14,6 +14,7 @@ publish: version
 	python setup.py register -r pypi
 	python setup.py sdist upload -r pypi
 	git checkout smartystreets_python_sdk/__init__.py
+	git checkout setup.py
 
 version: tag
 	@sed -i -r "s/0\.0\.0/$(shell git describe)/g" smartystreets_python_sdk/__init__.py
