@@ -18,7 +18,7 @@ class TestClient(unittest.TestCase):
 
         self.assertIsNone(sender.request)
 
-    def test_Successfully_Sends_Batch(self):
+    def test_successfully_sends_batch(self):
         expected_payload = "Hello, World!"
         sender = RequestCapturingSender()
         serializer = FakeSerializer(expected_payload)

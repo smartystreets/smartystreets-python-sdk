@@ -12,7 +12,7 @@ class TestStandardSerializer(unittest.TestCase):
 
         self.assertTrue('"street": "123 fake street"' in str(result))
 
-    def test_deserializer(self):
+    def test_deserialize(self):
         expected_json_output = "[{\"input_index\":0,\"city_states\":[{\"city\":\"Washington\",\"state_abbreviation\":\
             \"DC\",\"state\":\"District of Columbia\",\"mailable_city\":true}],\"zipcodes\":[{\"zipcode\":\"20500\",\
             \"zipcode_type\":\"S\",\"default_city\":\"Washington\",\"county_fips\":\"11001\",\
