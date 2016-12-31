@@ -1,4 +1,5 @@
 from .address import Address
+from .result import Result
 from smartystreets_python_sdk import Request, Batch
 
 
@@ -26,18 +27,18 @@ class Client:
         if response.error:
             raise response.error
 
-        candidates = self.serializer.deserialize(response.payload)
-        if candidates is None:
-            candidates = []
-        assign_candidates_to_lookups(batch, candidates)
+        result = self.serializer.deserialize(response.payload)
+        if result is None:
+            result = {}
+        assign_result_to_lookups(batch, result)
 
 
-def assign_candidates_to_lookups(batch, candidates):
-    valid_addresses = [x for x in candidates["addresses"] if x.get("verified",None) is True]
-    for raw_address in valid_addresses:
+def assign_result_to_lookups(batch, raw_result):
+    # valid_addresses = [x for x in result["addresses"] if x.get("verified", None) is True]
+    result = Result(raw_result)
+    for raw_address in result.addresses:
         address = Address(raw_address)
         batch[address.input_index].result.append(address)
-
 
 
 def remap_keys(obj):
