@@ -2,6 +2,9 @@
 
 SOURCE_VERSION := 1.0
 
+tests:
+	python -m unittest discover -p *_test.py
+
 test-publish: version
 	git push origin --tags
 	python setup.py register -r pypitest
