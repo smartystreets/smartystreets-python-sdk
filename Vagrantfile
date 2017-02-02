@@ -8,8 +8,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ["modifyvm", :id, "--nictype1", "Am79C973"]
   end
   config.vm.provision "shell", path: "https://s3-us-west-1.amazonaws.com/raptr-us-west-1/bootstrap"
-  config.vm.provision "shell", path: "apt-get install python-pip"
-  config.vm.provision "shell", path: "pip install mock"
+  config.vm.provision "shell", inline: "apt-get install -y python-pip"
+  config.vm.provision "shell", inline: "pip install mock"
 
   # box-specific
   config.vm.provision "shell", inline: $provision
