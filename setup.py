@@ -1,8 +1,7 @@
 import os
-import platform
 from distutils.core import setup
 
-if platform.system() != 'Windows' or platform.python_version().startswith('3'):
+if hasattr(os, 'link'):
     del os.link
 
 setup(
