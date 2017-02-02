@@ -1,7 +1,9 @@
 import os
+import platform
 from distutils.core import setup
 
-del os.link
+if platform.system() != 'Windows' or platform.python_version().startswith('3'):
+    del os.link
 
 setup(
     name='smartystreets_python_sdk',
