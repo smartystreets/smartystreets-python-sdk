@@ -6,7 +6,7 @@ if hasattr(os, 'link'):
 
 setup(
     name='smartystreets_python_sdk',
-    packages=['smartystreets_python_sdk', 'smartystreets_python_sdk.us_street', 'smartystreets_python_sdk.us_zipcode'],
+    packages=['smartystreets_python_sdk', 'smartystreets_python_sdk.us_street', 'smartystreets_python_sdk.us_zipcode', 'smartystreets_python_sdk.us_extract'],
     version='0.0.0',
     description='An official library to help Python developers easily access the SmartyStreets APIs',
     long_description='Official Python library for SmartyStreets',
