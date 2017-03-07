@@ -7,3 +7,4 @@ class Request:
         self.payload = None
         self.url_prefix = None
         self.referer = None
+        self.content_type = 'application/json'

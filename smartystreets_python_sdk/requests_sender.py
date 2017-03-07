@@ -23,6 +23,7 @@ class RequestsSender:
 def build_request(smarty_request):
     request = Request(url=smarty_request.url_prefix, params=smarty_request.parameters)
     request.headers['User-Agent'] = "smartystreets (sdk:python@{})".format(smarty.__version__)
+    request.headers['Content-Type'] = smarty_request.content_type
     if smarty_request.referer is not None:
         request.headers['Referer'] = smarty_request.referer
     request.data = smarty_request.payload
