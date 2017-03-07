@@ -1,9 +1,6 @@
-from smartystreets_python_sdk.us_extract import Result
-
-
 class Lookup:
-    def __init__(self, text=None, html=None, aggressive=False, addresses_have_line_breaks=True, addresses_per_line=0):
-        self.result = Result()
+    def __init__(self, text=None, html=None, aggressive=None, addresses_have_line_breaks=None, addresses_per_line=None):
+        self.result = None
         self.text = text
         self.html = html
         self.aggressive = aggressive

@@ -3,7 +3,7 @@ from smartystreets_python_sdk.us_extract import Metadata
 
 
 class Result:
-    def __init__(self, obj):
+    def __init__(self, obj=None):
         self.metadata = Metadata(obj.get('meta', {}))
         self.addresses = obj.get('addresses', [])
 

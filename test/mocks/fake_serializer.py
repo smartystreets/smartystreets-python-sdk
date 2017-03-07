@@ -8,4 +8,4 @@ class FakeSerializer:
         return self.output
 
     def deserialize(self, payload):
-        return None
+        return {}
