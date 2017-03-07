@@ -39,6 +39,16 @@ class TestRequestsSender(unittest.TestCase):
 
         self.assertEqual("This is the test content.", request.data)
 
+    def test_request_has_correct_content_type(self):
+        smartyrequest = smarty.Request()
+        smartyrequest.url_prefix = "http://localhost"
+        smartyrequest.payload = "This is the test content."
+        smartyrequest.content_type = 'text/plain'
+
+        request = smarty.requests_sender.build_request(smartyrequest)
+
+        self.assertEqual('text/plain', request.headers['Content-Type'])
+
     @patch('requests.Session.send', side_effect=mocked_session_send)
     def test_smartyresponse_contains_correct_payload(self, mock_send):
         sender = smarty.RequestsSender()
