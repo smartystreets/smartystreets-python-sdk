@@ -1,7 +1,7 @@
 import os
 
-from smartystreets_python_sdk import StaticCredentials, exceptions, Batch
-from smartystreets_python_sdk.us_street import ClientBuilder, Lookup
+from smartystreets_python_sdk import StaticCredentials, exceptions, Batch, ClientBuilder
+from smartystreets_python_sdk.us_street import Lookup
 
 
 def run():
@@ -9,7 +9,7 @@ def run():
     auth_token = os.environ['SMARTY_AUTH_TOKEN']
     credentials = StaticCredentials(auth_id, auth_token)
 
-    client = ClientBuilder(credentials).build()
+    client = ClientBuilder(credentials).build_us_street_api_client()
     batch = Batch()
 
     batch.add(Lookup())

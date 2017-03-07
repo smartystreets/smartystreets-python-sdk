@@ -1,7 +1,7 @@
 import os
 
-from smartystreets_python_sdk import StaticCredentials, exceptions, Batch
-from smartystreets_python_sdk.us_zipcode import ClientBuilder, Lookup
+from smartystreets_python_sdk import StaticCredentials, exceptions, Batch, ClientBuilder
+from smartystreets_python_sdk.us_zipcode import Lookup
 
 
 def run():

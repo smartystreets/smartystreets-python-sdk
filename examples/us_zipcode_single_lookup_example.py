@@ -1,7 +1,7 @@
 import os
 
-from smartystreets_python_sdk import StaticCredentials, exceptions
-from smartystreets_python_sdk.us_zipcode import ClientBuilder, Lookup
+from smartystreets_python_sdk import StaticCredentials, exceptions, ClientBuilder
+from smartystreets_python_sdk.us_zipcode import Lookup
 
 
 def run():
@@ -9,7 +9,7 @@ def run():
     auth_token = os.environ['SMARTY_AUTH_TOKEN']
     credentials = StaticCredentials(auth_id, auth_token)
 
-    client = ClientBuilder(credentials).build()
+    client = ClientBuilder(credentials).build_us_zipcode_api_client()
 
     lookup = Lookup()
     lookup.city = "Mountain View"
