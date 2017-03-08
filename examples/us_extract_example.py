@@ -29,11 +29,11 @@ def run():
     for address in addresses:
         print('"{}"\n'.format(address.text))
         print('Verified? {}'.format(address.verified))
-        if len(address.api_output) > 0:
+        if len(address.candidates) > 0:
 
             print('\nMatches:')
 
-            for candidate in address.api_output:
+            for candidate in address.candidates:
                 print(candidate.delivery_line_1)
                 print(candidate.last_line)
                 print()

@@ -9,7 +9,7 @@ class Address:
         self.start = obj.get('start', None)
         self.end = obj.get('end', None)
         candidates = obj.get('api_output', [])
-        self.api_output = []
+        self.candidates = []
 
         for candidate in candidates:
-            self.api_output.append(Candidate(candidate))
+            self.candidates.append(Candidate(candidate))
