@@ -6,7 +6,7 @@ from smartystreets_python_sdk import us_street
 class TestStandardSerializer(unittest.TestCase):
 
     def test_serialize(self):
-        serializer = smarty.StandardSerializer()
+        serializer = smarty.NativeSerializer()
 
         result = serializer.serialize([us_street.Lookup("123 fake street").__dict__])
 
@@ -21,7 +21,7 @@ class TestStandardSerializer(unittest.TestCase):
             \"default_city\":true,\"mailable_city\":true}],\"zipcodes\":[{\"zipcode\":\"84606\",\"zipcode_type\":\"S\",\
             \"county_fips\":\"11501\",\"county_name\":\"Utah\",\"latitude\":38.89769,\"longitude\":-77.03869}]},\
             {\"input_index\":2,\"status\":\"invalid_zipcode\",\"reason\":\"Invalid ZIP Code.\"}]"
-        serializer = smarty.StandardSerializer()
+        serializer = smarty.NativeSerializer()
 
         results = serializer.deserialize(expected_json_output)
 

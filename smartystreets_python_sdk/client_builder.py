@@ -8,7 +8,7 @@ from smartystreets_python_sdk.us_autocomplete import Client as USAutocompleteCli
 class ClientBuilder:
     def __init__(self, signer):
         self.signer = signer
-        self.serializer = smarty.StandardSerializer()
+        self.serializer = smarty.NativeSerializer()
         self.http_sender = None
         self.max_retries = 5
         self.max_timeout = 10000
