@@ -31,5 +31,5 @@ class TestResult(unittest.TestCase):
         self.assertEqual(9, address.end)
         self.assertEqual('10', result.addresses[1].text)
 
-        candidates = address.api_output
+        candidates = address.candidates
         self.assertIsNotNone(candidates)
