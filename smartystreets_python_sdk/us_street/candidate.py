@@ -1,4 +1,6 @@
-from smartystreets_python_sdk.us_street import Components, Metadata, Analysis
+from .components import Components
+from .metadata import Metadata
+from .analysis import Analysis
 
 
 class Candidate:
