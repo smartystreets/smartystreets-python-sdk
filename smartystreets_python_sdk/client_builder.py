@@ -3,6 +3,7 @@ from smartystreets_python_sdk.us_street import Client as USStreetClient
 from smartystreets_python_sdk.us_zipcode import Client as USZIPClient
 from smartystreets_python_sdk.us_extract import Client as USExtractClient
 from smartystreets_python_sdk.us_autocomplete import Client as USAutocompleteClient
+from smartystreets_python_sdk.international_street import Client as InternationalStreetClient
 
 
 class ClientBuilder:
@@ -38,6 +39,10 @@ class ClientBuilder:
     def with_base_url(self, url_prefix):
         self.url_prefix = url_prefix
         return self
+
+    def build_international_street_api_client(self):
+        self.ensure_url_prefix_not_null(self.INTERNATIONAL_STREET_API_URL)
+        return InternationalStreetClient(self.build_sender(), self.serializer)
 
     def build_us_autocomplete_api_client(self):
         self.ensure_url_prefix_not_null(self.US_AUTOCOMPLETE_API_URL)
