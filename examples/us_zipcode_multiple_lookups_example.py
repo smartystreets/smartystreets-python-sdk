@@ -9,7 +9,7 @@ def run():
     auth_token = os.environ['SMARTY_AUTH_TOKEN']
     credentials = StaticCredentials(auth_id, auth_token)
 
-    client = ClientBuilder(credentials).build()
+    client = ClientBuilder(credentials).build_us_zipcode_api_client()
     batch = Batch()
 
     batch.add(Lookup())
