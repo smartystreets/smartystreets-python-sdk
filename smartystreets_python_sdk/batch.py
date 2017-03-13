@@ -1,3 +1,6 @@
+from smartystreets_python_sdk.exceptions import BatchFullError
+
+
 class Batch:
     MAX_BATCH_SIZE = 100
 
@@ -23,7 +26,7 @@ class Batch:
 
     def add(self, lookup):
         if self.is_full():
-            return False
+            raise BatchFullError('Batch size cannot exceed {}'.format(Batch.MAX_BATCH_SIZE))
 
         self.all_lookups.append(lookup)
 

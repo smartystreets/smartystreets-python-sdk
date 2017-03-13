@@ -40,3 +40,7 @@ class ServiceUnavailableError(SmartyException):
 
 class GatewayTimeoutError(SmartyException):
     pass
+
+
+class BatchFullError(SmartyException):
+    pass

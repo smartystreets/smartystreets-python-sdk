@@ -1,5 +1,6 @@
 import unittest
 from smartystreets_python_sdk import Batch, us_street
+from smartystreets_python_sdk.exceptions import BatchFullError
 
 
 class TestBatch(unittest.TestCase):
@@ -38,14 +39,10 @@ class TestBatch(unittest.TestCase):
         self.assertEqual(0, len(self.batch.all_lookups))
         self.assertEqual(0, len(self.batch.named_lookups))
 
-    def test_adding_a_lookup_when_batch_is_full_returns_false(self):
+    def test_adding_a_lookup_when_batch_is_full_raises_exception(self):
         lookup = us_street.Lookup()
-        success = None
 
         for i in range(0, Batch.MAX_BATCH_SIZE):
-            success = self.batch.add(lookup)
+            self.batch.add(lookup)
 
-        self.assertTrue(success)
-        success = self.batch.add(lookup)
-
-        self.assertFalse(success)
+        self.assertRaises(BatchFullError, self.batch.add, lookup)
