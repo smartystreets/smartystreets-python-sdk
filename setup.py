@@ -6,7 +6,8 @@ if hasattr(os, 'link'):
 
 setup(
     name='smartystreets_python_sdk',
-    packages=['smartystreets_python_sdk', 'smartystreets_python_sdk.us_street', 'smartystreets_python_sdk.us_zipcode', 'smartystreets_python_sdk.us_extract'],
+    packages=['smartystreets_python_sdk', 'smartystreets_python_sdk.us_street', 'smartystreets_python_sdk.us_zipcode',
+              'smartystreets_python_sdk.us_extract', 'smartystreets_python_sdk.us_autocomplete', 'smartystreets_python_sdk.international_street'],
     version='0.0.0',
     description='An official library to help Python developers easily access the SmartyStreets APIs',
     long_description='Official Python library for SmartyStreets',
@@ -15,7 +16,7 @@ setup(
     license='Apache 2',
     url='https://github.com/smartystreets/smartystreets-python-sdk',
     download_url='https://github.com/smartystreets/smartystreets-python-sdk/tarball/0.0.0',
-    keywords=['smartystreets', 'smarty', 'address', 'validation', 'verification', 'street', 'sdk', 'library'],
+    keywords=['smartystreets', 'smarty', 'address', 'validation', 'verification', 'street', 'sdk', 'library', 'geocode'],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
