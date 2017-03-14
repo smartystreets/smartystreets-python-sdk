@@ -43,10 +43,15 @@ def remap_keys(obj):
     for lookup in obj:
         converted_lookup = {}
 
-        converted_lookup['city'] = lookup.city
-        converted_lookup['state'] = lookup.state
-        converted_lookup['zipcode'] = lookup.zipcode
+        add_field(converted_lookup, 'city', lookup.city)
+        add_field(converted_lookup, 'state', lookup.state)
+        add_field(converted_lookup, 'zipcode', lookup.zipcode)
 
         converted_obj.append(converted_lookup)
 
     return converted_obj
+
+
+def add_field(converted_lookup, key, value):
+    if value:
+        converted_lookup[key] = value

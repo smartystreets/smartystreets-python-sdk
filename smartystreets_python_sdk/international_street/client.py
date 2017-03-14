@@ -1,5 +1,4 @@
 from smartystreets_python_sdk import Request
-from smartystreets_python_sdk.exceptions import UnprocessableEntityError
 from smartystreets_python_sdk.international_street import Candidate
 
 
@@ -9,7 +8,7 @@ class Client:
         self.serializer = serializer
 
     def send(self, lookup):
-        self.ensure_enough_info(lookup)
+        lookup.ensure_enough_info()
         request = self.build_request(lookup)
 
         response = self.sender.send(request)
@@ -21,41 +20,26 @@ class Client:
     def build_request(self, lookup):
         request = Request()
 
-        request.parameters['country'] = lookup.country
-        request.parameters['geocode'] = str(lookup.geocode).lower()
-        request.parameters['language'] = lookup.language
-        request.parameters['freeform'] = lookup.freeform
-        request.parameters['address1'] = lookup.address1
-        request.parameters['address2'] = lookup.address2
-        request.parameters['address3'] = lookup.address3
-        request.parameters['address4'] = lookup.address4
-        request.parameters['organization'] = lookup.organization
-        request.parameters['locality'] = lookup.locality
-        request.parameters['administrative_area'] = lookup.administrative_area
-        request.parameters['postal_code'] = lookup.postal_code
+        self.add_parameter(request, 'country', lookup.country)
+        self.add_parameter(request, 'geocode', str(lookup.geocode).lower())
+        self.add_parameter(request, 'language', lookup.language)
+        self.add_parameter(request, 'freeform', lookup.freeform)
+        self.add_parameter(request, 'address1', lookup.address1)
+        self.add_parameter(request, 'address2', lookup.address2)
+        self.add_parameter(request, 'address3', lookup.address3)
+        self.add_parameter(request, 'address4', lookup.address4)
+        self.add_parameter(request, 'organization', lookup.organization)
+        self.add_parameter(request, 'locality', lookup.locality)
+        self.add_parameter(request, 'administrative_area', lookup.administrative_area)
+        self.add_parameter(request, 'postal_code', lookup.postal_code)
 
         return request
 
-    def ensure_enough_info(self, lookup):
-        if lookup.missing_country():
-            raise UnprocessableEntityError('Country field is required.')
+    @staticmethod
+    def convert_candidates(raw_candidates):
+        return [Candidate(candidate) for candidate in raw_candidates]
 
-        if lookup.has_freeform():
-            return True
-
-        if lookup.missing_address1():
-            raise UnprocessableEntityError('Either freeform or address1 is required.')
-
-        if lookup.has_postal_code():
-            return True
-
-        if lookup.missing_locality_or_administrative_area():
-            raise UnprocessableEntityError('Insufficient information: One or more required fields were not set on the lookup.')
-
-    def convert_candidates(self, raw_candidates):
-        converted_candidates = []
-
-        for candidate in raw_candidates:
-            converted_candidates.append(Candidate(candidate))
-
-        return converted_candidates
+    @staticmethod
+    def add_parameter(request, key, value):
+        if value and value is not 'none':
+            request.parameters[key] = value
