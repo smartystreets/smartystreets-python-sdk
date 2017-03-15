@@ -14,6 +14,7 @@ class ClientBuilder:
         self.max_retries = 5
         self.max_timeout = 10000
         self.url_prefix = None
+        self.debug = None
         self.INTERNATIONAL_STREET_API_URL = "https://international-street.api.smartystreets.com/verify"
         self.US_AUTOCOMPLETE_API_URL = "https://us-autocomplete.api.smartystreets.com/suggest"
         self.US_EXTRACT_API_URL = "https://us-extract.api.smartystreets.com"
@@ -38,6 +39,10 @@ class ClientBuilder:
 
     def with_base_url(self, url_prefix):
         self.url_prefix = url_prefix
+        return self
+
+    def with_debug(self):
+        self.debug = True
         return self
 
     def build_international_street_api_client(self):
@@ -65,6 +70,7 @@ class ClientBuilder:
             return self.http_sender
 
         sender = smarty.RequestsSender(self.max_timeout)
+        sender.debug = self.debug
 
         sender = smarty.StatusCodeSender(sender)
 
