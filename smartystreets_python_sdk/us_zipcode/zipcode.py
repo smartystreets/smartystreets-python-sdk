@@ -1,3 +1,6 @@
+from .alternate_county import AlternateCounty
+
+
 class ZipCode:
     def __init__(self, obj):
         """
@@ -13,4 +16,6 @@ class ZipCode:
         self.latitude = obj.get('latitude')
         self.longitude = obj.get('longitude')
         self.precision = obj.get('precision')
-        self.alternate_countries = obj.get('alternate_counties', [])
+        alternate_counties = obj.get('alternate_counties', [])
+
+        self.alternate_counties = [AlternateCounty(alternate_county) for alternate_county in alternate_counties]

@@ -5,6 +5,13 @@ from .analysis import Analysis
 
 class Candidate:
     def __init__(self, obj):
+        """
+        A candidate is a possible match for an address that was submitted.
+        A lookup can have multiple candidates if the address was ambiguous, and
+        the maxCandidates field is set higher than 1.
+
+        See "https://smartystreets.com/docs/cloud/us-street-api#root"
+        """
         self.input_index = obj.get('input_index', None)
         self.candidate_index = obj.get('candidate_index', None)
         self.addressee = obj.get('addressee', None)

@@ -1,5 +1,8 @@
 class Analysis:
     def __init__(self, obj):
+        """
+        See "https://smartystreets.com/docs/cloud/us-street-api#analysis"
+        """
         self.dpv_match_code = obj.get('dpv_match_code', None)
         self.dpv_footnotes = obj.get('dpv_footnotes', None)
         self.cmra = obj.get('dpv_cmra', None)

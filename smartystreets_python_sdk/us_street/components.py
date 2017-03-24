@@ -1,5 +1,10 @@
 class Components:
     def __init__(self, obj):
+        """
+        This class contains the matched address broken down into its fundamental pieces.
+
+        See "https://smartystreets.com/docs/cloud/us-street-api#components"
+        """
         self.urbanization = obj.get('urbanization', None)
         self.primary_number = obj.get('primary_number', None)
         self.street_name = obj.get('street_name', None)

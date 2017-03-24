@@ -4,15 +4,25 @@ from smartystreets_python_sdk import Request, Batch
 
 class Client:
     def __init__(self, sender, serializer):
+        """
+        It is recommended to instantiate this class using ClientBuilder.build_us_street_api_client()
+        """
         self.sender = sender
         self.serializer = serializer
 
     def send_lookup(self, lookup):
+        """
+        Sends a Lookup object to the US Street API and stores the result in the Lookup's result field.
+        """
         batch = Batch()
         batch.add(lookup)
         self.send_batch(batch)
 
     def send_batch(self, batch):
+        """
+        Sends a Batch object containing no more than 100 Lookup objects to the US Street API and stores the
+        results in the result field of the Lookup object.
+        """
         smartyrequest = Request()
 
         if len(batch) == 0:

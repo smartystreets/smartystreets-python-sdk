@@ -5,7 +5,7 @@ from smartystreets_python_sdk import Request, Batch
 class Client:
     def __init__(self, sender, serializer):
         """
-        It is recommended to instantiate this class using ClientBuilder.build_us_zipcode_api_client
+        It is recommended to instantiate this class using ClientBuilder.build_us_zipcode_api_client()
         """
         self.sender = sender
         self.serializer = serializer
@@ -20,8 +20,8 @@ class Client:
 
     def send_batch(self, batch):
         """
-        Sends a Batch object containing Lookup objects to the US ZIP Code API and stores the results in the result
-        field of the Lookup object.
+        Sends a Batch object containing no more than 100 Lookup objects to the US ZIP Code API and stores the
+        results in the result field of the Lookup object.
         """
         smartyrequest = Request()
 
