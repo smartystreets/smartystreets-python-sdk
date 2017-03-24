@@ -2,6 +2,9 @@ from smartystreets_python_sdk.us_zipcode import City, ZipCode
 
 
 class Result:
+    """
+    See "https://smartystreets.com/docs/cloud/us-zipcode-api#root"
+    """
     def __init__(self, obj):
         self.status = obj.get('status')
         self.reason = obj.get('reason')

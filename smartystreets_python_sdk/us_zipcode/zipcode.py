@@ -1,5 +1,8 @@
 class ZipCode:
     def __init__(self, obj):
+        """
+        See "https://smartystreets.com/docs/cloud/us-zipcode-api#zipcodes"
+        """
         self.zipcode = obj.get('zipcode')
         self.zipcode_type = obj.get('zipcode_type')
         self.default_city = obj.get('default_city')

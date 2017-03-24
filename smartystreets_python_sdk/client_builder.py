@@ -8,6 +8,11 @@ from smartystreets_python_sdk.international_street import Client as Internationa
 
 class ClientBuilder:
     def __init__(self, signer):
+        """
+        The ClientBuilder class helps you build a client object for one of the supported SmartyStreets APIs.
+        You can use ClientBuilder's methods to customize settings like maximum retries or timeout duration.
+        These methods are chainable, so you can usually get set up with one line of code.
+        """
         self.signer = signer
         self.serializer = smarty.NativeSerializer()
         self.http_sender = None
@@ -22,26 +27,58 @@ class ClientBuilder:
         self.US_ZIP_CODE_API_URL = "https://us-zipcode.api.smartystreets.com/lookup"
 
     def retry_at_most(self, max_retries):
+        """
+        Sets the maximum number of times to retry sending the request to the API. (Default is 5)
+
+        Returns self to accommodate method chaining.
+        """
         self.max_retries = max_retries
         return self
 
     def with_max_timeout(self, max_timeout):
+        """
+        The maximum time (in milliseconds) to wait for a connection, and also to wait for
+        the response to be read. (Default is 10000)
+
+        Returns self to accommodate method chaining.
+        """
         self.max_timeout = max_timeout
         return self
 
     def with_sender(self, sender):
+        """
+        Default is a series of nested senders. (See build_sender()
+
+        Returns self to accommodate method chaining.
+        """
         self.http_sender = sender
         return self
 
     def with_serializer(self, serializer):
+        """
+        Changes the Serializer from the default.
+
+        Returns self to accommodate method chaining.
+        """
         self.serializer = serializer
         return self
 
-    def with_base_url(self, url_prefix):
-        self.url_prefix = url_prefix
+    def with_base_url(self, base_url):
+        """
+        This may be useful when using a local installation of the SmartyStreets APIs.
+        base_url is a string that defaults to the URL for the API corresponding to the Client object being built.
+
+        Returns self to accommodate method chaining.
+        """
+        self.url_prefix = base_url
         return self
 
     def with_debug(self):
+        """
+        Enables debug mode, which will print information about the HTTP request and response to the console.
+
+        Returns self to accommodate method chaining.
+        """
         self.debug = True
         return self
 
