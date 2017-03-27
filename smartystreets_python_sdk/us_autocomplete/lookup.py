@@ -1,5 +1,19 @@
 class Lookup:
     def __init__(self, prefix=None, suggestions=None, city_filter=None, state_filter=None, prefer=None, geolocate_type=None):
+        """
+        In addition to holding all of the input data for this lookup, this class also will contain the result 
+        of the lookup after it comes back from the API.
+        
+        See "https://smartystreets.com/docs/cloud/us-autocomplete-api#http-request-input-fields"
+        
+        :param prefix: The beginning of an address (required)
+        :param suggestions: Maximum number of suggestions
+        :param city_filter: List of cities from which to include suggestions
+        :param state_filter: List of states from which to include suggestions
+        :param prefer: List of cities/states. Suggestions from the members of this list will appear first
+        :param geolocate_type: This field corresponds to the geolocate and geolocate_precision fields in the 
+                                US Autocomplete API. Use the constants in geolocation_type.py to set this field
+        """
         self.result = []
         self.prefix = prefix
         self.max_suggestions = suggestions

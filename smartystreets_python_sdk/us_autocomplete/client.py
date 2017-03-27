@@ -5,10 +5,16 @@ from smartystreets_python_sdk.us_autocomplete import Suggestion, geolocation_typ
 
 class Client:
     def __init__(self, sender, serializer):
+        """
+        It is recommended to instantiate this class using ClientBuilder.build_us_autocomplete_api_client()
+        """
         self.sender = sender
         self.serializer = serializer
 
     def send(self, lookup):
+        """
+        Sends a Lookup object to the US Autocomplete API and stores the result in the Lookup's result field.
+        """
         if not lookup or not lookup.prefix:
             raise SmartyException('Send() must be passed a Lookup with the prefix field set.')
 
