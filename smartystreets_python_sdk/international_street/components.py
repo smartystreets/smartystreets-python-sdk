@@ -1,5 +1,8 @@
 class Components:
     def __init__(self, obj):
+        """
+        See "https://smartystreets.com/docs/cloud/international-street-api#components"
+        """
         self.country_iso_3 = obj.get("country_iso_3", None)
         self.super_administrative_area = obj.get("super_administrative_area", None)
         self.administrative_area = obj.get("administrative_area", None)

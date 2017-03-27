@@ -3,6 +3,20 @@ from smartystreets_python_sdk.exceptions import UnprocessableEntityError
 
 class Lookup:
     def __init__(self, freeform=None, country=None):
+        """
+        In addition to holding all of the input data for this lookup, this class also will contain the 
+        result of the lookup after it comes back from the API.
+        
+        Note: Lookups must have certain required fields set with non-blank values.
+            These can be found at the URL below.
+            
+        See "https://smartystreets.com/docs/cloud/international-street-api#http-input-fields"
+        
+        :field self.geocode: Disabled by default. Set to true to enable.
+        :field self.language: When not set, the output language will match the language of the input values.
+            When set to language_mode.NATIVE, the results will always be in the language of the output country.
+            When set to language_mode.LATIN, the results will always be provided using a Latin character set.
+        """
         self.result = []
 
         self.inputId = None

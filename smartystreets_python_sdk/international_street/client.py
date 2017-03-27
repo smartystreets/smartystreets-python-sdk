@@ -4,10 +4,16 @@ from smartystreets_python_sdk.international_street import Candidate
 
 class Client:
     def __init__(self, sender, serializer):
+        """
+        It is recommended to instantiate this class using ClientBuilder.build_international_street_api_client()
+        """
         self.sender = sender
         self.serializer = serializer
 
     def send(self, lookup):
+        """
+        Sends a Lookup object to the International Street API and stores the result in the Lookup's result field.
+        """
         lookup.ensure_enough_info()
         request = self.build_request(lookup)
 
