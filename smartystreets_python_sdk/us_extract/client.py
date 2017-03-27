@@ -5,10 +5,17 @@ from smartystreets_python_sdk.us_extract import Result
 
 class Client:
     def __init__(self, sender, serializer):
+        """
+        It is recommended to instantiate this class using ClientBuilder.build_us_extract_api_client()
+        """
         self.sender = sender
         self.serializer = serializer
 
     def send(self, lookup):
+        """
+        Sends a Lookup object to the US Extract Code API and stores the result in the Lookup's result field.
+        It also returns the result directly.
+        """
         if lookup is None or lookup.text is None or not isinstance(lookup.text, str) or len(lookup.text.strip()) == 0:
             raise SmartyException('Client.send() requires a Lookup with the "text" field set')
 

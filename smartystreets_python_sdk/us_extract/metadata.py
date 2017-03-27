@@ -1,5 +1,8 @@
 class Metadata:
     def __init__(self, obj):
+        """
+        See "https://smartystreets.com/docs/cloud/us-extract-api#http-response-status"
+        """
         self.lines = obj.get('lines', None)
         self.unicode = obj.get('unicode', None)
         self.address_count = obj.get('address_count', None)

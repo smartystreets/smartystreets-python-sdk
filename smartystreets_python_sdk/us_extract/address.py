@@ -3,6 +3,9 @@ from smartystreets_python_sdk.us_street.candidate import Candidate
 
 class Address:
     def __init__(self, obj):
+        """
+        See "https://smartystreets.com/docs/cloud/us-extract-api#http-response-status"
+        """
         self.text = obj.get('text', None)
         self.verified = obj.get('verified', None)
         self.line = obj.get('line', None)

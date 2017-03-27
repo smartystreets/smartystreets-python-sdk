@@ -4,6 +4,9 @@ from smartystreets_python_sdk.us_extract import Metadata
 
 class Result:
     def __init__(self, obj=None):
+        """
+        See "https://smartystreets.com/docs/cloud/us-extract-api#http-response-status"
+        """
         self.metadata = Metadata(obj.get('meta', {}))
         self.addresses = obj.get('addresses', [])
 
