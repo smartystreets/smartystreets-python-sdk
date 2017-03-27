@@ -1,5 +1,8 @@
 class Metadata:
     def __init__(self, obj):
+        """
+        See "https://smartystreets.com/docs/cloud/us-street-api#metadata"
+        """
         self.record_type = obj.get('record_type', None)
         self.zip_type = obj.get('zip_type', None)
         self.county_fips = obj.get('county_fips', None)
