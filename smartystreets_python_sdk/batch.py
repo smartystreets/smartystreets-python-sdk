@@ -25,6 +25,9 @@ class Batch:
         return lookup
 
     def add(self, lookup):
+        """
+        Adds a Lookup object to the batch. Raises an exception if the batch is already full (100 Lookups).
+        """
         if self.is_full():
             raise BatchFullError('Batch size cannot exceed {}'.format(Batch.MAX_BATCH_SIZE))
 
