@@ -12,4 +12,4 @@ from .client_builder import ClientBuilder
 import smartystreets_python_sdk.errors
 import smartystreets_python_sdk.exceptions
 
-__version__ = '0.0.0'
+__version__ = '0.0.0' # DO NOT EDIT (this is updated by a build job when a new release is published)
