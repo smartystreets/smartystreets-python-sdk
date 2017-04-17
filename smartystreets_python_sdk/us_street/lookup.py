@@ -6,6 +6,8 @@ class Lookup:
         the result of the lookup after it comes back from the API.
         
         See "https://smartystreets.com/docs/cloud/us-street-api#input-fields"
+        
+        :param match: Must be set to 'strict', 'range', or 'invalid'. Constants for these are in match_type.py
         """
         self.result = []
         self.input_id = input_id

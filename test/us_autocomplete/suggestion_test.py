@@ -4,7 +4,7 @@ from smartystreets_python_sdk.us_autocomplete import Suggestion
 
 
 class TestSuggestion(unittest.TestCase):
-    def test_all_field_get_filled_in_correctly(self):
+    def test_all_fields_get_filled_in_correctly(self):
         response_dictionary = {"text": "1", "street_line": "2", "city": "3", "state": "4"}
 
         suggestion = Suggestion(response_dictionary)
