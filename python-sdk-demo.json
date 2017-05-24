@@ -1,0 +1,346 @@
+{
+  "version": 1,
+  "width": 100,
+  "height": 45,
+  "duration": 22.832429,
+  "command": null,
+  "title": null,
+  "env": {
+    "TERM": "xterm-256color",
+    "SHELL": "/bin/bash"
+  },
+  "stdout": [
+    [
+      0.00101,
+      "\u001b[?1034hbash-3.2$ "
+    ],
+    [
+      1.0,
+      "p"
+    ],
+    [
+      0.10419,
+      "i"
+    ],
+    [
+      0.247072,
+      "p"
+    ],
+    [
+      0.368479,
+      "3"
+    ],
+    [
+      0.111383,
+      " "
+    ],
+    [
+      0.240016,
+      "i"
+    ],
+    [
+      0.1201,
+      "n"
+    ],
+    [
+      0.175947,
+      "s"
+    ],
+    [
+      0.144562,
+      "t"
+    ],
+    [
+      0.095962,
+      "a"
+    ],
+    [
+      0.19933,
+      "l"
+    ],
+    [
+      0.151243,
+      "l"
+    ],
+    [
+      0.112226,
+      " "
+    ],
+    [
+      0.352036,
+      "s"
+    ],
+    [
+      0.160034,
+      "m"
+    ],
+    [
+      0.135752,
+      "a"
+    ],
+    [
+      0.160092,
+      "r"
+    ],
+    [
+      0.280144,
+      "t"
+    ],
+    [
+      0.271868,
+      "y"
+    ],
+    [
+      0.35272,
+      "s"
+    ],
+    [
+      0.159734,
+      "t"
+    ],
+    [
+      0.056579,
+      "r"
+    ],
+    [
+      0.207651,
+      "e"
+    ],
+    [
+      0.144086,
+      "e"
+    ],
+    [
+      0.160342,
+      "t"
+    ],
+    [
+      0.136124,
+      "s"
+    ],
+    [
+      0.672019,
+      "-"
+    ],
+    [
+      0.287211,
+      "p"
+    ],
+    [
+      0.40878,
+      "y"
+    ],
+    [
+      0.167647,
+      "t"
+    ],
+    [
+      0.136353,
+      "h"
+    ],
+    [
+      0.103098,
+      "o"
+    ],
+    [
+      0.752908,
+      "n"
+    ],
+    [
+      0.727286,
+      "-"
+    ],
+    [
+      0.344633,
+      "s"
+    ],
+    [
+      0.134949,
+      "d"
+    ],
+    [
+      0.376834,
+      "k"
+    ],
+    [
+      0.582916,
+      "\r\n"
+    ],
+    [
+      0.211568,
+      "Collecting smartystreets-python-sdk\r\n"
+    ],
+    [
+      0.052518,
+      "  Using cached smartystreets_python_sdk-2.1.1.tar.gz\r\n"
+    ],
+    [
+      0.257579,
+      "Requirement already satisfied (use --upgrade to upgrade): requests in /Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages (from smartystreets-python-sdk)\r\n"
+    ],
+    [
+      0.003178,
+      "Installing collected packages: smartystreets-python-sdk\r\n"
+    ],
+    [
+      0.167856,
+      "  Running setup.py install for smartystreets-python-sdk ... \u001b[?25l-"
+    ],
+    [
+      0.131715,
+      "\b \bdone\r\n"
+    ],
+    [
+      0.017313,
+      "\u001b[?25hSuccessfully installed smartystreets-python-sdk-2.1.1\r\n"
+    ],
+    [
+      0.046653,
+      "bash-3.2$ "
+    ],
+    [
+      1.0,
+      "\r\n"
+    ],
+    [
+      2.4e-05,
+      "bash-3.2$ "
+    ],
+    [
+      0.152165,
+      "\r\n"
+    ],
+    [
+      2.2e-05,
+      "bash-3.2$ "
+    ],
+    [
+      0.345216,
+      "c"
+    ],
+    [
+      0.103965,
+      "a"
+    ],
+    [
+      0.639404,
+      "t"
+    ],
+    [
+      0.160025,
+      " "
+    ],
+    [
+      0.384489,
+      "E"
+    ],
+    [
+      0.359831,
+      "xample.py "
+    ],
+    [
+      0.815231,
+      "\r\n"
+    ],
+    [
+      0.003391,
+      "from smartystreets_python_sdk import StaticCredentials, ClientBuilder\r\nfrom smartystreets_python_sdk.us_street import Lookup\r\n\r\n\r\ndef run():\r\n    # This keypair will have been deleted by the time you are watching this video...\r\n    auth_id = \"d418a4cc-69da-e48f-bc9d-ee7357b30d61\"\r\n    auth_token = \"clDiwTlcW5YTFjEl5mp1\"\r\n    credentials = StaticCredentials(auth_id, auth_token)\r\n\r\n    print(\"Step 0. Wire up the client with your keypair.\")\r\n    client = ClientBuilder(credentials).build_us_street_api_client()\r\n\r\n    print(\"Step 1. Make a lookup. (BTW, you can also send entire batches of lookups...)\")\r\n    lookup = Lookup()\r\n    lookup.street = \"1 Rosedale\"\r\n    lookup.lastline = \"Baltimore MD\"\r\n    lookup.candidates = 10\r\n\r\n    print(\"Step 2. Send the lookup.\")\r\n    client.send_lookup(lookup)\r\n\r\n    print(\"Step 3. Show the resulting candidate addresses:\")\r\n    for c, candidate in enumerate(lookup.result):\r\n        print(\"- {}: {}, {}\".format(c, candidate.delivery_line_1, candidate.last_line))\r\n\r\n\r\nif __name__ =="
+    ],
+    [
+      2.7e-05,
+      " \"__main__\":\r\n    run()\r\n"
+    ],
+    [
+      0.000325,
+      "bash-3.2$ "
+    ],
+    [
+      1.0,
+      "\r\n"
+    ],
+    [
+      9.1e-05,
+      "bash-3.2$ "
+    ],
+    [
+      0.167876,
+      "\r\n"
+    ],
+    [
+      7.4e-05,
+      "bash-3.2$ "
+    ],
+    [
+      0.545036,
+      "p"
+    ],
+    [
+      0.159925,
+      "y"
+    ],
+    [
+      0.184359,
+      "t"
+    ],
+    [
+      0.407329,
+      "h"
+    ],
+    [
+      0.103966,
+      "o"
+    ],
+    [
+      0.232599,
+      "n"
+    ],
+    [
+      1.0,
+      "3"
+    ],
+    [
+      0.19203,
+      " "
+    ],
+    [
+      1.0,
+      "."
+    ],
+    [
+      0.16011,
+      "/"
+    ],
+    [
+      0.511946,
+      "E"
+    ],
+    [
+      0.319414,
+      "x"
+    ],
+    [
+      0.199843,
+      "ample.py "
+    ],
+    [
+      1.0,
+      "\r\n"
+    ],
+    [
+      0.140962,
+      "Step 0. Wire up the client with your keypair.\r\n"
+    ],
+    [
+      0.000544,
+      "Step 1. Make a lookup. (BTW, you can also send entire batches of lookups...)\r\nStep 2. Send the lookup.\r\n"
+    ],
+    [
+      0.256548,
+      "Step 3. Show the resulting candidate addresses:\r\n- 0: 1 N Rosedale St, Baltimore MD 21229-3737\r\n- 1: 1 S Rosedale St, Baltimore MD 21229-3739\r\n"
+    ],
+    [
+      0.01928,
+      "bash-3.2$ "
+    ]
+  ]
+}
