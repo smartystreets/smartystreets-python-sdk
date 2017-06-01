@@ -19,6 +19,7 @@ class ClientBuilder:
         self.max_retries = 5
         self.max_timeout = 10000
         self.url_prefix = None
+        self.proxy = None
         self.debug = None
         self.INTERNATIONAL_STREET_API_URL = "https://international-street.api.smartystreets.com/verify"
         self.US_AUTOCOMPLETE_API_URL = "https://us-autocomplete.api.smartystreets.com/suggest"
@@ -73,6 +74,15 @@ class ClientBuilder:
         self.url_prefix = base_url
         return self
 
+    def with_proxy(self, proxy):
+        """
+        Assigns a proxy through which to send all Lookups.
+        :param proxy: A Proxy object from the smartystreets_python_sdk package
+        :return: Returns self to accommodate method chaining.
+        """
+        self.proxy = proxy
+        return self
+
     def with_debug(self):
         """
         Enables debug mode, which will print information about the HTTP request and response to the console.
@@ -106,7 +116,7 @@ class ClientBuilder:
         if self.http_sender is not None:
             return self.http_sender
 
-        sender = smarty.RequestsSender(self.max_timeout)
+        sender = smarty.RequestsSender(self.max_timeout, self.proxy)
         sender.debug = self.debug
 
         sender = smarty.StatusCodeSender(sender)

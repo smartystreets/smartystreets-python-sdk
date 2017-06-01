@@ -4,19 +4,21 @@ import smartystreets_python_sdk as smarty
 
 
 class RequestsSender:
-    def __init__(self, max_timeout=10000):
+    def __init__(self, max_timeout=None, proxy=None):
         self.session = Session()
-        self.max_timeout = max_timeout
+        self.max_timeout = max_timeout or 10000
+        self.proxy = proxy
         self.debug = None
 
     def send(self, smarty_request):
         request = build_request(smarty_request)
         prepped_request = self.session.prepare_request(request)
+        prepped_proxies = self.build_proxies()
         if self.debug:
             print_request_data(prepped_request)
 
         try:
-            response = self.session.send(prepped_request, timeout=self.max_timeout)
+            response = self.session.send(prepped_request, timeout=self.max_timeout, proxies=prepped_proxies)
         except Exception as e:
             return Response(None, None, e)
 
@@ -24,6 +26,21 @@ class RequestsSender:
             print_response_data(response)
 
         return build_smarty_response(response)
+
+    def build_proxies(self):
+        if not self.proxy:
+            return None
+        if not self.proxy.host:
+            raise smarty.exceptions.SmartyException('Proxy must have a valid host (including port)')
+
+        proxy_string = 'https://'
+
+        if self.proxy.username:
+            proxy_string += '{}:{}@'.format(self.proxy.username, self.proxy.password)
+
+        proxy_string += self.proxy.host
+
+        return {'https': proxy_string}
 
 
 def build_request(smarty_request):
@@ -42,6 +59,8 @@ def build_request(smarty_request):
 
 def build_smarty_response(inner_response):
     return Response(inner_response.text, inner_response.status_code)
+
+
 
 
 def print_request_data(request):
