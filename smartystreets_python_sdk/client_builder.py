@@ -74,13 +74,15 @@ class ClientBuilder:
         self.url_prefix = base_url
         return self
 
-    def with_proxy(self, proxy):
+    def with_proxy(self, host, username=None, password=None):
         """
         Assigns a proxy through which to send all Lookups.
-        :param proxy: A Proxy object from the smartystreets_python_sdk package
+        :param host: The proxy host including port, but not scheme. (example: localhost:8080)
+        :param username: Username to authenticate with the proxy server
+        :param password: Password to authenticate with the proxy server
         :return: Returns self to accommodate method chaining.
         """
-        self.proxy = proxy
+        self.proxy = smarty.Proxy(host, username, password)
         return self
 
     def with_debug(self):

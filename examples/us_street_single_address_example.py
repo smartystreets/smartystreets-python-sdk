@@ -9,6 +9,8 @@ def run():
     credentials = StaticCredentials(auth_id, auth_token)
 
     client = ClientBuilder(credentials).build_us_street_api_client()
+    # client = ClientBuilder(credentials).with_proxy('localhost:8080', 'user', 'password').build_us_street_api_client()
+    # Uncomment the line above to try it with a proxy instead
 
     lookup = Lookup()
     lookup.street = "1600 Amphitheatre Pkwy"
