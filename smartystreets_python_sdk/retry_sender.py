@@ -1,5 +1,7 @@
 from time import sleep
 
+import sys
+
 
 class RetrySender:
     MAX_BACKOFF_DURATION = 10
@@ -25,6 +27,6 @@ class RetrySender:
 
 def backoff(attempt):
     print("There was an error processing the request. Retrying in {} seconds...".format(
-        min(attempt, RetrySender.MAX_BACKOFF_DURATION)))
+        min(attempt, RetrySender.MAX_BACKOFF_DURATION)), sys.stderr)
     sleep(min(attempt, RetrySender.MAX_BACKOFF_DURATION))
     return
