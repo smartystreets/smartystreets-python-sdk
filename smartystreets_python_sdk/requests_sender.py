@@ -61,8 +61,6 @@ def build_smarty_response(inner_response):
     return Response(inner_response.text, inner_response.status_code)
 
 
-
-
 def print_request_data(request):
     print(request.method)
     print()

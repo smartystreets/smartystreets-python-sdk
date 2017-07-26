@@ -24,6 +24,7 @@ class TestClient(unittest.TestCase):
         lookup.add_city_filter('3')
         lookup.add_state_filter('4')
         lookup.add_prefer('5')
+        lookup.prefer_ratio = .6
         lookup.geolocate_type = geolocation_type.STATE
 
         client.send(lookup)
@@ -33,6 +34,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual('3', sender.request.parameters['city_filter'])
         self.assertEqual('4', sender.request.parameters['state_filter'])
         self.assertEqual('5', sender.request.parameters['prefer'])
+        self.assertEqual(.6, sender.request.parameters['prefer_ratio'])
         self.assertEqual('true', sender.request.parameters['geolocate'])
         self.assertEqual('state', sender.request.parameters['geolocate_precision'])
 
