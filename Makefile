@@ -7,14 +7,12 @@ tests:
 
 test-publish: version
 	git push origin --tags
-	python setup.py register -r pypitest
 	python setup.py sdist upload -r pypitest
 	git checkout smartystreets_python_sdk/__init__.py
 	git checkout setup.py
 
 publish: version
 	git push origin --tags
-	python setup.py register -r pypi
 	python setup.py sdist upload -r pypi
 	git checkout smartystreets_python_sdk/__init__.py
 	git checkout setup.py
