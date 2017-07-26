@@ -28,7 +28,7 @@ username=smartystreets
 password=$SMARTY_PYPI_PASSWORD
 
 [pypitest]
-repository=https://test.pypi.org/legacy
+repository=https://test.pypi.org/legacy/
 username=smartystreets
 password=$SMARTY_PYPI_PASSWORD
 EOF
