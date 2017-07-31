@@ -13,6 +13,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # box-specific
   config.vm.provision "shell", inline: $provision
+  config.vm.provision "shell", inline: "cd /usr/src && apt-get install zlib1g-dev && apt-get install openssl &&
+  wget https://www.python.org/ftp/python/2.7.13/Python-2.7.13.tgz &&
+  tar xzf Python-2.7.13.tgz && apt-get install libssl-dev -y && cd Python-2.7.13 && ./configure && make && make install"
 end
 
 $provision = <<-END
