@@ -19,10 +19,10 @@ def run():
     print("Address is {}".format(first_candidate.analysis.verification_status))
     print("Address precision: {}\n".format(first_candidate.analysis.address_precision))
 
-    print("First Line: {}".format(first_candidate.address1))
-    print("Second Line: {}".format(first_candidate.address2))
-    print("Third Line: {}".format(first_candidate.address3))
-    print("Fourth Line: {}".format(first_candidate.address4))
+    print(u"First Line: {}".format(first_candidate.address1))
+    print(u"Second Line: {}".format(first_candidate.address2))
+    print(u"Third Line: {}".format(first_candidate.address3))
+    print(u"Fourth Line: {}".format(first_candidate.address4))
     print("Latitude: {}".format(first_candidate.metadata.latitude))
     print("Longitude: {}".format(first_candidate.metadata.longitude))
 
