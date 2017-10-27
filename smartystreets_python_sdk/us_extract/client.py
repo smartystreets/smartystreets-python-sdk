@@ -20,7 +20,11 @@ class Client:
             raise SmartyException('Client.send() requires a Lookup with the "text" field set')
 
         request = self.build_request(lookup)
+
         response = self.sender.send(request)
+        if response.error:
+            raise response.error
+
         result = Result(self.serializer.deserialize(response.payload))
 
         lookup.result = result

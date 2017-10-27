@@ -19,6 +19,9 @@ class Client:
 
         response = self.sender.send(request)
 
+        if response.error is not None:
+            raise response.error
+
         candidates = self.convert_candidates(self.serializer.deserialize(response.payload))
         lookup.result = candidates
         return candidates

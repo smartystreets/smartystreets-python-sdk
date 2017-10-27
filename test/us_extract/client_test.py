@@ -1,6 +1,6 @@
 import unittest
 
-from smartystreets_python_sdk import URLPrefixSender, Response
+from smartystreets_python_sdk import URLPrefixSender, Response, exceptions
 from smartystreets_python_sdk.us_extract import Client, Lookup
 from smartystreets_python_sdk.exceptions import SmartyException
 from smartystreets_python_sdk.us_extract import Result
@@ -77,3 +77,9 @@ class TestClient(unittest.TestCase):
         client.send(lookup)
 
         self.assertEqual("text/plain", sender.request.content_type)
+
+    def test_raises_exception_when_response_has_error(self):
+        exception = exceptions.BadCredentialsError
+        client = Client(MockExceptionSender(exception), FakeSerializer(None))
+
+        self.assertRaises(exception, client.send, Lookup(text='test'))

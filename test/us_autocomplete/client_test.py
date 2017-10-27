@@ -67,3 +67,9 @@ class TestClient(unittest.TestCase):
         client = Client(sender, serializer)
 
         self.assertRaises(exceptions.SmartyException, client.send, Lookup())
+
+    def test_raises_exception_when_response_has_error(self):
+        exception = exceptions.BadCredentialsError
+        client = Client(MockExceptionSender(exception), FakeSerializer(None))
+
+        self.assertRaises(exception, client.send, Lookup(prefix='test'))

@@ -1,5 +1,5 @@
-from test.mocks import RequestCapturingSender, FakeSerializer, FakeDeserializer, MockSender
-from smartystreets_python_sdk import Response, Batch
+from test.mocks import RequestCapturingSender, FakeSerializer, FakeDeserializer, MockSender, MockExceptionSender
+from smartystreets_python_sdk import Response, Batch, exceptions
 from smartystreets_python_sdk.us_zipcode import Client, Lookup, Result
 
 
@@ -52,3 +52,9 @@ class TestClient(unittest.TestCase):
 
         self.assertEqual(expected_results[0].input_index, batch[0].result.input_index)
         self.assertEqual(expected_results[1].input_index, batch[1].result.input_index)
+
+    def test_raises_exception_when_response_has_error(self):
+        exception = exceptions.BadCredentialsError
+        client = Client(MockExceptionSender(exception), FakeSerializer(None))
+
+        self.assertRaises(exception, client.send_lookup, Lookup())
