@@ -5,9 +5,15 @@ from smartystreets_python_sdk.us_autocomplete import Lookup
 
 
 def run():
-    auth_id = os.environ['SMARTY_AUTH_ID']  # We recommend storing your keys in environment variables
-    auth_token = os.environ['SMARTY_AUTH_TOKEN']
+    auth_id = "Your SmartyStreets Auth ID here"
+    auth_token = "Your SmartyStreets Auth Token here"
+
+    # We recommend storing your secret keys in environment variables instead---it's safer!
+    # auth_id = os.environ['SMARTY_AUTH_ID']
+    # auth_token = os.environ['SMARTY_AUTH_TOKEN']
+
     credentials = StaticCredentials(auth_id, auth_token)
+
     client = ClientBuilder(credentials).build_us_autocomplete_api_client()
     lookup = Lookup('4770 Lincoln Ave O')
 
