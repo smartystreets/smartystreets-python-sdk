@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-SOURCE_VERSION := 3.1
+SOURCE_VERSION := 3.2
 
 tests:
 	python -m unittest discover -p *_test.py
