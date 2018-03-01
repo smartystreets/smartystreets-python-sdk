@@ -29,7 +29,11 @@ class Client:
             return
 
         converted_lookups = remap_keys(batch.all_lookups)
-        smartyrequest.payload = self.serializer.serialize(converted_lookups)
+
+        if len(batch) == 1:
+            smartyrequest.parameters = converted_lookups[0]
+        else:
+            smartyrequest.payload = self.serializer.serialize(converted_lookups)
 
         response = self.sender.send(smartyrequest)
 

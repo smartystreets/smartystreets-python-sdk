@@ -7,6 +7,22 @@ import unittest
 
 
 class TestClient(unittest.TestCase):
+    def test_single_lookup_values_correctly_assigned_to_parameters(self):
+        sender = RequestCapturingSender()
+        serializer = FakeDeserializer({})
+        client = Client(sender, serializer)
+        lookup = Lookup()
+
+        lookup.city = '0'
+        lookup.state = '1'
+        lookup.zipcode = '2'
+
+        client.send_lookup(lookup)
+
+        self.assertEqual('0', sender.request.parameters['city'])
+        self.assertEqual('1', sender.request.parameters['state'])
+        self.assertEqual('2', sender.request.parameters['zipcode'])
+
     def test_empty_batch_not_sent(self):
         sender = RequestCapturingSender()
         client = Client(sender, None)
