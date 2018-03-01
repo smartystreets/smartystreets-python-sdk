@@ -13,7 +13,8 @@ class TestCandidate(unittest.TestCase):
                 "\"administrative_area\":\"16\",\"sub_administrative_area\":\"17\",\"dependent_locality\":\"18\","\
                 "\"dependent_locality_name\":\"19\",\"double_dependent_locality\":\"20\",\"locality\":\"21\","\
                 "\"postal_code\":\"22\",\"postal_code_short\":\"23\",\"postal_code_extra\":\"24\","\
-                "\"premise\":\"25\",\"premise_extra\":\"26\",\"premise_number\":\"27\",\"premise_type\":\"28\","\
+                "\"premise\":\"25\",\"premise_extra\":\"26\",\"premise_number\":\"27\"," \
+                "\"premise_prefix_number\":\"27.5\",\"premise_type\":\"28\","\
                 "\"thoroughfare\":\"29\",\"thoroughfare_predirection\":\"30\",\"thoroughfare_postdirection\":\"31\","\
                 "\"thoroughfare_name\":\"32\",\"thoroughfare_trailing_type\":\"33\",\"thoroughfare_type\":\"34\","\
                 "\"dependent_thoroughfare\":\"35\",\"dependent_thoroughfare_predirection\":\"36\","\
@@ -59,6 +60,7 @@ class TestCandidate(unittest.TestCase):
         self.assertEqual("25", components.premise)
         self.assertEqual("26", components.premise_extra)
         self.assertEqual("27", components.premise_number)
+        self.assertEqual("27.5", components.premise_prefix_number)
         self.assertEqual("28", components.premise_type)
         self.assertEqual("29", components.thoroughfare)
         self.assertEqual("30", components.thoroughfare_predirection)

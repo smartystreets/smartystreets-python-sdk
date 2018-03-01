@@ -17,6 +17,7 @@ class Components:
         self.premise = obj.get("premise", None)
         self.premise_extra = obj.get("premise_extra", None)
         self.premise_number = obj.get("premise_number", None)
+        self.premise_prefix_number = obj.get("premise_prefix_number", None)
         self.premise_type = obj.get("premise_type", None)
         self.thoroughfare = obj.get("thoroughfare", None)
         self.thoroughfare_predirection = obj.get("thoroughfare_predirection", None)
