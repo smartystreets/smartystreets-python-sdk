@@ -14,7 +14,7 @@ clean:
 	git checkout smartystreets_python_sdk/__init__.py
 	git checkout setup.py
 
-package: clean
+package: dependencies clean
 	python setup.py sdist
 
 test-publish: package
