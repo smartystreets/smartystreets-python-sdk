@@ -1,17 +1,20 @@
 #!/usr/bin/make -f
+#!/usr/bin/make -f
 
 SOURCE_VERSION := 3.2
 
-tests:
+test: dependencies
 	python -m unittest discover -p *_test.py
 
-test-publish: version
+dependencies:
+	pip install -r requirements.txt
+
+test-publish: 
 	git push origin --tags
 	python setup.py sdist upload -r pypitest
 	git checkout smartystreets_python_sdk/__init__.py
 	git checkout setup.py
-
-publish: version
+publish:
 	git push origin --tags
 	python setup.py sdist upload -r pypi
 	git checkout smartystreets_python_sdk/__init__.py
