@@ -7,3 +7,5 @@ services:
     environment:
       - SMARTY_AUTH_ID
       - SMARTY_AUTH_TOKEN
+      - TWINE_USERNAME
+      - TWINE_PASSWORD
