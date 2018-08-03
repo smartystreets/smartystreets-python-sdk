@@ -29,3 +29,16 @@ version:
 	$(eval EXPECTED := $(PREFIX)$(shell git tag -l "$(PREFIX)*" | wc -l | xargs expr -1 +))
 	$(eval INCREMENTED := $(PREFIX)$(shell git tag -l "$(PREFIX)*" | wc -l | xargs expr 0 +))
 	@if [ "$(CURRENT)" != "$(EXPECTED)" ]; then git tag -a "$(INCREMENTED)" -m "" 2>/dev/null || true; fi
+
+####################################################################3
+
+container-test:
+	docker-compose run sdk make test
+container-package:
+	docker-compose run sdk make package
+container-test-publish: version
+	docker-compose run sdk make test-publish
+	git push origin --tags
+container-publish: version
+	docker-compose run sdk make publish
+	git push origin --tags
