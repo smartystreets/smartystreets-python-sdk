@@ -12,7 +12,7 @@ clean:
 	@rm -rf dist/ MANIFEST
 
 package: dependencies clean
-	echo "__version__=\"$(shell git describe)\"" > smartystreets_python_sdk/version/__init__.py
+	echo "__version__=\"$(shell git describe)\"" >> smartystreets_python_sdk/__init__.py
 	python setup.py sdist
 
 test-publish: package
