@@ -17,7 +17,7 @@ setup(
     author_email='support@smartystreets.com',
     license='Apache 2',
     url='https://github.com/smartystreets/smartystreets-python-sdk',
-    download_url='https://github.com/smartystreets/smartystreets-python-sdk/tarball/0.0.0',
+    download_url='https://github.com/smartystreets/smartystreets-python-sdk/tarball/' + smartystreets_python_sdk.__version__,
     keywords=['smartystreets', 'smarty', 'address', 'validation', 'verification', 'street', 'sdk', 'library', 'geocode'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
