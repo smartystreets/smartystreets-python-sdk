@@ -3,7 +3,7 @@
 SOURCE_VERSION := 3.2
 VERSION_FILE = smartystreets_python_sdk/__init__.py
 
-test: dependencies
+test:
 	python -m unittest discover -p *_test.py
 
 dependencies:
@@ -12,7 +12,7 @@ dependencies:
 clean:
 	@rm -rf dist/ MANIFEST
 
-package: dependencies clean
+package: clean
 	@echo "__version__=\"$(shell git describe)\"" >> "$(VERSION_FILE)"
 	python setup.py sdist
 	@git checkout "$(VERSION_FILE)"
