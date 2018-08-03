@@ -11,6 +11,7 @@ dependencies:
 
 clean:
 	@rm -rf dist/ MANIFEST
+	@git checkout "$(VERSION_FILE)"
 
 package: clean
 	@echo "__version__=\"$(shell git describe)\"" >> "$(VERSION_FILE)"
@@ -20,7 +21,7 @@ package: clean
 test-publish: package
 	twine upload --repository-url "https://test.pypi.org/legacy/" dist/*
 
-publish:
+publish: package
 	twine upload dist/*
 
 version:
