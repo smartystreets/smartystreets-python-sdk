@@ -1,6 +1,7 @@
 #!/usr/bin/make -f
 
 SOURCE_VERSION := 3.2
+VERSION_FILE = smartystreets_python_sdk/__init__.py
 
 test: dependencies
 	python -m unittest discover -p *_test.py
@@ -12,8 +13,9 @@ clean:
 	@rm -rf dist/ MANIFEST
 
 package: dependencies clean
-	echo "__version__=\"$(shell git describe)\"" >> smartystreets_python_sdk/__init__.py
+	@echo "__version__=\"$(shell git describe)\"" >> "$(VERSION_FILE)"
 	python setup.py sdist
+	@git checkout "$(VERSION_FILE)"
 
 test-publish: package
 	twine upload --repository-url "https://test.pypi.org/legacy/" dist/*
