@@ -3,7 +3,7 @@
 SOURCE_VERSION := 3.3
 VERSION_FILE = smartystreets_python_sdk/__init__.py
 
-test:
+tests:
 	python -m unittest discover -p *_test.py
 
 dependencies:
@@ -34,7 +34,7 @@ version:
 ####################################################################3
 
 container-test:
-	docker-compose run sdk make test
+	docker-compose run sdk make tests
 container-package:
 	docker-compose run sdk make package
 container-test-publish: version
