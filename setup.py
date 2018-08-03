@@ -4,11 +4,16 @@ from distutils.core import setup
 if hasattr(os, 'link'):
     del os.link
 
+package_version='0.0.0'
+version_filename = os.path.join(os.path.dirname(__file__), "smartystreets_python_sdk/version.txt")
+with open(version_filename, 'r') as version_file:
+    package_version=version_file.read().replace('\n', '')
+
 setup(
     name='smartystreets_python_sdk',
     packages=['smartystreets_python_sdk', 'smartystreets_python_sdk.us_street', 'smartystreets_python_sdk.us_zipcode',
               'smartystreets_python_sdk.us_extract', 'smartystreets_python_sdk.us_autocomplete', 'smartystreets_python_sdk.international_street'],
-    version='0.0.0',
+    version=package_version,
     description='An official library to help Python developers easily access the SmartyStreets APIs',
     long_description='Official Python library for SmartyStreets',
     author='SmartyStreets SDK Team',
