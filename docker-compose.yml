@@ -1,0 +1,11 @@
+version: '3.7'
+services:
+  sdk:
+    build: .
+    volumes: 
+      - .:/code
+    environment:
+      - SMARTY_AUTH_ID
+      - SMARTY_AUTH_TOKEN
+      - TWINE_USERNAME
+      - TWINE_PASSWORD
