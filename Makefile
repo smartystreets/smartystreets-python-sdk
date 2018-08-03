@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-SOURCE_VERSION := 3.2
+SOURCE_VERSION := 3.3
 VERSION_FILE = smartystreets_python_sdk/__init__.py
 
 test:
