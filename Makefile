@@ -20,13 +20,13 @@ package: clean
 test-publish: package
 	twine upload --repository-url "https://test.pypi.org/legacy/" dist/*
 
-publish: package
+publish: test-publish package
 	twine upload dist/*
 
 ##########################################################
 
 workspace:
-	docker-compose run sdk
+	docker-compose run sdk /bin/sh
 
 release:
 	docker-compose run sdk make publish && tagit -p && git push origin --tags
