@@ -1,9 +1,9 @@
 .cache/v/cache
-.idea
 *.pyc
 .coverage
 htmlcov
-MANIFEST
 *.gz
 *.py-r
+/.idea
 /dist/
+/MANIFEST
