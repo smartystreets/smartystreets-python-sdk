@@ -12,7 +12,7 @@ test:
 dependencies:
 	pip install -r requirements.txt
 
-package: clean
+package: clean dependencies test
 	@echo "__version__=\"$(shell tagit -p --dry-run)\"" >> "$(VERSION_FILE)"
 	python setup.py sdist
 	@git checkout "$(VERSION_FILE)"
