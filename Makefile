@@ -19,8 +19,8 @@ package: clean dependencies test
 		&& git checkout "$(VERSION_FILE)"
 
 publish: package
-	twine upload --repository-url "https://test.pypi.org/legacy/" dist/*
-	twine upload dist/*
+	python setup.py sdist upload -r pypi
+	python setup.py sdist upload -r pypitest
 
 ##########################################################
 
