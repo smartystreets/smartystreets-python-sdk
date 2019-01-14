@@ -22,12 +22,7 @@ publish: package
 	python setup.py sdist upload -r pypi
 	python setup.py sdist upload -r pypitest
 
-##########################################################
+release: publish
+	tagit -p && git push origin --tags
 
-workspace:
-	docker-compose run sdk /bin/sh
-
-release:
-	docker-compose run sdk make publish && tagit -p && git push origin --tags
-
-.PHONY: clean test dependencies package publish workspace release
+.PHONY: clean test dependencies package publish release
