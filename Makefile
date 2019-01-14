@@ -18,17 +18,11 @@ package: clean dependencies test
 		&& python setup.py sdist \
 		&& git checkout "$(VERSION_FILE)"
 
-publish-test: clean dependencies test
-	echo "__version__=\"$(VERSION)\"" >> "$(VERSION_FILE)" \
-		&& python setup.py sdist upload -r pypitest \
-		&& git checkout "$(VERSION_FILE)"
+publish: package
+	twine upload --repository-url "https://test.pypi.org/legacy/" dist/*
+	twine upload dist/*
 
-publish-prod: publish-test
-	echo "__version__=\"$(VERSION)\"" >> "$(VERSION_FILE)" \
-		&& python setup.py sdist upload -r pypi \
-		&& git checkout "$(VERSION_FILE)"
-
-release: publish-prod
+release: publish
 	tagit -p && git push origin --tags
 
 .PHONY: clean test dependencies package publish release
