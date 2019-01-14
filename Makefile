@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 
 VERSION      := $(shell tagit -p --dry-run)
-VERSION_FILE := smartystreets_python_sdk/__init__.py
+VERSION_FILE := smartystreets_python_sdk_version/__init__.py
 
 clean:
 	rm -rf dist/ MANIFEST
