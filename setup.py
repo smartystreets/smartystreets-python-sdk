@@ -10,6 +10,7 @@ setup(
     name='smartystreets_python_sdk',
     packages=[
         'smartystreets_python_sdk',
+        'smartystreets_python_sdk_version',
         'smartystreets_python_sdk.us_street',
         'smartystreets_python_sdk.us_zipcode',
         'smartystreets_python_sdk.us_extract',
