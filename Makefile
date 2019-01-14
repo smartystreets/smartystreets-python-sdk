@@ -18,11 +18,17 @@ package: clean dependencies test
 		&& python setup.py sdist \
 		&& git checkout "$(VERSION_FILE)"
 
-publish: package
-	python setup.py sdist upload -r pypi
-	python setup.py sdist upload -r pypitest
+publish-test: clean dependencies test
+	echo "__version__=\"$(VERSION)\"" >> "$(VERSION_FILE)" \
+		&& python setup.py sdist upload -r pypitest \
+		&& git checkout "$(VERSION_FILE)"
 
-release: publish
+publish-prod: publish-test
+	echo "__version__=\"$(VERSION)\"" >> "$(VERSION_FILE)" \
+		&& python setup.py sdist upload -r pypi \
+		&& git checkout "$(VERSION_FILE)"
+
+release: publish-prod
 	tagit -p && git push origin --tags
 
 .PHONY: clean test dependencies package publish release
