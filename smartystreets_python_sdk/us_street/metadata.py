@@ -19,3 +19,4 @@ class Metadata:
         self.time_zone = obj.get('time_zone', None)
         self.utc_offset = obj.get('utc_offset', None)
         self.obeys_dst = obj.get('dst', None)
+        self.is_ews_match = obj.get('ews_match', None)

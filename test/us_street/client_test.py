@@ -1,5 +1,6 @@
 import unittest
-from smartystreets_python_sdk import Response, exceptions, Batch
+
+from smartystreets_python_sdk import Response, exceptions, Batch, native_serializer
 from smartystreets_python_sdk.us_street import Client, Lookup, Candidate, match_type
 from test.mocks import RequestCapturingSender, FakeSerializer, FakeDeserializer, MockSender, MockExceptionSender
 
@@ -98,3 +99,122 @@ class TestClient(unittest.TestCase):
         client = Client(MockExceptionSender(exception), FakeSerializer(None))
 
         self.assertRaises(exception, client.send_lookup, Lookup())
+
+    def test_full_json_response_deserialization(self):
+        body = """{
+                "input_id": "blah",
+                "input_index": 0,
+                "candidate_index": 4242,
+                "addressee": "John Smith",
+                "delivery_line_1": "3214 N University Ave # 409",
+                "delivery_line_2": "blah blah",
+                "last_line": "Provo UT 84604-4405",
+                "delivery_point_barcode": "846044405140",
+                "components": {
+                    "primary_number": "3214",
+                    "street_predirection": "N",
+                    "street_postdirection": "Q",
+                    "street_name": "University",
+                    "street_suffix": "Ave",
+                    "secondary_number": "409",
+                    "secondary_designator": "#",
+                    "extra_secondary_number": "410",
+                    "extra_secondary_designator": "Apt",
+                    "pmb_number": "411",
+                    "pmb_designator": "Box",
+                    "city_name": "Provo",
+                    "default_city_name": "Provo",
+                    "state_abbreviation": "UT",
+                    "zipcode": "84604",
+                    "plus4_code": "4405",
+                    "delivery_point": "14",
+                    "delivery_point_check_digit": "0",
+                    "urbanization": "urbanization"
+                },
+                "metadata": {
+                    "record_type": "S",
+                    "zip_type": "Standard",
+                    "county_fips": "49049",
+                    "county_name": "Utah",
+                    "carrier_route": "C016",
+                    "congressional_district": "03",
+                    "building_default_indicator": "hi",
+                    "rdi": "Commercial",
+                    "elot_sequence": "0016",
+                    "elot_sort": "A",
+                    "latitude": 40.27658,
+                    "longitude": -111.65759,
+                    "precision": "Zip9",
+                    "time_zone": "Mountain",
+                    "utc_offset": -7,
+                    "dst": true,
+                    "ews_match": true
+                },
+                "analysis": {
+                    "dpv_match_code": "S",
+                    "dpv_footnotes": "AACCRR",
+                    "dpv_cmra": "Y",
+                    "dpv_vacant": "N",
+                    "active": "Y",
+                    "footnotes": "footnotes",
+                    "lacslink_code": "lacslink_code",
+                    "lacslink_indicator": "lacslink_indicator",
+                    "suitelink_match": true
+                }
+            }"""
+
+        object = native_serializer.NativeSerializer().deserialize(body)
+        actual_candidate = Candidate(object)
+        self.assertEqual(actual_candidate.input_index, 0)
+        self.assertEqual(actual_candidate.candidate_index, 4242)
+        self.assertEqual(actual_candidate.addressee, "John Smith")
+        self.assertEqual(actual_candidate.delivery_line_1, "3214 N University Ave # 409")
+        self.assertEqual(actual_candidate.delivery_line_2, "blah blah")
+        self.assertEqual(actual_candidate.last_line, "Provo UT 84604-4405")
+        self.assertEqual(actual_candidate.delivery_point_barcode, "846044405140")
+        self.assertEqual(actual_candidate.components.primary_number, "3214")
+        self.assertEqual(actual_candidate.components.street_predirection, "N")
+        self.assertEqual(actual_candidate.components.street_name, "University")
+        self.assertEqual(actual_candidate.components.street_postdirection, "Q")
+        self.assertEqual(actual_candidate.components.street_suffix, "Ave")
+        self.assertEqual(actual_candidate.components.secondary_number, "409")
+        self.assertEqual(actual_candidate.components.secondary_designator, "#")
+        self.assertEqual(actual_candidate.components.extra_secondary_number, "410")
+        self.assertEqual(actual_candidate.components.extra_secondary_designator, "Apt")
+        self.assertEqual(actual_candidate.components.pmb_number, "411")
+        self.assertEqual(actual_candidate.components.pmb_designator, "Box")
+        self.assertEqual(actual_candidate.components.city_name, "Provo")
+        self.assertEqual(actual_candidate.components.default_city_name, "Provo")
+        self.assertEqual(actual_candidate.components.state_abbreviation, "UT")
+        self.assertEqual(actual_candidate.components.zipcode, "84604")
+        self.assertEqual(actual_candidate.components.plus4_code, "4405")
+        self.assertEqual(actual_candidate.components.delivery_point, "14")
+        self.assertEqual(actual_candidate.components.delivery_point_check_digit, "0")
+        self.assertEqual(actual_candidate.components.urbanization, "urbanization")
+        self.assertEqual(actual_candidate.metadata.record_type, "S")
+        self.assertEqual(actual_candidate.metadata.zip_type, "Standard")
+        self.assertEqual(actual_candidate.metadata.county_fips, "49049")
+        self.assertEqual(actual_candidate.metadata.county_name, "Utah")
+        self.assertEqual(actual_candidate.metadata.carrier_route, "C016")
+        self.assertEqual(actual_candidate.metadata.congressional_district, "03")
+        self.assertEqual(actual_candidate.metadata.building_default_indicator, "hi")
+        self.assertEqual(actual_candidate.metadata.rdi, "Commercial")
+        self.assertEqual(actual_candidate.metadata.elot_sequence, "0016")
+        self.assertEqual(actual_candidate.metadata.elot_sort, "A")
+        self.assertEqual(actual_candidate.metadata.latitude, 40.27658)
+        self.assertEqual(actual_candidate.metadata.longitude, -111.65759)
+        self.assertEqual(actual_candidate.metadata.precision, "Zip9")
+        self.assertEqual(actual_candidate.metadata.time_zone, "Mountain")
+        self.assertEqual(actual_candidate.metadata.utc_offset, -7)
+        self.assertEqual(actual_candidate.metadata.obeys_dst, True)
+        self.assertEqual(actual_candidate.metadata.is_ews_match, True)
+        self.assertEqual(actual_candidate.analysis.dpv_match_code, "S")
+        self.assertEqual(actual_candidate.analysis.dpv_footnotes, "AACCRR")
+        self.assertEqual(actual_candidate.analysis.cmra, "Y")
+        self.assertEqual(actual_candidate.analysis.vacant, "N")
+        self.assertEqual(actual_candidate.analysis.active, "Y")
+        self.assertEqual(actual_candidate.analysis.footnotes, "footnotes")
+        self.assertEqual(actual_candidate.analysis.lacs_link_code, "lacslink_code")
+        self.assertEqual(actual_candidate.analysis.lacs_link_indicator, "lacslink_indicator")
+        self.assertEqual(actual_candidate.analysis.is_suite_link_match, True)
+        self.assertEqual(actual_candidate.analysis.is_ews_match, False)
