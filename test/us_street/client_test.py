@@ -217,4 +217,3 @@ class TestClient(unittest.TestCase):
         self.assertEqual(actual_candidate.analysis.lacs_link_code, "lacslink_code")
         self.assertEqual(actual_candidate.analysis.lacs_link_indicator, "lacslink_indicator")
         self.assertEqual(actual_candidate.analysis.is_suite_link_match, True)
-        self.assertEqual(actual_candidate.analysis.is_ews_match, False)
