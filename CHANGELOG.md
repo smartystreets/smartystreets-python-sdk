@@ -10,6 +10,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Nothing yet
 
+
+## [4.1.0] - 2019-02-25
+
+### Changed:
+
+- Introduced the `ews_field` to the `metadata` section of the US Street API response.
+- Deprecated the `ews_field` on `analysis` section of US Street API response. (The `ews_match` field has never been part of the analysis section.)
+
+
 ## [4.0.1] - 2019-01-14
 
 ### Changed:
