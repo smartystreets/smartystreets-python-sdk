@@ -21,6 +21,7 @@ def run():
     lookup.street = "1600 Amphitheatre Pkwy"
     lookup.city = "Mountain View"
     lookup.state = "CA"
+    lookup.match = "Invalid"
 
     try:
         client.send_lookup(lookup)
