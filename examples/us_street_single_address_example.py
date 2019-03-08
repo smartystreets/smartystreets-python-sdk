@@ -1,4 +1,3 @@
-import os
 from smartystreets_python_sdk import StaticCredentials, exceptions, ClientBuilder
 from smartystreets_python_sdk.us_street import Lookup
 
@@ -17,10 +16,20 @@ def run():
     # client = ClientBuilder(credentials).with_proxy('localhost:8080', 'user', 'password').build_us_street_api_client()
     # Uncomment the line above to try it with a proxy instead
 
+    # For a complete list of input fields, refer to:
+    # https://smartystreets.com/docs/us-street-api#input-fields
+
     lookup = Lookup()
+    lookup.input_id = "24601"
+    lookup.addressee = "John Doe"
     lookup.street = "1600 Amphitheatre Pkwy"
+    lookup.street2 = "closet under the stairs"
+    lookup.secondary = "APT 2"
+    lookup.urbanization = ""  # Only applies to Puerto Rico addresses
     lookup.city = "Mountain View"
     lookup.state = "CA"
+    lookup.zipcode = "01234"
+    lookup.candidates = 3
     lookup.match = "Invalid"
 
     try:

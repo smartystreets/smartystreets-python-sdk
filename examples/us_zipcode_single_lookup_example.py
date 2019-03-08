@@ -1,5 +1,3 @@
-import os
-
 from smartystreets_python_sdk import StaticCredentials, exceptions, ClientBuilder
 from smartystreets_python_sdk.us_zipcode import Lookup
 
@@ -17,8 +15,10 @@ def run():
     client = ClientBuilder(credentials).build_us_zipcode_api_client()
 
     lookup = Lookup()
+    lookup.input_id = "dfc33cb6 - 829e-4fea-aa1b-b6d6580f0817"  # Optional ID from your system
     lookup.city = "Mountain View"
     lookup.state = "California"
+    lookup.zipcode = "01234"
 
     try:
         client.send_lookup(lookup)

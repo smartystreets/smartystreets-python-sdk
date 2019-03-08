@@ -15,7 +15,18 @@ def run():
     credentials = StaticCredentials(auth_id, auth_token)
 
     client = ClientBuilder(credentials).build_us_autocomplete_api_client()
-    lookup = Lookup('4770 Lincoln Ave O')
+
+    # For complete list of lookup fields, refer to:
+    # https://smartystreets.com/docs/cloud/us-autocomplete-api#http-request-input-fields
+
+    lookup = Lookup()
+    lookup.prefix = "4770 Lincoln Ave 0"
+    lookup.max_suggestions = 10
+    lookup.city_filter = ("Geneva", "Florence", "Bethlehem", "Athens")
+    lookup.state_filter = ("Alabama", "Florida", "Georgia")
+    lookup.prefer = ("Geneva, AL", "Bethlehem, FL")
+    lookup.geolocate_type = "null"
+    lookup.prefer_ratio = .333333
 
     client.send(lookup)
 

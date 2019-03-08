@@ -1,5 +1,3 @@
-import os
-
 from smartystreets_python_sdk import StaticCredentials, exceptions, Batch, ClientBuilder
 from smartystreets_python_sdk.us_zipcode import Lookup
 
@@ -17,7 +15,11 @@ def run():
     client = ClientBuilder(credentials).build_us_zipcode_api_client()
     batch = Batch()
 
+    # For complete list of input fields, refer to:
+    # https://smartystreets.com/docs/us-street-api#input-fields
+
     batch.add(Lookup())
+    batch[0].input_id = "011889998819991197253"
     batch[0].zipcode = "12345"  # A Lookup may have a ZIP Code, city and state, or city, state, and ZIP Code
 
     batch.add(Lookup())
@@ -42,7 +44,7 @@ def run():
             print("Status: " + result.status)
             print("Reason: " + result.reason)
             continue
-        
+
         cities = result.cities
         print("{} City and State match(es):".format(len(cities)))
 
