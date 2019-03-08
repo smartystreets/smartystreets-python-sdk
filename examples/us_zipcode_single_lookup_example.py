@@ -16,9 +16,14 @@ def run():
 
     client = ClientBuilder(credentials).build_us_zipcode_api_client()
 
+    # Documentation for input fields can be found at:
+    # https://smartystreet.com/docs/us-zipcode-api#input-fields
+
     lookup = Lookup()
+    lookup.input_id = "dfc33cb6-829e-4fea-aa1b-b6d6580f0817"  # Optional ID from your system
     lookup.city = "Mountain View"
     lookup.state = "California"
+    lookup.zipcode = "94043"
 
     try:
         client.send_lookup(lookup)
