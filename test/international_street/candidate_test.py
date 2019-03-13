@@ -25,7 +25,24 @@ class TestCandidate(unittest.TestCase):
                 "\"sub_building_name\":\"47\",\"sub_building\":\"48\",\"post_box\":\"49\",\"post_box_type\":\"50\","\
                 "\"post_box_number\":\"51\"},\"metadata\":{\"latitude\":52.0,\"longitude\":53.0,"\
                 "\"geocode_precision\":\"54\",\"max_geocode_precision\":\"55\",\"address_format\":\"56\"},"\
-                "\"analysis\":{\"verification_status\":\"57\",\"address_precision\":\"58\",\"max_address_precision\":\"59\"}}]"
+                "\"analysis\":{\"verification_status\":\"57\",\"address_precision\":\"58\","\
+                "\"max_address_precision\":\"59\",\"changes\":{\"organization\":\"60\","\
+                "\"address1\":\"61\",\"address2\":\"62\",\"address3\":\"63\",\"address4\":\"64\",\"address5\":\"65\","\
+                "\"address6\":\"66\",\"address7\":\"67\",\"address8\":\"68\",\"address9\":\"69\",\"address10\":\"70\","\
+                "\"address11\":\"71\",\"address12\":\"72\",\"components\":{\"super_administrative_area\":\"73\","\
+                "\"administrative_area\":\"74\",\"sub_administrative_area\":\"75\",\"building\":\"76\","\
+                "\"dependent_locality\":\"77\",\"dependent_locality_name\":\"78\",\"double_dependent_locality\":\"79\","\
+                "\"country_iso_3\":\"80\",\"locality\":\"81\",\"postal_code\":\"82\",\"postal_code_short\":\"83\","\
+                "\"postal_code_extra\":\"84\",\"premise\":\"85\",\"premise_extra\":\"86\",\"premise_number\":\"87\","\
+                "\"premise_type\":\"88\",\"premise_prefix_number\":\"89\",\"thoroughfare\":\"90\","\
+                "\"thoroughfare_predirection\":\"91\",\"thoroughfare_postdirection\":\"92\","\
+                "\"thoroughfare_name\":\"93\",\"thoroughfare_trailing_type\":\"94\",\"thoroughfare_type\":\"95\","\
+                "\"dependent_thoroughfare\":\"96\",\"dependent_thoroughfare_predirection\":\"97\","\
+                "\"dependent_thoroughfare_postdirection\":\"98\",\"dependent_thoroughfare_name\":\"99\","\
+                "\"dependent_thoroughfare_trailing_type\":\"100\",\"dependent_thoroughfare_type\":\"101\","\
+                "\"building_leading_type\":\"102\",\"building_name\":\"103\",\"building_trailing_type\":\"104\","\
+                "\"sub_building_type\":\"105\",\"sub_building_number\":\"106\",\"sub_building_name\":\"107\","\
+                "\"sub_building\":\"108\",\"post_box\":\"109\",\"post_box_type\":\"110\",\"post_box_number\":\"111\"}}}}]"
 
         serializer = NativeSerializer()
         candidate = Candidate(serializer.deserialize(response_payload)[0])
@@ -99,3 +116,61 @@ class TestCandidate(unittest.TestCase):
         self.assertEqual("57", analysis.verification_status)
         self.assertEqual("58", analysis.address_precision)
         self.assertEqual("59", analysis.max_address_precision)
+
+        changes = analysis.changes
+        self.assertIsNotNone(changes)
+        self.assertEqual("60", changes.organization)
+        self.assertEqual("61", changes.address1)
+        self.assertEqual("62", changes.address2)
+        self.assertEqual("63", changes.address3)
+        self.assertEqual("64", changes.address4)
+        self.assertEqual("65", changes.address5)
+        self.assertEqual("66", changes.address6)
+        self.assertEqual("67", changes.address7)
+        self.assertEqual("68", changes.address8)
+        self.assertEqual("69", changes.address9)
+        self.assertEqual("70", changes.address10)
+        self.assertEqual("71", changes.address11)
+        self.assertEqual("72", changes.address12)
+
+        components = changes.components
+        self.assertIsNotNone(components)
+        self.assertEqual("73", components.super_administrative_area)
+        self.assertEqual("74", components.administrative_area)
+        self.assertEqual("75", components.sub_administrative_area)
+        self.assertEqual("76", components.building)
+        self.assertEqual("77", components.dependent_locality)
+        self.assertEqual("78", components.dependent_locality_name)
+        self.assertEqual("79", components.double_dependent_locality)
+        self.assertEqual("80", components.country_iso_3)
+        self.assertEqual("81", components.locality)
+        self.assertEqual("82", components.postal_code)
+        self.assertEqual("83", components.postal_code_short)
+        self.assertEqual("84", components.postal_code_extra)
+        self.assertEqual("85", components.premise)
+        self.assertEqual("86", components.premise_extra)
+        self.assertEqual("87", components.premise_number)
+        self.assertEqual("88", components.premise_type)
+        self.assertEqual("89", components.premise_prefix_number)
+        self.assertEqual("90", components.thoroughfare)
+        self.assertEqual("91", components.thoroughfare_predirection)
+        self.assertEqual("92", components.thoroughfare_postdirection)
+        self.assertEqual("93", components.thoroughfare_name)
+        self.assertEqual("94", components.thoroughfare_trailing_type)
+        self.assertEqual("95", components.thoroughfare_type)
+        self.assertEqual("96", components.dependent_thoroughfare)
+        self.assertEqual("97", components.dependent_thoroughfare_predirection)
+        self.assertEqual("98", components.dependent_thoroughfare_postdirection)
+        self.assertEqual("99", components.dependent_thoroughfare_name)
+        self.assertEqual("100", components.dependent_thoroughfare_trailing_type)
+        self.assertEqual("101", components.dependent_thoroughfare_type)
+        self.assertEqual("102", components.building_leading_type)
+        self.assertEqual("103", components.building_name)
+        self.assertEqual("104", components.building_trailing_type)
+        self.assertEqual("105", components.sub_building_type)
+        self.assertEqual("106", components.sub_building_number)
+        self.assertEqual("107", components.sub_building_name)
+        self.assertEqual("108", components.sub_building)
+        self.assertEqual("109", components.post_box)
+        self.assertEqual("110", components.post_box_type)
+        self.assertEqual("111", components.post_box_number)
