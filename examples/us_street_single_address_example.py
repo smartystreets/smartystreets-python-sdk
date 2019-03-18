@@ -30,7 +30,7 @@ def run():
     lookup.urbanization = ""  # Only applies to Puerto Rico addresses
     lookup.city = "Mountain View"
     lookup.state = "CA"
-    lookup.zipcode = "01234"
+    lookup.zipcode = "94043"
     lookup.candidates = 3
     lookup.match = "Invalid"  # "invalid" is the most permissive match
 
