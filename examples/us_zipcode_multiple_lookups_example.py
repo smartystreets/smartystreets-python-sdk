@@ -17,7 +17,11 @@ def run():
     client = ClientBuilder(credentials).build_us_zipcode_api_client()
     batch = Batch()
 
+    # Documentation for input fields can be found at:
+    # https://smartystreets.com/docs/us-zipcode-api#input-fields
+
     batch.add(Lookup())
+    batch[0].input_id = "011889998819991197253"  # Optional ID from your system
     batch[0].zipcode = "12345"  # A Lookup may have a ZIP Code, city and state, or city, state, and ZIP Code
 
     batch.add(Lookup())
@@ -42,7 +46,7 @@ def run():
             print("Status: " + result.status)
             print("Reason: " + result.reason)
             continue
-        
+
         cities = result.cities
         print("{} City and State match(es):".format(len(cities)))
 

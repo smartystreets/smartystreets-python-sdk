@@ -1,5 +1,6 @@
 import os
-from smartystreets_python_sdk import StaticCredentials, exceptions, ClientBuilder
+
+from smartystreets_python_sdk import StaticCredentials, ClientBuilder
 from smartystreets_python_sdk.us_extract import Lookup
 
 
@@ -19,7 +20,14 @@ def run():
            "\r\nLos Vegas, Nevada." \
            "\r\nMeet me at 1 Rosedale Baltimore Maryland, not at 123 Phony Street, Boise Idaho."
 
-    lookup = Lookup(text)
+    # Documentation for input fields can be found at:
+    # https://smartystreets.com/docs/cloud/us-extract-api#http-request-input-fields
+
+    lookup = Lookup()
+    lookup.text = text
+    lookup.aggressive = True
+    lookup.addresses_have_line_breaks = False
+    lookup.addresses_per_line = 1
 
     result = client.send(lookup)
 
