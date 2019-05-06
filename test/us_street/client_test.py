@@ -165,6 +165,7 @@ class TestClient(unittest.TestCase):
 
         object = native_serializer.NativeSerializer().deserialize(body)
         actual_candidate = Candidate(object)
+        self.assertEqual(actual_candidate.input_id, "blah")
         self.assertEqual(actual_candidate.input_index, 0)
         self.assertEqual(actual_candidate.candidate_index, 4242)
         self.assertEqual(actual_candidate.addressee, "John Smith")

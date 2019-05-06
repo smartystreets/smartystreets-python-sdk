@@ -12,6 +12,7 @@ class Candidate:
 
         See "https://smartystreets.com/docs/cloud/us-street-api#root"
         """
+        self.input_id = obj.get('input_id', None)
         self.input_index = obj.get('input_index', None)
         self.candidate_index = obj.get('candidate_index', None)
         self.addressee = obj.get('addressee', None)
