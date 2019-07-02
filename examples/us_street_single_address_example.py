@@ -5,10 +5,8 @@ from smartystreets_python_sdk.us_street import Lookup
 
 
 def run():
-    auth_id = "877de2dd-7202-4eba-e2c6-e50ad2a8edc6"
-    auth_token = "tmtYTRS6kc4LxHyyyOUL"
-    # auth_id = "Your SmartyStreets Auth ID here"
-    # auth_token = "Your SmartyStreets Auth Token here"
+    auth_id = "Your SmartyStreets Auth ID here"
+    auth_token = "Your SmartyStreets Auth Token here"
 
     # We recommend storing your secret keys in environment variables instead---it's safer!
     # auth_id = os.environ['SMARTY_AUTH_ID']
