@@ -21,6 +21,7 @@ class ClientBuilder:
         self.url_prefix = None
         self.proxy = None
         self.debug = None
+        self.header = None
         self.INTERNATIONAL_STREET_API_URL = "https://international-street.api.smartystreets.com/verify"
         self.US_AUTOCOMPLETE_API_URL = "https://us-autocomplete.api.smartystreets.com/suggest"
         self.US_EXTRACT_API_URL = "https://us-extract.api.smartystreets.com"
@@ -85,6 +86,15 @@ class ClientBuilder:
         self.proxy = smarty.Proxy(host, username, password)
         return self
 
+    def with_custom_header(self, custom_header):
+        """
+        Create custom headers when necessary.
+        :param custom_header: Input your custom headers
+        :return: Returns self to accommodate method chaining
+        """
+        self.header = custom_header
+        return self
+
     def with_debug(self):
         """
         Enables debug mode, which will print information about the HTTP request and response to the console.
@@ -122,6 +132,9 @@ class ClientBuilder:
         sender.debug = self.debug
 
         sender = smarty.StatusCodeSender(sender)
+
+        if self.header is not None:
+            sender = smarty.CustomHeaderSender(self.header, sender)
 
         if self.signer is not None:
             sender = smarty.SigningSender(self.signer, sender)
