@@ -15,6 +15,7 @@ def run():
     credentials = StaticCredentials(auth_id, auth_token)
 
     client = ClientBuilder(credentials).build_us_street_api_client()
+    # client = ClientBuilder(credentials).with_custom_header({'User-Agent': 'smartystreets (python@0.0.0)', 'Content-Type': 'application/json'}).build_us_street_api_client()
     # client = ClientBuilder(credentials).with_proxy('localhost:8080', 'user', 'password').build_us_street_api_client()
     # Uncomment the line above to try it with a proxy instead
 
