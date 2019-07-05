@@ -1,24 +1,41 @@
-from smartystreets_python_sdk.custom_header_sender import CustomHeaderSender
 import smartystreets_python_sdk as smarty
 import unittest
-from mock import patch
 
-
-def mocked_session_send(request, **kwargs):
-    class MockResponse:
-        def __init__(self, payload, status_code):
-            self.text = payload
-            self.status_code = status_code
-
-        def json(self):
-            return self.text
-
-    if request.url == 'http://localhost/error':
-        mockresponse = MockResponse("Error test", 400)
-    else:
-        mockresponse = MockResponse("This is the test payload.", 200)
-
-    return mockresponse
 
 class TestCustomHeaderSender(unittest.TestCase):
-    sender = smarty.
+
+    def test_populates_headers(self):
+        sender = smarty.RequestsSender()
+        header = {'Test-User-Agent': 'Test-Agent', 'Test-Content-Type': 'Test-Content-Type'}
+        sender = smarty.CustomHeaderSender(header, sender)
+
+        self.assertEqual(sender.headers['Test-User-Agent'], 'Test-Agent')
+        self.assertEqual(sender.headers['Test-Content-Type'], 'Test-Content-Type')
+
+    def test_custom_headers_set(self):
+        sender = smarty.RequestsSender
+        header = {'Test-User-Agent': 'Test-Agent', 'Test-Content-Type': 'Test-Type'}
+        sender = smarty.CustomHeaderSender(header, sender)
+        smartyrequest = smarty.Request()
+        smartyrequest.url_prefix = "http://localhost"
+        smartyrequest.payload = "This is the test content."
+
+        request = sender.build_request(smartyrequest)
+
+        self.assertEqual('Test-Agent', request.headers['Test-User-Agent'])
+        self.assertEqual('Test-Type', request.headers['Test-Content-Type'])
+
+    def test_custom_headers_used(self):
+        sender = smarty.RequestsSender()
+        header = {'User-Agent': 'Test-Agent', 'Content-Type': 'Test-Type'}
+        sender = smarty.CustomHeaderSender(header, sender)
+        smartyrequest = smarty.Request()
+        smartyrequest.url_prefix = "http://localhost"
+        smartyrequest.payload = "This is the test content."
+
+        request = sender.build_request(smartyrequest)
+
+        request = smarty.requests_sender.build_request(request)
+
+        self.assertEqual('Test-Agent', request.headers['User-Agent'])
+        self.assertEqual('Test-Type', request.headers['Content-Type'])
