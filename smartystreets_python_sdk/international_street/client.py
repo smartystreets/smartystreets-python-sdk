@@ -29,6 +29,7 @@ class Client:
     def build_request(self, lookup):
         request = Request()
 
+        self.add_parameter(request, 'input_id', lookup.input_id)
         self.add_parameter(request, 'country', lookup.country)
         self.add_parameter(request, 'geocode', str(lookup.geocode).lower())
         self.add_parameter(request, 'language', lookup.language)

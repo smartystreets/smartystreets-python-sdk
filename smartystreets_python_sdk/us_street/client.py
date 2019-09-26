@@ -57,6 +57,7 @@ def remap_keys(obj):
     for lookup in obj:
         converted_lookup = {}
 
+        add_field(converted_lookup, 'input_id', lookup.input_id)
         add_field(converted_lookup, 'street', lookup.street)
         add_field(converted_lookup, 'street2', lookup.street2)
         add_field(converted_lookup, 'secondary', lookup.secondary)
