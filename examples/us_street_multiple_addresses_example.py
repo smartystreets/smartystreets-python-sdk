@@ -28,8 +28,10 @@ def run():
     batch[0].secondary = "APT 2"
     batch[0].urbanization = ""  # Only applies to Puerto Rico addresses
     batch[0].lastline = "Mountain view, california"
-    batch[0].match = "invalid"  # "invalid" is the most permissive match
     batch[0].candidates = 5
+    batch[0].match = "invalid"  # "invalid" is the most permissive match,
+                                # this will always return at least one result even if the address is invalid.
+                                # Refer to the documentation for additional Match Strategy options.
 
     batch.add(Lookup("1 Rosedale, Baltimore, Maryland"))  # Freeform addresses work too.
     batch[1].candidates = 10  # Allows up to ten possible matches to be returned (default is 1).
