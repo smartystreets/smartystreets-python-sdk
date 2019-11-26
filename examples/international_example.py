@@ -19,7 +19,7 @@ def run():
     # https://smartystreets.com/docs/cloud/international-street-api#http-input-fields
 
     lookup = Lookup()
-    lookup.inputId = "ID-8675309"
+    lookup.input_id = "ID-8675309"
     lookup.geocode = True  # Must be expressly set to get latitude and longitude.
     lookup.organization = "John Doe"
     lookup.address1 = "Rua Padre Antonio D'Angelo 121"

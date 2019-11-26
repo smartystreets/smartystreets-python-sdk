@@ -19,7 +19,7 @@ class Lookup:
         """
         self.result = []
 
-        self.inputId = None
+        self.input_id = None
         self.country = country
         self.geocode = None
         self.language = None
