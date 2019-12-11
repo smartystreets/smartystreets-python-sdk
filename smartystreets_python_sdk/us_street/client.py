@@ -49,6 +49,8 @@ class Client:
 def assign_candidates_to_lookups(batch, candidates):
     for raw_candidate in candidates:
         candidate = Candidate(raw_candidate)
+        if not batch[candidate.input_index].result:
+             batch[candidate.input_index].result = []
         batch[candidate.input_index].result.append(candidate)
 
 
