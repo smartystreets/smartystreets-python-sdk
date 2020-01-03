@@ -1,7 +1,7 @@
 import os
 
 from smartystreets_python_sdk import StaticCredentials, exceptions, Batch, ClientBuilder
-from smartystreets_python_sdk.us_zipcode import Lookup
+from smartystreets_python_sdk.us_zipcode import Lookup as ZIPCodeLookup
 
 
 def run():
@@ -20,15 +20,15 @@ def run():
     # Documentation for input fields can be found at:
     # https://smartystreets.com/docs/us-zipcode-api#input-fields
 
-    batch.add(Lookup())
+    batch.add(ZIPCodeLookup())
     batch[0].input_id = "011889998819991197253"  # Optional ID from your system
     batch[0].zipcode = "12345"  # A Lookup may have a ZIP Code, city and state, or city, state, and ZIP Code
 
-    batch.add(Lookup())
+    batch.add(ZIPCodeLookup())
     batch[1].city = "Phoenix"
     batch[1].state = "Arizona"
 
-    batch.add(Lookup("cupertino", "CA", "95014"))  # You can also set these with arguments
+    batch.add(ZIPCodeLookup("cupertino", "CA", "95014"))  # You can also set these with arguments
 
     assert len(batch) == 3
 

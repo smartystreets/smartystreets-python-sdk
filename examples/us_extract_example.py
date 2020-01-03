@@ -1,7 +1,7 @@
 import os
 
 from smartystreets_python_sdk import StaticCredentials, ClientBuilder
-from smartystreets_python_sdk.us_extract import Lookup
+from smartystreets_python_sdk.us_extract import Lookup as ExtractLookup
 
 
 def run():
@@ -23,7 +23,7 @@ def run():
     # Documentation for input fields can be found at:
     # https://smartystreets.com/docs/cloud/us-extract-api#http-request-input-fields
 
-    lookup = Lookup()
+    lookup = ExtractLookup()
     lookup.text = text
     lookup.aggressive = True
     lookup.addresses_have_line_breaks = False

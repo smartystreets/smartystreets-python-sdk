@@ -1,7 +1,7 @@
 import os
 
 from smartystreets_python_sdk import StaticCredentials, ClientBuilder
-from smartystreets_python_sdk.us_autocomplete import Lookup, geolocation_type
+from smartystreets_python_sdk.us_autocomplete import Lookup as AutocompleteLookup, geolocation_type
 
 
 def run():
@@ -15,7 +15,7 @@ def run():
     credentials = StaticCredentials(auth_id, auth_token)
 
     client = ClientBuilder(credentials).build_us_autocomplete_api_client()
-    lookup = Lookup('4770 Lincoln Ave O')
+    lookup = AutocompleteLookup('4770 Lincoln Ave O')
 
     client.send(lookup)
 

@@ -1,7 +1,7 @@
 import os
 
 from smartystreets_python_sdk import StaticCredentials, ClientBuilder
-from smartystreets_python_sdk.international_street import Lookup
+from smartystreets_python_sdk.international_street import Lookup as InternationalLookup
 
 
 def run():
@@ -18,7 +18,7 @@ def run():
     # Documentation for input fields can be found at:
     # https://smartystreets.com/docs/cloud/international-street-api#http-input-fields
 
-    lookup = Lookup()
+    lookup = InternationalLookup()
     lookup.input_id = "ID-8675309"
     lookup.geocode = True  # Must be expressly set to get latitude and longitude.
     lookup.organization = "John Doe"

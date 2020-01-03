@@ -1,7 +1,7 @@
 import os
 
 from smartystreets_python_sdk import StaticCredentials, exceptions, ClientBuilder
-from smartystreets_python_sdk.us_street import Lookup
+from smartystreets_python_sdk.us_street import Lookup as StreetLookup
 
 
 def run():
@@ -22,7 +22,7 @@ def run():
     # Documentation for input fields can be found at:
     # https://smartystreets.com/docs/us-street-api#input-fields
 
-    lookup = Lookup()
+    lookup = StreetLookup()
     lookup.input_id = "24601"  # Optional ID from your system
     lookup.addressee = "John Doe"
     lookup.street = "1600 Amphitheatre Pkwy"

@@ -1,7 +1,7 @@
 import os
 
 from smartystreets_python_sdk import StaticCredentials, exceptions, Batch, ClientBuilder
-from smartystreets_python_sdk.us_street import Lookup
+from smartystreets_python_sdk.us_street import Lookup as StreetLookup
 
 
 def run():
@@ -20,7 +20,7 @@ def run():
     # Documentation for input fields can be found at:
     # https://smartystreets.com/docs/us-street-api#input-fields
 
-    batch.add(Lookup())
+    batch.add(StreetLookup())
     batch[0].input_id = "24601"  # Optional ID from your system
     batch[0].addressee = "John Doe"
     batch[0].street = "1600 amphitheatre parkway"
@@ -33,12 +33,12 @@ def run():
                                 # this will always return at least one result even if the address is invalid.
                                 # Refer to the documentation for additional Match Strategy options.
 
-    batch.add(Lookup("1 Rosedale, Baltimore, Maryland"))  # Freeform addresses work too.
+    batch.add(StreetLookup("1 Rosedale, Baltimore, Maryland"))  # Freeform addresses work too.
     batch[1].candidates = 10  # Allows up to ten possible matches to be returned (default is 1).
 
-    batch.add(Lookup("123 Bogus Street, Pretend Lake, Oklahoma"))
+    batch.add(StreetLookup("123 Bogus Street, Pretend Lake, Oklahoma"))
 
-    batch.add(Lookup())
+    batch.add(StreetLookup())
     batch[3].input_id = "8675309"
     batch[3].street = "1 Infinite Loop"
     batch[3].zipcode = "95014"  # You can just input the street and ZIP if you want.
