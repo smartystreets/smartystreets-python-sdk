@@ -40,9 +40,7 @@ class Client:
         if response.error:
             raise response.error
 
-        candidates = self.serializer.deserialize(response.payload)
-        if candidates is None:
-            candidates = []
+        candidates = self.serializer.deserialize(response.payload) or []
         assign_candidates_to_lookups(batch, candidates)
 
 

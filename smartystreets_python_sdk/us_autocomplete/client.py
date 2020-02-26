@@ -26,7 +26,7 @@ class Client:
             raise response.error
 
         result = self.serializer.deserialize(response.payload)
-        suggestions = self.convert_suggestions(result.get('suggestions', []))
+        suggestions = self.convert_suggestions(result.get('suggestions') or [])
         lookup.result = suggestions
 
         return suggestions
