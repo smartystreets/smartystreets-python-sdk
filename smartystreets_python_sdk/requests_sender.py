@@ -18,8 +18,11 @@ class RequestsSender:
         if self.debug:
             print_request_data(prepped_request)
 
+        settings = self.session.merge_environment_settings(
+            prepped_request.url, prepped_proxies, None, None, None
+        )
         try:
-            response = self.session.send(prepped_request, timeout=self.max_timeout, proxies=prepped_proxies)
+            response = self.session.send(prepped_request, timeout=self.max_timeout, **settings)
         except Exception as e:
             return Response(None, None, e)
 
@@ -30,7 +33,7 @@ class RequestsSender:
 
     def build_proxies(self):
         if not self.proxy:
-            return None
+            return {}
         if not self.proxy.host:
             raise smarty.exceptions.SmartyException('Proxy must have a valid host (including port)')
 
