@@ -13,7 +13,8 @@ def run():
     # auth_token = os.environ['SMARTY_AUTH_TOKEN']
 
     credentials = StaticCredentials(auth_id, auth_token)
-    client = ClientBuilder(credentials).build_international_street_api_client()
+    client = ClientBuilder(credentials).with_licenses(['international-select-plus-gbr-cloud'])\
+        .build_international_street_api_client()
 
     # Documentation for input fields can be found at:
     # https://smartystreets.com/docs/cloud/international-street-api#http-input-fields
