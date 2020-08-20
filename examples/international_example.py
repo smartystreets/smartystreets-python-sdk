@@ -13,7 +13,7 @@ def run():
     # auth_token = os.environ['SMARTY_AUTH_TOKEN']
 
     credentials = StaticCredentials(auth_id, auth_token)
-    client = ClientBuilder(credentials).with_licenses(['international-select-plus-gbr-cloud'])\
+    client = ClientBuilder(credentials).with_licenses(['international-fake'])\
         .build_international_street_api_client()
 
     # Documentation for input fields can be found at:
