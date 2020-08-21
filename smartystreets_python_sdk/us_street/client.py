@@ -14,8 +14,6 @@ class Client:
         """
         Sends a Lookup object to the US Street API and stores the result in the Lookup's result field.
         """
-        if not lookup.street:
-            return
         batch = Batch()
         batch.add(lookup)
         self.send_batch(batch)
