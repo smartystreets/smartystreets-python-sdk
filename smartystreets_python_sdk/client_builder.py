@@ -22,6 +22,7 @@ class ClientBuilder:
         self.proxy = None
         self.debug = None
         self.header = None
+        self.licenses = []
         self.INTERNATIONAL_STREET_API_URL = "https://international-street.api.smartystreets.com/verify"
         self.US_AUTOCOMPLETE_API_URL = "https://us-autocomplete.api.smartystreets.com/suggest"
         self.US_EXTRACT_API_URL = "https://us-extract.api.smartystreets.com"
@@ -104,6 +105,15 @@ class ClientBuilder:
         self.debug = True
         return self
 
+    def with_licenses(self, licenses):
+        """
+        Allows the caller to specify the subscription license (aka "track") they wish to use.
+        :param licenses: Input licenses
+        :return: Returns self to accommodate method chaining
+        """
+        self.licenses.extend(licenses)
+        return self
+
     def build_international_street_api_client(self):
         self.ensure_url_prefix_not_null(self.INTERNATIONAL_STREET_API_URL)
         return InternationalStreetClient(self.build_sender(), self.serializer)
@@ -143,6 +153,8 @@ class ClientBuilder:
             sender = smarty.RetrySender(self.max_retries, sender)
 
         sender = smarty.URLPrefixSender(self.url_prefix, sender)
+
+        sender = smarty.LicenseSender(self.licenses, sender)
 
         return sender
 
