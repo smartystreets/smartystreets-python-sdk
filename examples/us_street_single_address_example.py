@@ -33,7 +33,7 @@ def run():
     lookup.state = "CA"
     lookup.zipcode = "94043"
     lookup.candidates = 3
-    lookup.match = "Invalid"  # "invalid" is the most permissive match,
+    lookup.match = "invalid"  # "invalid" is the most permissive match,
                               # this will always return at least one result even if the address is invalid.
                               # Refer to the documentation for additional Match Strategy options.
 
