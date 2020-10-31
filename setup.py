@@ -16,6 +16,7 @@ setup(
         'smartystreets_python_sdk.us_extract',
         'smartystreets_python_sdk.us_autocomplete',
         'smartystreets_python_sdk.international_street',
+        'smartystreets_python_sdk.us_reverse_geo',
     ],
     version=__version__,
     description='An official library to help Python developers easily access the SmartyStreets APIs',
