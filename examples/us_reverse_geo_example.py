@@ -34,6 +34,7 @@ def run():
     print("City: {}".format(address.city))
     print("State Abbreviation: {}".format(address.state_abbreviation))
     print("ZIP Code: {}".format(address.zipcode))
+    print("License: {}".format(coordinate.get_license()))
 
 
 if __name__ == "__main__":
