@@ -36,5 +36,5 @@ class Client:
 
     @staticmethod
     def add_parameter(request, key, value):
-        if value and value is not 'none':
+        if value and value != 'none':
             request.parameters[key] = value
