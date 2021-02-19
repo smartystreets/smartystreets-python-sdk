@@ -156,6 +156,7 @@ class TestClient(unittest.TestCase):
                     "dpv_cmra": "Y",
                     "dpv_vacant": "N",
                     "active": "Y",
+                    "dpv_no_stat": "N",
                     "footnotes": "footnotes",
                     "lacslink_code": "lacslink_code",
                     "lacslink_indicator": "lacslink_indicator",
@@ -214,6 +215,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual(actual_candidate.analysis.cmra, "Y")
         self.assertEqual(actual_candidate.analysis.vacant, "N")
         self.assertEqual(actual_candidate.analysis.active, "Y")
+        self.assertEqual(actual_candidate.analysis.dpv_no_stat, "N")
         self.assertEqual(actual_candidate.analysis.footnotes, "footnotes")
         self.assertEqual(actual_candidate.analysis.lacs_link_code, "lacslink_code")
         self.assertEqual(actual_candidate.analysis.lacs_link_indicator, "lacslink_indicator")

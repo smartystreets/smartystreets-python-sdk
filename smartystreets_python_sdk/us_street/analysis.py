@@ -8,6 +8,7 @@ class Analysis:
         self.cmra = obj.get('dpv_cmra', None)
         self.vacant = obj.get('dpv_vacant', None)
         self.active = obj.get('active', None)
+        self.dpv_no_stat = obj.get('dpv_no_stat', None)
         self.is_ews_match = obj.get('ews_match', DeprecationWarning)
         self.footnotes = obj.get('footnotes', None)
         self.lacs_link_code = obj.get('lacslink_code', None)
