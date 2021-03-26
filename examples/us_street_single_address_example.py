@@ -56,6 +56,10 @@ def run():
     print("County: " + first_candidate.metadata.county_name)
     print("Latitude: {}".format(first_candidate.metadata.latitude))
     print("Longitude: {}".format(first_candidate.metadata.longitude))
+    # print("Precision: {}".format(first_candidate.metadata.precision))    
+    # print("Residential: {}".format(first_candidate.metadata.rdi))
+    # print("Vacant: {}".format(first_candidate.analysis.dpv_vacant))
+    # Complete list of output fields is available here:  https://smartystreets.com/docs/cloud/us-street-api#http-response-output
 
 
 if __name__ == "__main__":
