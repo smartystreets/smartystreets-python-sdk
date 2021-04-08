@@ -14,7 +14,7 @@ def run():
 
     credentials = StaticCredentials(auth_id, auth_token)
 
-    client = ClientBuilder(credentials).with_licenses(['us-rooftop-geo-cloud']).build_us_street_api_client()
+    client = ClientBuilder(credentials).with_licenses(['us-rooftop-geocoding-cloud']).build_us_street_api_client()
     batch = Batch()
 
     # Documentation for input fields can be found at:
