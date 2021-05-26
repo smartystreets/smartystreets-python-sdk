@@ -13,7 +13,7 @@ class TestLicenseSender(unittest.TestCase):
 
         sender.send(request)
 
-        self.assertEqual('one,two,three', request.parameters['license'])
+        self.assertEqual('one,two,three', request.parameters['licenses'])
 
     def test_license_not_set(self):
         sender = smarty.RequestsSender()
