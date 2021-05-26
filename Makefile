@@ -11,7 +11,7 @@ test:
 	python -m unittest discover -p *_test.py
 
 dependencies:
-	pip install -r requirements.txt
+	python3 -m pip install -r requirements.txt
 
 package: clean dependencies test
 	echo "__version__=\"$(VERSION)\"" >> "$(VERSION_FILE)" \
