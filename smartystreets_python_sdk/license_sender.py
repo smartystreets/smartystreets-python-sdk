@@ -5,5 +5,5 @@ class LicenseSender:
 
     def send(self, request):
         if len(self.licenses) > 0:
-            request.parameters["licenses"] = ','.join(self.licenses)
+            request.parameters["license"] = ','.join([str(x) for x in self.licenses])
         return self.inner.send(request)

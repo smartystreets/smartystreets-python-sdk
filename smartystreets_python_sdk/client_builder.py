@@ -115,7 +115,7 @@ class ClientBuilder:
         :param licenses: Input licenses
         :return: Returns self to accommodate method chaining
         """
-        self.licenses.extend(licenses)
+        self.licenses = licenses
         return self
 
     def build_international_street_api_client(self):

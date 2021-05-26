@@ -17,7 +17,7 @@ def run():
     # The appropriate license values to be used for your subscriptions
     # can be found on the Subscriptions page of the account dashboard.
     # https://www.smartystreets.com/docs/cloud/licensing
-    client = ClientBuilder(credentials).with_licenses("us-reverse-geocoding-cloud").build_us_reverse_geo_api_client()
+    client = ClientBuilder(credentials).with_licenses(["us-reverse-geocoding-cloud"]).build_us_reverse_geo_api_client()
 
     # Documentation for input fields can be found at:
     # https://smartystreets.com/docs/cloud/us-reverse-geo-api#http-input-fields

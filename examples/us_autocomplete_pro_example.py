@@ -17,7 +17,7 @@ def run():
     # The appropriate license values to be used for your subscriptions
     # can be found on the Subscriptions page of the account dashboard.
     # https://www.smartystreets.com/docs/cloud/licensing
-    client = ClientBuilder(credentials).with_licenses("us-autocomplete-pro-cloud").build_us_autocomplete_pro_api_client()
+    client = ClientBuilder(credentials).with_licenses(["us-autocomplete-pro-cloud"]).build_us_autocomplete_pro_api_client()
     lookup = AutocompleteProLookup('4770 Lincoln Ave O')
 
     client.send(lookup)
