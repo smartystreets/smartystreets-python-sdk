@@ -160,7 +160,9 @@ class TestClient(unittest.TestCase):
                     "footnotes": "footnotes",
                     "lacslink_code": "lacslink_code",
                     "lacslink_indicator": "lacslink_indicator",
-                    "suitelink_match": true
+                    "suitelink_match": true,
+                    "match_mode": "match_mode",
+                    "match_details": "match_details"
                 }
             }"""
 
@@ -220,3 +222,5 @@ class TestClient(unittest.TestCase):
         self.assertEqual(actual_candidate.analysis.lacs_link_code, "lacslink_code")
         self.assertEqual(actual_candidate.analysis.lacs_link_indicator, "lacslink_indicator")
         self.assertEqual(actual_candidate.analysis.is_suite_link_match, True)
+        self.assertEqual(actual_candidate.analysis.match_mode, "match_mode")
+        self.assertEqual(actual_candidate.analysis.match_details, "match_details")
