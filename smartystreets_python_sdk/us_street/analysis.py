@@ -14,5 +14,4 @@ class Analysis:
         self.lacs_link_code = obj.get('lacslink_code', None)
         self.lacs_link_indicator = obj.get('lacslink_indicator', None)
         self.is_suite_link_match = obj.get('suitelink_match', None)
-        self.match_mode = obj.get('match_mode', None)
-        self.match_details = obj.get('match_details', None)
+        self.enhanced_match = obj.get('enhanced_match', None)
