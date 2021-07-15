@@ -7,7 +7,7 @@ class Lookup:
         
         See "https://smartystreets.com/docs/cloud/us-street-api#input-fields"
         
-        :param match: Must be set to 'strict', 'range', or 'invalid'. Constants for these are in match_type.py
+        :param match: Must be set to 'strict', 'enhanced', or 'invalid'. Constants for these are in match_type.py
         """
         self.result = []
         self.input_id = input_id

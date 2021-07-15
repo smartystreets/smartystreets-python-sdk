@@ -1,5 +1,7 @@
 STRICT = 'strict'
 
-RANGE = 'range'
+RANGE = 'range'  # Deprecated
 
 INVALID = 'invalid'
+
+ENHANCED = 'enhanced'
