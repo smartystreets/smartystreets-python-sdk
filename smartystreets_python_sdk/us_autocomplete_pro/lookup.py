@@ -4,7 +4,7 @@ from smartystreets_python_sdk.us_autocomplete_pro import geolocation_type
 class Lookup:
     def __init__(self, search=None, max_results=None, city_filter=None, state_filter=None, zip_filter=None,
                  exclude=None, prefer_cities=None, prefer_states=None, prefer_zips=None, prefer_ratio=None,
-                 prefer_geo=None, selected=None):
+                 prefer_geo=None, selected=None, source=None):
 
         """
         In addition to holding all of the input data for this lookup, this class also will contain the result 
@@ -46,6 +46,7 @@ class Lookup:
         self.prefer_ratio = prefer_ratio
         self.prefer_geo = prefer_geo
         self.selected = selected
+        self.source = source
 
     def add_city_filter(self, city):
         self.city_filter.append(city)

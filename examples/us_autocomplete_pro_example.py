@@ -37,6 +37,7 @@ def run():
     lookup.max_results = 5
     lookup.prefer_geo = geolocation_type.NONE
     lookup.prefer_ratio = 100
+    lookup.source = 'all'
 
     suggestions = client.send(lookup)  # The client will also return the suggestions directly
 

@@ -46,6 +46,7 @@ class Client:
         self.add_parameter(request, 'prefer_ratio', lookup.prefer_ratio)
         self.add_parameter(request, 'prefer_geolocation', lookup.prefer_geo)
         self.add_parameter(request, 'selected', lookup.selected)
+        self.add_parameter(request, 'source', lookup.source)
 
         return request
 
