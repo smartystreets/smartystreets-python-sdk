@@ -6,6 +6,7 @@ from smartystreets_python_sdk.us_autocomplete import Client as USAutocompleteCli
 from smartystreets_python_sdk.us_autocomplete_pro import Client as USAutocompleteProClient
 from smartystreets_python_sdk.us_reverse_geo import Client as USReverseGeoClient
 from smartystreets_python_sdk.international_street import Client as InternationalStreetClient
+from smartystreets_python_sdk.international_autocomplete import Client as InternationalAutocompleteClient
 
 
 class ClientBuilder:
@@ -26,6 +27,7 @@ class ClientBuilder:
         self.header = None
         self.licenses = []
         self.INTERNATIONAL_STREET_API_URL = "https://international-street.api.smartystreets.com/verify"
+        self.INTERNATIONAL_AUTOCOMPLETE_API_URL = "https://international-autocomplete.api.smartystreets.com/lookup"
         self.US_AUTOCOMPLETE_API_URL = "https://us-autocomplete.api.smartystreets.com/suggest"
         self.US_AUTOCOMPLETE_PRO_API_URL = "https://us-autocomplete-pro.api.smartystreets.com/lookup"
         self.US_EXTRACT_API_URL = "https://us-extract.api.smartystreets.com"
@@ -121,6 +123,10 @@ class ClientBuilder:
     def build_international_street_api_client(self):
         self.ensure_url_prefix_not_null(self.INTERNATIONAL_STREET_API_URL)
         return InternationalStreetClient(self.build_sender(), self.serializer)
+
+    def build_international_autocomplete_api_client(self):
+        self.ensure_url_prefix_not_null(self.INTERNATIONAL_AUTOCOMPLETE_API_URL)
+        return InternationalAutocompleteClient(self.build_sender(), self.serializer)
 
     def build_us_autocomplete_api_client(self):
         self.ensure_url_prefix_not_null(self.US_AUTOCOMPLETE_API_URL)
