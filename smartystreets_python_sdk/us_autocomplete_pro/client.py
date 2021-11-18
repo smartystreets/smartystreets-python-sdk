@@ -52,7 +52,7 @@ class Client:
 
     @staticmethod
     def build_filter_string(filter_list):
-        return ','.join(filter_list or []) or None
+        return ';'.join(filter_list or []) or None
 
     @staticmethod
     def convert_suggestions(suggestion_dictionaries):
