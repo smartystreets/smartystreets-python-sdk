@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 
 from smartystreets_python_sdk import StaticCredentials, exceptions, ClientBuilder
