@@ -1,6 +1,6 @@
 import os
 
-from smartystreets_python_sdk import SharedCredentials, ClientBuilder
+from smartystreets_python_sdk import SharedCredentials, StaticCredentials, ClientBuilder
 from smartystreets_python_sdk.us_autocomplete_pro import Lookup as AutocompleteProLookup, geolocation_type
 
 
@@ -13,6 +13,10 @@ def run():
     hostname = os.environ['SMARTY_WEBSITE_DOMAIN']
 
     credentials = SharedCredentials(key, hostname)
+
+    # auth_id = os.environ['SMARTY_AUTH_ID']
+    # token = os.environ['SMARTY_AUTH_TOKEN']
+    # credentials = StaticCredentials(auth_id, token)
 
     # The appropriate license values to be used for your subscriptions
     # can be found on the Subscriptions page of the account dashboard.
