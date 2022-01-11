@@ -55,6 +55,11 @@ def remap_keys(obj):
     for lookup in obj:
         converted_lookup = {}
 
+        if lookup.match == 'enhanced' and lookup.candidates == 1:
+            add_field(converted_lookup, 'candidates', 5)
+        else:
+            add_field(converted_lookup, 'candidates', lookup.candidates)
+
         add_field(converted_lookup, 'input_id', lookup.input_id)
         add_field(converted_lookup, 'street', lookup.street)
         add_field(converted_lookup, 'street2', lookup.street2)
@@ -66,7 +71,6 @@ def remap_keys(obj):
         add_field(converted_lookup, 'addressee', lookup.addressee)
         add_field(converted_lookup, 'urbanization', lookup.urbanization)
         add_field(converted_lookup, 'match', lookup.match)
-        add_field(converted_lookup, 'candidates', lookup.candidates)
 
         converted_obj.append(converted_lookup)
 

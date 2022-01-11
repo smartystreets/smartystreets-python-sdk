@@ -18,7 +18,7 @@ class TestClient(unittest.TestCase):
         lookup = Lookup()
 
         lookup.street = '0'
-        lookup.street2 = '1'
+        lookup.street2 = '1.1'
         lookup.secondary = '2'
         lookup.city = '3'
         lookup.state = '4'
@@ -26,13 +26,13 @@ class TestClient(unittest.TestCase):
         lookup.lastline = '6'
         lookup.addressee = '7'
         lookup.urbanization = '8'
-        lookup.match = match_type.INVALID
-        lookup.candidates = '9'
+        lookup.match = match_type.ENHANCED
+        lookup.candidates = 1
 
         client.send_lookup(lookup)
 
         self.assertEqual('0', sender.request.parameters['street'])
-        self.assertEqual('1', sender.request.parameters['street2'])
+        self.assertEqual('1.1', sender.request.parameters['street2'])
         self.assertEqual('2', sender.request.parameters['secondary'])
         self.assertEqual('3', sender.request.parameters['city'])
         self.assertEqual('4', sender.request.parameters['state'])
@@ -40,8 +40,8 @@ class TestClient(unittest.TestCase):
         self.assertEqual('6', sender.request.parameters['lastline'])
         self.assertEqual('7', sender.request.parameters['addressee'])
         self.assertEqual('8', sender.request.parameters['urbanization'])
-        self.assertEqual(match_type.INVALID, sender.request.parameters['match'])
-        self.assertEqual('9', sender.request.parameters['candidates'])
+        self.assertEqual(match_type.ENHANCED, sender.request.parameters['match'])
+        self.assertEqual(5, sender.request.parameters['candidates'])
 
     def test_empty_batch_not_sent(self):
         sender = RequestCapturingSender()
