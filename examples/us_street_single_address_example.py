@@ -55,7 +55,9 @@ def run():
 
     first_candidate = result[0]
 
-    print("Address is valid. (There is at least one candidate)\n")
+    print("There is at least one candidate.")
+    print("If the match parameter is set to STRICT, the address is valid.")
+    print("Otherwise, check the Analysis output fields to see if the address is valid.\n")
     print("ZIP Code: " + first_candidate.components.zipcode)
     print("County: " + first_candidate.metadata.county_name)
     print("Latitude: {}".format(first_candidate.metadata.latitude))

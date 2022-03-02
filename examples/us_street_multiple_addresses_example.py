@@ -62,7 +62,9 @@ def run():
             print("Address {} is invalid.\n".format(i))
             continue
 
-        print("Address {} is valid. (There is at least one candidate)".format(i))
+        print("Address {} has at least one candidate.".format(i))
+        print("If the match parameter is set to STRICT, the address is valid.")
+        print("Otherwise, check the Analysis output fields to see if the address is valid.\n")
 
         for candidate in candidates:
             components = candidate.components
