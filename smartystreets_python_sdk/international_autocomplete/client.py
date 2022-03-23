@@ -1,6 +1,6 @@
 from smartystreets_python_sdk import Request
 from smartystreets_python_sdk.exceptions import SmartyException
-from smartystreets_python_sdk.international_autocomplete import Suggestion
+from smartystreets_python_sdk.international_autocomplete import Candidate
 
 
 class Client:
@@ -26,10 +26,10 @@ class Client:
             raise response.error
 
         result = self.serializer.deserialize(response.payload)
-        suggestions = self.convert_suggestions(result or [])
-        lookup.result = suggestions
+        candidates = self.convert_candidates(result.get('candidates') or [])
+        lookup.result = candidates
 
-        return suggestions
+        return candidates
 
     def build_request(self, lookup):
         request = Request()
@@ -43,8 +43,8 @@ class Client:
         return request
 
     @staticmethod
-    def convert_suggestions(suggestion_dictionaries):
-        return [Suggestion(suggestion) for suggestion in suggestion_dictionaries]
+    def convert_candidates(candidate_dictionaries):
+        return [Candidate(candidate) for candidate in candidate_dictionaries]
 
     @staticmethod
     def add_parameter(request, key, value):

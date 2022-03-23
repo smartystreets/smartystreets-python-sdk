@@ -1,4 +1,4 @@
-class Suggestion:
+class Candidate:
     def __init__(self, obj=None):
         self.street = obj.get('street', None)
         self.locality = obj.get('locality', None)

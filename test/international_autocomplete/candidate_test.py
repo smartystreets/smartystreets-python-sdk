@@ -1,13 +1,13 @@
 import unittest
 
-from smartystreets_python_sdk.international_autocomplete import Suggestion
+from smartystreets_python_sdk.international_autocomplete import Candidate
 
 
 class TestSuggestion(unittest.TestCase):
     def test_all_fields_get_filled_in_correctly(self):
         response_dictionary = {"street": "1", "locality": "2", "administrative_area": "3", "postal_code": "4", "country_iso3": "5"}
 
-        suggestion = Suggestion(response_dictionary)
+        suggestion = Candidate(response_dictionary)
 
         self.assertIsNotNone(suggestion)
         self.assertEqual('1', suggestion.street)

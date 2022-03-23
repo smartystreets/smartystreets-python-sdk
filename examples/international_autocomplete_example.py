@@ -17,8 +17,10 @@ def run():
     # The appropriate license values to be used for your subscriptions
     # can be found on the Subscriptions page of the account dashboard.
     # https://www.smartystreets.com/docs/cloud/licensing
-    client = ClientBuilder(credentials).with_licenses(["international-autocomplete-cloud"]).build_international_autocomplete_api_client()
+    client = ClientBuilder(credentials).with_licenses(["international-autocomplete-cloud"])\
+        .build_international_autocomplete_api_client()
     lookup = InternationalAutocompleteLookup('Louis')
+    lookup.country = "FRA"
 
     client.send(lookup)
 
@@ -30,7 +32,6 @@ def run():
     # Documentation for input fields can be found at:
     # https://smartystreets.com/docs/us-autocomplete-api#http-request-input-fields
 
-    lookup.country = "FRA"
     lookup.locality = "Paris"
 
     suggestions = client.send(lookup)  # The client will also return the suggestions directly

@@ -46,7 +46,7 @@ class TestClient(unittest.TestCase):
 
     def test_result_correctly_assigned_to_corresponding_lookup(self):
         lookup = Lookup('1')
-        expected_result = [{"street": "2"}]
+        expected_result = {"candidates": [{"street": "2"}]}
 
         sender = MockSender(Response('{[]}', 0))
         deserializer = FakeDeserializer(expected_result)
