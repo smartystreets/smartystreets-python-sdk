@@ -15,7 +15,7 @@ dependencies:
 
 package: clean dependencies test
 	echo "__version__=\"$(VERSION)\"" >> "$(VERSION_FILE)" \
-		&& python setup.py sdist \
+		&& python3 setup.py sdist \
 		&& git checkout "$(VERSION_FILE)"
 
 publish: package
