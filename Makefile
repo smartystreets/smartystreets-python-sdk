@@ -8,7 +8,7 @@ clean:
 	git checkout "$(VERSION_FILE)"
 
 test:
-	python -m unittest discover -p *_test.py
+	python3 -m unittest discover -p *_test.py
 
 dependencies:
 	python3 -m pip install -r requirements.txt
