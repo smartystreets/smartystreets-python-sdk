@@ -45,9 +45,18 @@ class TestRetrySender(unittest.TestCase):
     def test_backoff_does_not_exceed_max(self, mocked):
         inner = FailingSender([401, 402, 400, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 200])
 
-        response = send_with_retry(20, inner)
+        send_with_retry(20, inner)
 
         self.assertEqual([0,1,2,3,4,5,6,7,8,9,10,10,10], TestRetrySender.sleep_durations)
+
+    @patch('smartystreets_python_sdk.retry_sender.backoff', side_effect=mock_backoff)
+    def test_sleep_on_rate_limit(self, mocked):
+        inner = FailingSender([429, 200])
+
+        send_with_retry(1, inner)
+
+        self.assertEqual([5], TestRetrySender.sleep_durations)
+
 
 
 def send_with_retry(retries, inner):

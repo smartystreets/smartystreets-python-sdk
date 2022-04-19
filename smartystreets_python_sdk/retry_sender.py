@@ -6,6 +6,7 @@ import sys
 class RetrySender:
     MAX_BACKOFF_DURATION = 10
     STATUS_OK = 200
+    TOO_MANY_REQUESTS = 429
 
     def __init__(self, max_retries, inner):
         self.inner = inner
@@ -18,7 +19,10 @@ class RetrySender:
             if response.status_code == RetrySender.STATUS_OK:
                 break
 
-            backoff(i)
+            if response.status_code == RetrySender.TOO_MANY_REQUESTS:
+                backoff(5)
+            else:
+                backoff(i)
 
             response = self.inner.send(request)
 
