@@ -6,7 +6,7 @@ class Lookup:
 
         See https://smartystreets.com/docs/cloud/us-reverse-geo-api#http-input-fields
         """
-        self.response = None
+        self.results = []
 
         self.latitude = round(latitude, 8)
         self.longitude = round(longitude, 8)

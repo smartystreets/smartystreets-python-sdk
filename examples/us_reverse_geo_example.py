@@ -25,20 +25,21 @@ def run():
     lookup = Lookup(40.111111, -111.111111)
 
     results = client.send(lookup)
-    result = results[0]
 
-    coordinate = result.coordinate
-    print("Latitude: {}".format(coordinate.latitude))
-    print("Longitude: {}".format(coordinate.longitude))
+    for result in results:
+        coordinate = result.coordinate
+        print("Latitude: {}".format(coordinate.latitude))
+        print("Longitude: {}".format(coordinate.longitude))
 
-    print("Distance: {}".format(result.distance))
+        print("Distance: {}".format(result.distance))
 
-    address = result.address
-    print("Street: {}".format(address.street))
-    print("City: {}".format(address.city))
-    print("State Abbreviation: {}".format(address.state_abbreviation))
-    print("ZIP Code: {}".format(address.zipcode))
-    print("License: {}".format(coordinate.get_license()))
+        address = result.address
+        print("Street: {}".format(address.street))
+        print("City: {}".format(address.city))
+        print("State Abbreviation: {}".format(address.state_abbreviation))
+        print("ZIP Code: {}".format(address.zipcode))
+        print("License: {}".format(coordinate.get_license()))
+        print()
 
 
 if __name__ == "__main__":
