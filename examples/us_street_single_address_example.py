@@ -18,7 +18,7 @@ def run():
     # The appropriate license values to be used for you subscriptions
     # can be found on the Subscriptions page of the account dashboard.
     # https://www.smartystreets.com/docs/cloud/licensing
-    client = ClientBuilder(credentials).with_licenses(["us-standard-cloud"]).build_us_street_api_client()
+    client = ClientBuilder(credentials).with_licenses(["us-core-cloud"]).build_us_street_api_client()
     # client = ClientBuilder(credentials).with_custom_header({'User-Agent': 'smartystreets (python@0.0.0)', 'Content-Type': 'application/json'}).build_us_street_api_client()
     # client = ClientBuilder(credentials).with_proxy('localhost:8080', 'user', 'password').build_us_street_api_client()
     # Uncomment the line above to try it with a proxy instead
