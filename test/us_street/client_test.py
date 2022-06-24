@@ -144,6 +144,7 @@ class TestClient(unittest.TestCase):
                     "elot_sort": "A",
                     "latitude": 40.27658,
                     "longitude": -111.65759,
+                    "coordinate_license": 1, 
                     "precision": "Zip9",
                     "time_zone": "Mountain",
                     "utc_offset": -7,
@@ -206,6 +207,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual(actual_candidate.metadata.elot_sort, "A")
         self.assertEqual(actual_candidate.metadata.latitude, 40.27658)
         self.assertEqual(actual_candidate.metadata.longitude, -111.65759)
+        self.assertEqual(actual_candidate.metadata.coordinate_license, 1)
         self.assertEqual(actual_candidate.metadata.precision, "Zip9")
         self.assertEqual(actual_candidate.metadata.time_zone, "Mountain")
         self.assertEqual(actual_candidate.metadata.utc_offset, -7)

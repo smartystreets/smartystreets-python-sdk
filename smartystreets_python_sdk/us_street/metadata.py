@@ -15,6 +15,7 @@ class Metadata:
         self.elot_sort = obj.get('elot_sort', None)
         self.latitude = obj.get('latitude', None)
         self.longitude = obj.get('longitude', None)
+        self.coordinate_license = obj.get('coordinate_license', None)
         self.precision = obj.get('precision', None)
         self.time_zone = obj.get('time_zone', None)
         self.utc_offset = obj.get('utc_offset', None)
