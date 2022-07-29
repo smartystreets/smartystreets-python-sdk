@@ -41,6 +41,9 @@ jobs:
         
     - name: Publish
       run: twine upload --repository-url "https://test.pypi.org/legacy/" dist/*
+      with:
+        username: smartystreets
+        password: ${{ secrets.PYPI_PASSWORD }}
 
     - name: Publish twine
       run: twine upload dist/*
