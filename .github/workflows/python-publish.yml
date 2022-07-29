@@ -59,4 +59,4 @@ jobs:
       uses: pypa/gh-action-pypi-publish@master
       with:
         user: __token__
-        password: ${{ environment.PYPI_API_TOKEN }}
+        password: ${{ environments.PYPI_API_TOKEN }}
