@@ -42,12 +42,6 @@ jobs:
     - name: Check out
       run: git checkout "smartystreets_python_sdk_version/__init__.py"
 #
-#    - name: Publish
-#      run: twine upload --repository-url "https://test.pypi.org/legacy/" dist/*
-#      with:
-#        username: smartystreets
-#        password: ${{ secrets.PYPI_PASSWORD }}
-#
 #    - name: Publish twine
 #      run: twine upload dist/* -u smartystreets -p ${{ secrets.PYPI_PASSWORD }}
 
