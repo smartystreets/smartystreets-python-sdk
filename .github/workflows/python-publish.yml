@@ -36,14 +36,14 @@ jobs:
     - name: Test
       run: python3 -m unittest discover -p *_test.py
 
-    - name: Package
-      run: python3 setup.py sdist
+#    - name: Package
+#      run: python3 setup.py sdist
 
     - name: Set variable
       run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
     - name: Grab Version
-      run: echo "__version__=\"${{ env.RELEASE_VERSION }}\"" >> "smartystreets_python_sdk_version/__init__.py" && git checkout "smartystreets_python_sdk_version/__init__.py"
+      run: echo "__version__=\"${{ env.RELEASE_VERSION }}\"" >> "smartystreets_python_sdk_version/__init__.py" && python3 setup.py sdist && git checkout "smartystreets_python_sdk_version/__init__.py"
 
 #    - name: Check out
 #      run: git checkout "smartystreets_python_sdk_version/__init__.py"
