@@ -47,6 +47,9 @@ jobs:
 #
     - name: Publish twine
       run: twine upload dist/*
+      with:
+        username: smartystreets
+        password: ${{ secrets.PYPI_PASSWORD }}
 
     - name: Release
       run: tagit -p && git push origin --tags
