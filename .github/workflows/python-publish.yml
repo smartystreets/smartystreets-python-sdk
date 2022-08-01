@@ -46,7 +46,7 @@ jobs:
 #        password: ${{ secrets.PYPI_PASSWORD }}
 #
     - name: Publish twine
-      run: twine upload  --skip-existing dist/* -u smartystreets -p ${{ secrets.PYPI_PASSWORD }}
+      run: twine upload dist/* -u smartystreets -p ${{ secrets.PYPI_PASSWORD }}
 
 #    - name: Release
 #      run: tagit -p && git push origin --tags
