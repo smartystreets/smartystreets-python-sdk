@@ -43,16 +43,10 @@ jobs:
       run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
     - name: Grab Version
-      run: echo "__version__=${{ env.RELEASE_VERSION }}" >> smartystreets_python_sdk_version/__init__.py
+      run: echo "__version__=\"${{ env.RELEASE_VERSION }}\"" >> smartystreets_python_sdk_version/__init__.py
 
     - name: Check out
       run: git checkout "smartystreets_python_sdk_version/__init__.py"
-#
-#    - name: Publish twine
-#      run: twine upload dist/* -u smartystreets -p ${{ secrets.PYPI_PASSWORD }}
-
-#    - name: Release
-#      run: tagit -p && git push origin --tags
 
     - name: Build package
       run: python -m build
