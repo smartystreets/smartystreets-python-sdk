@@ -39,8 +39,8 @@ jobs:
     - name: Package
       run: python3 setup.py sdist
 
-#    - name: Grab Version
-#      run: echo "__version__=" >> smartystreets_python_sdk_version/__init__.py && $(shell tagit -p --dry-run) >> smartystreets_python_sdk_version/__init__.py
+    - name: Grab Version
+      run: echo "__version__=" >> smartystreets_python_sdk_version/__init__.py && echo "${GITHUB_REF##*/}" >> smartystreets_python_sdk_version/__init__.py
 
     - name: Check out
       run: git checkout "smartystreets_python_sdk_version/__init__.py"
