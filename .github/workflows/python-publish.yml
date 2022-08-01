@@ -43,7 +43,7 @@ jobs:
       run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
     - name: Grab Version
-      run: echo "__version__=" >> smartystreets_python_sdk_version/__init__.py && "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV >> smartystreets_python_sdk_version/__init__.py
+      run: echo "__version__=${{ env.RELEASE_VERSION }}" >> smartystreets_python_sdk_version/__init__.py
 
     - name: Check out
       run: git checkout "smartystreets_python_sdk_version/__init__.py"
