@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@master
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
@@ -53,10 +53,6 @@ jobs:
 
     - name: Build package
       run: python -m build
-
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
 
     - name: Publish package to PyPI
       if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
