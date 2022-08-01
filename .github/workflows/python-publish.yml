@@ -37,7 +37,7 @@ jobs:
       run: python3 -m unittest discover -p *_test.py
 
     - name: Package
-      run: echo "__version__=\"$(shell tagit -p --dry-run)\"" >> "smartystreets_python_sdk_version/__init__.py" && python3 setup.py sdist && git checkout "smartystreets_python_sdk_version/__init__.py"
+      run: python3 setup.py sdist && git checkout "smartystreets_python_sdk_version/__init__.py"
 #
 #    - name: Publish
 #      run: twine upload --repository-url "https://test.pypi.org/legacy/" dist/*
