@@ -5,12 +5,12 @@ from smartystreets_python_sdk.us_autocomplete_pro import Lookup as AutocompleteP
 
 
 def run():
-    key = "Your SmartyStreets Key here"
-    hostname = "Your Hostname here"
+    # key = "Your SmartyStreets Key here"
+    # hostname = "Your Hostname here"
 
     # We recommend storing your secret keys in environment variables instead---it's safer!
-    # key = os.environ['SMARTY_AUTH_WEB']
-    # hostname = os.environ['SMARTY_WEBSITE_DOMAIN']
+    key = os.environ['SMARTY_AUTH_WEB']
+    hostname = os.environ['SMARTY_WEBSITE_DOMAIN']
 
     credentials = SharedCredentials(key, hostname)
 
