@@ -48,8 +48,8 @@ jobs:
 #    - name: Check out
 #      run: git checkout "smartystreets_python_sdk_version/__init__.py"
 
-    - name: Build package
-      run: python -m build
+#    - name: Build package
+#      run: python -m build
 
     - name: Publish package to PyPI
       if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
