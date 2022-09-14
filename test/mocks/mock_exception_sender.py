@@ -9,4 +9,4 @@ class MockExceptionSender:
         if not self.exception:
             return None
         else:
-            return Response(None, None, self.exception)
+            return Response(None, None, None, self.exception)

@@ -8,6 +8,7 @@ def mocked_session_send(request, **kwargs):
         def __init__(self, payload, status_code):
             self.text = payload
             self.status_code = status_code
+            self.headers = None
 
         def json(self):
             return self.text
