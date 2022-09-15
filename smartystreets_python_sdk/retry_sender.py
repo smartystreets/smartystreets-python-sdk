@@ -20,7 +20,13 @@ class RetrySender:
                 break
 
             if response.status_code == RetrySender.TOO_MANY_REQUESTS:
-                backoff(5)
+                backoff_seconds = 10
+                retry_after = response.getHeader("Retry-After")
+
+                if retry_after is not None:
+                    backoff_seconds = int(retry_after)
+
+                backoff(backoff_seconds, True)
             else:
                 backoff(i)
 
@@ -29,8 +35,11 @@ class RetrySender:
         return response
 
 
-def backoff(attempt):
+def backoff(attempt, ignore_max=False):
+    max_backoff = RetrySender.MAX_BACKOFF_DURATION
+    if ignore_max:
+        max_backoff = attempt
     print("There was an error processing the request. Retrying in {} seconds...".format(
-        min(attempt, RetrySender.MAX_BACKOFF_DURATION)), sys.stderr)
-    sleep(min(attempt, RetrySender.MAX_BACKOFF_DURATION))
+        min(attempt, max_backoff)), file=sys.stderr)
+    sleep(min(attempt, max_backoff))
     return

@@ -4,7 +4,7 @@ from mock import patch
 from .mocks import FailingSender
 
 
-def mock_backoff(attempt):
+def mock_backoff(attempt, ignore_max=False):
     TestRetrySender.sleep_durations.append(min(attempt, 10))
 
 
@@ -55,7 +55,15 @@ class TestRetrySender(unittest.TestCase):
 
         send_with_retry(1, inner)
 
-        self.assertEqual([5], TestRetrySender.sleep_durations)
+        self.assertEqual([10], TestRetrySender.sleep_durations)
+
+    @patch('smartystreets_python_sdk.retry_sender.backoff', side_effect=mock_backoff)
+    def test_sleep_on_rate_limit_error(self, mocked):
+        inner = FailingSender([429, 200], "Big bad")
+
+        response = send_with_retry(1, inner)
+
+        self.assertEqual(response.error, "Big bad")
 
 
 

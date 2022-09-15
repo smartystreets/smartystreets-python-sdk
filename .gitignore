@@ -7,3 +7,5 @@ htmlcov
 /.idea
 /dist/
 /MANIFEST
+/build
+.DS_STORE
