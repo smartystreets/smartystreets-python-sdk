@@ -28,6 +28,7 @@ class Lookup:
         self.address2 = None
         self.address3 = None
         self.address4 = None
+        self.unit = None
         self.organization = None
         self.locality = None
         self.administrative_area = None
