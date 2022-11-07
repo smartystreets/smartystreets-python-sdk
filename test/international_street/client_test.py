@@ -31,7 +31,6 @@ class TestClient(unittest.TestCase):
         lookup.address2 = '3'
         lookup.address3 = '4'
         lookup.address4 = '5'
-        lookup.unit = '5.1'
         lookup.organization = '6'
         lookup.locality = '7'
         lookup.administrative_area = '8'
@@ -47,7 +46,6 @@ class TestClient(unittest.TestCase):
         self.assertEqual('3', sender.request.parameters['address2'])
         self.assertEqual('4', sender.request.parameters['address3'])
         self.assertEqual('5', sender.request.parameters['address4'])
-        self.assertEqual('5.1', sender.request.parameters['unit'])
         self.assertEqual('6', sender.request.parameters['organization'])
         self.assertEqual('7', sender.request.parameters['locality'])
         self.assertEqual('8', sender.request.parameters['administrative_area'])

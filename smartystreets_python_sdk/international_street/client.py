@@ -38,7 +38,6 @@ class Client:
         self.add_parameter(request, 'address2', lookup.address2)
         self.add_parameter(request, 'address3', lookup.address3)
         self.add_parameter(request, 'address4', lookup.address4)
-        self.add_parameter(request, 'unit', lookup.unit)
         self.add_parameter(request, 'organization', lookup.organization)
         self.add_parameter(request, 'locality', lookup.locality)
         self.add_parameter(request, 'administrative_area', lookup.administrative_area)
