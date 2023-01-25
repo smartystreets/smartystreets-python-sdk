@@ -21,19 +21,10 @@ class RequestsSender:
         settings = self.session.merge_environment_settings(
             prepped_request.url, prepped_proxies, None, None, None
         )
-        response = None
-        try:
-            response = self.session.send(prepped_request, timeout=self.max_timeout, **settings)
-        except Exception as e:
-            if response is None:
-                return Response(None, None, None, e)
-            else:
-                response = build_smarty_response(response, e)
-
-        if self.debug:
-            print_response_data(response)
-
-        return build_smarty_response(response)
+        with self.session.send(prepped_request, timeout=self.max_timeout, **settings) as response:
+            if self.debug:
+                print_response_data(response)
+            return build_smarty_response(response)
 
     def build_proxies(self):
         if not self.proxy:
