@@ -36,9 +36,14 @@ class Client:
 
         self.add_parameter(request, 'country', lookup.country)
         self.add_parameter(request, 'search', lookup.search)
+        self.add_parameter(request, 'max_results', lookup.max_results)
+        self.add_parameter(request, 'distance', lookup.distance)
+        self.add_parameter(request, 'geolocation', lookup.geolocation.value)
         self.add_parameter(request, 'include_only_administrative_area', lookup.administrative_area)
         self.add_parameter(request, 'include_only_locality', lookup.locality)
         self.add_parameter(request, 'include_only_postal_code', lookup.postal_code)
+        self.add_parameter(request, 'latitude', lookup.latitude)
+        self.add_parameter(request, 'longitude', lookup.longitude)
 
         return request
 

@@ -9,14 +9,23 @@ def run():
     # hostname = "Your Hostname here"
 
     # We recommend storing your secret keys in environment variables instead---it's safer!
-    key = os.environ['SMARTY_AUTH_WEB']
-    hostname = os.environ['SMARTY_WEBSITE_DOMAIN']
+    # for client-side requests (browser/mobile), use this code:
+    # key = os.environ['SMARTY_AUTH_WEB']
+    # hostname = os.environ['SMARTY_WEBSITE_DOMAIN']
+    #
+    # credentials = SharedCredentials(key, hostname)
 
-    credentials = SharedCredentials(key, hostname)
+    # for server-to-server requests, use this code:
+    auth_id = os.environ['SMARTY_AUTH_ID']
+    auth_token = os.environ['SMARTY_AUTH_TOKEN']
 
+    credentials = StaticCredentials(auth_id, auth_token)
+
+    # for server-to-server requests, use this code:
     # auth_id = os.environ['SMARTY_AUTH_ID']
-    # token = os.environ['SMARTY_AUTH_TOKEN']
-    # credentials = StaticCredentials(auth_id, token)
+    # auth_token = os.environ['SMARTY_AUTH_TOKEN']
+    #
+    # credentials = StaticCredentials(auth_id, auth_token)
 
     # The appropriate license values to be used for your subscriptions
     # can be found on the Subscriptions page of the account dashboard.
@@ -29,7 +38,7 @@ def run():
     print('*** Result with no filter ***')
     print()
     for suggestion in lookup.result:
-        print suggestion.street_line, suggestion.city, ",", suggestion.state
+        print(suggestion.street_line + " " + suggestion.city, suggestion.state, sep=", ")
 
     # Documentation for input fields can be found at:
     # https://smartystreets.com/docs/us-autocomplete-api#http-request-input-fields
@@ -52,7 +61,7 @@ def run():
     print()
     print('*** Result with some filters ***')
     for suggestion in suggestions:
-        print suggestion.street_line, suggestion.city, ",", suggestion.state
+        print(suggestion.street_line + " " + suggestion.city, suggestion.state, sep=", ")
 
 
 if __name__ == "__main__":

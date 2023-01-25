@@ -1,18 +1,25 @@
 import os
 
-from smartystreets_python_sdk import StaticCredentials, ClientBuilder
+from smartystreets_python_sdk import SharedCredentials, StaticCredentials, ClientBuilder
 from smartystreets_python_sdk.us_reverse_geo import Lookup
 
 
 def run():
-    # auth_id = "Your SmartyStreets Auth ID here"
-    # auth_token = "Your SmartyStreets Auth Token here"
+    # key = "Your SmartyStreets Key here"
+    # hostname = "Your Hostname here"
 
     # We recommend storing your secret keys in environment variables instead---it's safer!
-    auth_id = os.environ['SMARTY_AUTH_ID']
-    auth_token = os.environ['SMARTY_AUTH_TOKEN']
+    # for client-side requests (browser/mobile), use this code:
+    key = os.environ['SMARTY_AUTH_WEB']
+    hostname = os.environ['SMARTY_WEBSITE_DOMAIN']
 
-    credentials = StaticCredentials(auth_id, auth_token)
+    credentials = SharedCredentials(key, hostname)
+
+    # for server-to-server requests, use this code:
+    # auth_id = os.environ['SMARTY_AUTH_ID']
+    # auth_token = os.environ['SMARTY_AUTH_TOKEN']
+    #
+    # credentials = StaticCredentials(auth_id, auth_token)
 
     # The appropriate license values to be used for your subscriptions
     # can be found on the Subscriptions page of the account dashboard.

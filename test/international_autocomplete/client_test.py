@@ -1,6 +1,7 @@
 import unittest
 
 from smartystreets_python_sdk import Response, exceptions
+from smartystreets_python_sdk.international_autocomplete.international_geolocate_type import InternationalGeolocateType
 from test.mocks import *
 from smartystreets_python_sdk.international_autocomplete import Client, Lookup
 
@@ -14,6 +15,8 @@ class TestClient(unittest.TestCase):
         client.send(Lookup('1'))
 
         self.assertEqual('1', sender.request.parameters['search'])
+        self.assertEqual(5, sender.request.parameters['max_results'])
+        self.assertEqual(5, sender.request.parameters['distance'])
 
     def test_sending_fully_populated_lookup(self):
         sender = RequestCapturingSender()
@@ -21,17 +24,27 @@ class TestClient(unittest.TestCase):
         client = Client(sender, serializer)
         lookup = Lookup('1')
         lookup.country = '2'
+        lookup.max_results = 7
+        lookup.distance = 3
+        lookup.geolocation = InternationalGeolocateType.geocodes
         lookup.administrative_area = '3'
         lookup.locality = '4'
         lookup.postal_code = '5'
+        lookup.latitude = 40.202830239007696
+        lookup.longitude = -111.62195073669359
 
         client.send(lookup)
 
         self.assertEqual('1', sender.request.parameters['search'])
         self.assertEqual('2', sender.request.parameters['country'])
+        self.assertEqual(7, sender.request.parameters['max_results'])
+        self.assertEqual(3, sender.request.parameters['distance'])
+        self.assertEqual('geocodes', sender.request.parameters['geolocation'])
         self.assertEqual('3', sender.request.parameters['include_only_administrative_area'])
         self.assertEqual('4', sender.request.parameters['include_only_locality'])
         self.assertEqual('5', sender.request.parameters['include_only_postal_code'])
+        self.assertEqual(40.202830239007696, sender.request.parameters['latitude'])
+        self.assertEqual(-111.62195073669359, sender.request.parameters['longitude'])
 
     def test_deserialize_called_with_response_body(self):
         response = Response('Hello, World!', 0)
