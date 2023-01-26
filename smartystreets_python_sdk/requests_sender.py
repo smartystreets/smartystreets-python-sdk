@@ -7,7 +7,7 @@ import smartystreets_python_sdk_version as version
 class RequestsSender:
     def __init__(self, max_timeout=None, proxy=None):
         self.session = Session()
-        self.max_timeout = max_timeout or 10000
+        self.max_timeout = max_timeout or 10
         self.proxy = proxy
         self.debug = None
 

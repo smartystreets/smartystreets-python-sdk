@@ -20,7 +20,7 @@ class ClientBuilder:
         self.serializer = smarty.NativeSerializer()
         self.http_sender = None
         self.max_retries = 5
-        self.max_timeout = 10000
+        self.max_timeout = 10
         self.url_prefix = None
         self.proxy = None
         self.debug = None
@@ -46,8 +46,8 @@ class ClientBuilder:
 
     def with_max_timeout(self, max_timeout):
         """
-        The maximum time (in milliseconds) to wait for a connection, and also to wait for
-        the response to be read. (Default is 10000)
+        The maximum time (in seconds) to wait for a connection, and also to wait for
+        the response to be read. (Default is 10)
 
         Returns self to accommodate method chaining.
         """
