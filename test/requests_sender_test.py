@@ -10,6 +10,12 @@ def mocked_session_send(request, **kwargs):
             self.status_code = status_code
             self.headers = None
 
+        def __enter__(self):
+            return self
+
+        def __exit__(self, type, value, traceback):
+            pass
+
         def json(self):
             return self.text
 
