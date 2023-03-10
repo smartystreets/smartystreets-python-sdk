@@ -3,7 +3,7 @@ from smartystreets_python_sdk.us_street.match_type import MatchType
 
 class Lookup:
     def __init__(self, street=None, street2=None, secondary=None, city=None, state=None, zipcode=None, lastline=None,
-                 addressee=None, urbanization=None, match=MatchType.strict, candidates=1, input_id=None):
+                 addressee=None, urbanization=None, match=MatchType.STRICT, candidates=1, input_id=None):
         """
         In addition to holding all input data for this lookup, this class also will contain the result
         of the lookup after it comes back from the API.

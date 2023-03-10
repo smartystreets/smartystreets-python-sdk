@@ -40,7 +40,7 @@ def run():
     batch[0].urbanization = ""  # Only applies to Puerto Rico addresses
     batch[0].lastline = "Mountain view, california"
     batch[0].candidates = 5
-    batch[0].match = MatchType.invalid  # "invalid" is the most permissive match,
+    batch[0].match = MatchType.INVALID  # "invalid" is the most permissive match,
                                         # this will always return at least one result even if the address is invalid.
                                         # Refer to the documentation for additional Match Strategy options.
 

@@ -26,7 +26,7 @@ class TestClient(unittest.TestCase):
         lookup.country = '2'
         lookup.max_results = 7
         lookup.distance = 3
-        lookup.geolocation = InternationalGeolocateType.geocodes
+        lookup.geolocation = InternationalGeolocateType.GEOCODES
         lookup.administrative_area = '3'
         lookup.locality = '4'
         lookup.postal_code = '5'

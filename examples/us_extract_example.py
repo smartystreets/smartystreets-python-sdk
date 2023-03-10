@@ -38,7 +38,7 @@ def run():
     lookup.aggressive = True
     lookup.addresses_have_line_breaks = False
     lookup.addresses_per_line = 1
-    lookup.match = MatchType.enhanced
+    lookup.match = MatchType.ENHANCED
 
     result = client.send(lookup)
 

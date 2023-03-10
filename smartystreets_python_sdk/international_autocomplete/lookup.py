@@ -3,7 +3,7 @@ from smartystreets_python_sdk.international_autocomplete.international_geolocate
 
 class Lookup:
     def __init__(self, search=None, country=None, max_results=5, distance=5,
-                 international_geolocate_type=InternationalGeolocateType.none, administrative_area=None, locality=None,
+                 international_geolocate_type=InternationalGeolocateType.NONE, administrative_area=None, locality=None,
                  postal_code=None, latitude=None, longitude=None):
         """
         In addition to holding all the input data for this lookup, this class also will contain the result
