@@ -70,7 +70,7 @@ def remap_keys(obj):
         add_field(converted_lookup, 'lastline', lookup.lastline)
         add_field(converted_lookup, 'addressee', lookup.addressee)
         add_field(converted_lookup, 'urbanization', lookup.urbanization)
-        add_field(converted_lookup, 'match', lookup.match)
+        add_field(converted_lookup, 'match', lookup.match.value)
 
         converted_obj.append(converted_lookup)
 

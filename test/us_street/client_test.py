@@ -1,7 +1,8 @@
 import unittest
 
 from smartystreets_python_sdk import Response, exceptions, Batch, native_serializer
-from smartystreets_python_sdk.us_street import Client, Lookup, Candidate, match_type
+from smartystreets_python_sdk.us_street import Client, Lookup, Candidate
+from smartystreets_python_sdk.us_street.match_type import MatchType
 from test.mocks import RequestCapturingSender, FakeSerializer, FakeDeserializer, MockSender, MockExceptionSender
 
 
@@ -26,7 +27,7 @@ class TestClient(unittest.TestCase):
         lookup.lastline = '6'
         lookup.addressee = '7'
         lookup.urbanization = '8'
-        lookup.match = match_type.ENHANCED
+        lookup.match = MatchType.enhanced
         lookup.candidates = 1
 
         client.send_lookup(lookup)
@@ -40,7 +41,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual('6', sender.request.parameters['lastline'])
         self.assertEqual('7', sender.request.parameters['addressee'])
         self.assertEqual('8', sender.request.parameters['urbanization'])
-        self.assertEqual(match_type.ENHANCED, sender.request.parameters['match'])
+        self.assertEqual(MatchType.enhanced.value, sender.request.parameters['match'])
         self.assertEqual(5, sender.request.parameters['candidates'])
 
     def test_empty_batch_not_sent(self):

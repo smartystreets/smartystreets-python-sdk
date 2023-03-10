@@ -2,6 +2,7 @@ import os
 
 from smartystreets_python_sdk import SharedCredentials, StaticCredentials, ClientBuilder
 from smartystreets_python_sdk.us_extract import Lookup as ExtractLookup
+from smartystreets_python_sdk.us_street.match_type import MatchType
 
 
 def run():
@@ -25,7 +26,9 @@ def run():
 
     text = "Here is some text.\r\nMy address is 3785 Las Vegs Av." \
            "\r\nLos Vegas, Nevada." \
-           "\r\nMeet me at 1 Rosedale Baltimore Maryland, not at 123 Phony Street, Boise Idaho."
+           "\r\nMeet me at 1 Rosedale Baltimore Maryland, not at 123 Phony Street, Boise Idaho." \
+           "\r\nAlso, here's a non-postal that will show up with enhanced match! 808 County Road 408 Brady, Tx. " \
+           "is a beautiful place!"
 
     # Documentation for input fields can be found at:
     # https://smartystreets.com/docs/cloud/us-extract-api#http-request-input-fields
@@ -35,6 +38,7 @@ def run():
     lookup.aggressive = True
     lookup.addresses_have_line_breaks = False
     lookup.addresses_per_line = 1
+    lookup.match = MatchType.enhanced
 
     result = client.send(lookup)
 

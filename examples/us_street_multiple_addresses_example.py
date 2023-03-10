@@ -2,6 +2,7 @@ import os
 
 from smartystreets_python_sdk import SharedCredentials, StaticCredentials, exceptions, Batch, ClientBuilder
 from smartystreets_python_sdk.us_street import Lookup as StreetLookup
+from smartystreets_python_sdk.us_street.match_type import MatchType
 
 
 def run():
@@ -39,9 +40,9 @@ def run():
     batch[0].urbanization = ""  # Only applies to Puerto Rico addresses
     batch[0].lastline = "Mountain view, california"
     batch[0].candidates = 5
-    batch[0].match = "invalid"  # "invalid" is the most permissive match,
-                                # this will always return at least one result even if the address is invalid.
-                                # Refer to the documentation for additional Match Strategy options.
+    batch[0].match = MatchType.invalid  # "invalid" is the most permissive match,
+                                        # this will always return at least one result even if the address is invalid.
+                                        # Refer to the documentation for additional Match Strategy options.
 
     batch.add(StreetLookup("1 Rosedale, Baltimore, Maryland"))  # Freeform addresses work too.
     batch[1].candidates = 10  # Allows up to ten possible matches to be returned (default is 1).

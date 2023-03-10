@@ -1,6 +1,7 @@
 from smartystreets_python_sdk import Request
 from smartystreets_python_sdk.exceptions import SmartyException
 from smartystreets_python_sdk.us_extract import Result
+from smartystreets_python_sdk.us_street.match_type import MatchType
 
 
 class Client:
@@ -40,6 +41,8 @@ class Client:
         Client.add_parameter(request, 'aggressive', str(lookup.aggressive).lower())
         Client.add_parameter(request, 'addr_line_breaks', str(lookup.addresses_have_line_breaks).lower())
         Client.add_parameter(request, 'addr_per_line', lookup.addresses_per_line)
+        if lookup.match is not None and lookup.match != MatchType.strict:
+            Client.add_parameter(request, 'match', lookup.match.value)
 
         return request
 

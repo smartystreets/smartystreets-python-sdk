@@ -1,7 +1,8 @@
-STRICT = 'strict'
+from enum import StrEnum
 
-RANGE = 'range'  # Deprecated
 
-INVALID = 'invalid'
-
-ENHANCED = 'enhanced'
+class MatchType(StrEnum):
+    strict = "strict"
+    range = "range"  # Deprecated
+    invalid = "invalid"
+    enhanced = "enhanced"

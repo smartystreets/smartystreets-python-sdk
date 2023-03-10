@@ -3,6 +3,7 @@ import os
 
 from smartystreets_python_sdk import SharedCredentials, StaticCredentials, exceptions, ClientBuilder
 from smartystreets_python_sdk.us_street import Lookup as StreetLookup
+from smartystreets_python_sdk.us_street.match_type import MatchType
 
 
 def run():
@@ -44,9 +45,9 @@ def run():
     lookup.state = "CA"
     lookup.zipcode = "94043"
     lookup.candidates = 3
-    lookup.match = "invalid"  # "invalid" is the most permissive match,
-                              # this will always return at least one result even if the address is invalid.
-                              # Refer to the documentation for additional Match Strategy options.
+    lookup.match = MatchType.invalid  # "invalid" is the most permissive match,
+                                      # this will always return at least one result even if the address is invalid.
+                                      # Refer to the documentation for additional Match Strategy options.
 
     try:
         client.send_lookup(lookup)
