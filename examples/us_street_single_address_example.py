@@ -23,7 +23,7 @@ def run():
     #
     # credentials = StaticCredentials(auth_id, auth_token)
 
-    # The appropriate license values to be used for you subscriptions
+    # The appropriate license values to be used for your subscriptions
     # can be found on the Subscriptions page of the account dashboard.
     # https://www.smartystreets.com/docs/cloud/licensing
     client = ClientBuilder(credentials).with_licenses(["us-core-cloud"]).build_us_street_api_client()

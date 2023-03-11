@@ -24,7 +24,7 @@ def run():
     # The appropriate license values to be used for your subscriptions
     # can be found on the Subscription page of the account dashboard.
     # https://www.smartystreets.com/docs/cloud/licensing
-    client = ClientBuilder(credentials).with_licenses(['international-fake'])\
+    client = ClientBuilder(credentials).with_licenses(['international-global-plus-cloud'])\
         .build_international_street_api_client()
 
     # Documentation for input fields can be found at:

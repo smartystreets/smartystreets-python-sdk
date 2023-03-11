@@ -24,6 +24,8 @@ def run():
     # Documentation for input fields can be found at:
     # https://smartystreet.com/docs/us-zipcode-api#input-fields
 
+    client = ClientBuilder(credentials).build_us_zipcode_api_client()
+
     lookup = ZIPCodeLookup()
     lookup.input_id = "dfc33cb6-829e-4fea-aa1b-b6d6580f0817"  # Optional ID from your system
     lookup.city = "Mountain View"
