@@ -1,7 +1,7 @@
-from enum import StrEnum
+from enum import Enum
 
 
-class InternationalGeolocateType(StrEnum):
+class InternationalGeolocateType(str, Enum):
     ADMIN_AREA = "admin_area"
     LOCALITY = "locality"
     POSTAL_CODE = "postal_code"
