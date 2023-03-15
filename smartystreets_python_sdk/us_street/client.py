@@ -1,3 +1,4 @@
+from smartystreets_python_sdk.us_street.match_type import MatchType
 from smartystreets_python_sdk.us_street import Candidate
 from smartystreets_python_sdk import Request, Batch
 
@@ -55,7 +56,7 @@ def remap_keys(obj):
     for lookup in obj:
         converted_lookup = {}
 
-        if lookup.match == 'enhanced' and lookup.candidates == 1:
+        if (lookup.match == MatchType.ENHANCED or lookup.match == "enhanced") and lookup.candidates == 1:
             add_field(converted_lookup, 'candidates', 5)
         else:
             add_field(converted_lookup, 'candidates', lookup.candidates)
@@ -70,7 +71,10 @@ def remap_keys(obj):
         add_field(converted_lookup, 'lastline', lookup.lastline)
         add_field(converted_lookup, 'addressee', lookup.addressee)
         add_field(converted_lookup, 'urbanization', lookup.urbanization)
-        add_field(converted_lookup, 'match', lookup.match.value)
+        if isinstance(lookup.match, MatchType):
+            add_field(converted_lookup, 'match', lookup.match.value)
+        else:
+            add_field(converted_lookup, 'match', lookup.match)
 
         converted_obj.append(converted_lookup)
 

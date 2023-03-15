@@ -41,8 +41,10 @@ class Client:
         Client.add_parameter(request, 'aggressive', str(lookup.aggressive).lower())
         Client.add_parameter(request, 'addr_line_breaks', str(lookup.addresses_have_line_breaks).lower())
         Client.add_parameter(request, 'addr_per_line', lookup.addresses_per_line)
-        if lookup.match is not None and lookup.match != MatchType.STRICT:
+        if isinstance(lookup.match, MatchType):
             Client.add_parameter(request, 'match', lookup.match.value)
+        else:
+            Client.add_parameter(request, 'match', lookup.match)
 
         return request
 
