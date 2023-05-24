@@ -20,6 +20,7 @@ class Candidate:
         self.delivery_line_2 = obj.get('delivery_line_2', None)
         self.last_line = obj.get('last_line', None)
         self.delivery_point_barcode = obj.get('delivery_point_barcode', None)
+        self.smarty_key = obj.get('smarty_key', None)
         self.components = Components(obj.get('components', {}))
         self.metadata = Metadata(obj.get('metadata', {}))
         self.analysis = Analysis(obj.get('analysis', {}))
