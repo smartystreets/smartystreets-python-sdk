@@ -7,3 +7,4 @@ class Address:
         self.city = obj.get('city', None)
         self.state_abbreviation = obj.get('state_abbreviation', None)
         self.zipcode = obj.get('zipcode', None)
+        self.source = obj.get('source', None)

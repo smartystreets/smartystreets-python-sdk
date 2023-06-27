@@ -31,6 +31,7 @@ class Client:
 
         self.add_parameter(request, 'latitude', lookup.latitude)
         self.add_parameter(request, 'longitude', lookup.longitude)
+        self.add_parameter(request, 'source', lookup.source)
 
         return request
 
