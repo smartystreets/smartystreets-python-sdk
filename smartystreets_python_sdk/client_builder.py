@@ -26,14 +26,14 @@ class ClientBuilder:
         self.debug = None
         self.header = None
         self.licenses = []
-        self.INTERNATIONAL_STREET_API_URL = "https://international-street.api.smartystreets.com/verify"
-        self.INTERNATIONAL_AUTOCOMPLETE_API_URL = "https://international-autocomplete.api.smartystreets.com/lookup"
-        self.US_AUTOCOMPLETE_API_URL = "https://us-autocomplete.api.smartystreets.com/suggest"
-        self.US_AUTOCOMPLETE_PRO_API_URL = "https://us-autocomplete-pro.api.smartystreets.com/lookup"
-        self.US_EXTRACT_API_URL = "https://us-extract.api.smartystreets.com"
-        self.US_STREET_API_URL = "https://us-street.api.smartystreets.com/street-address"
-        self.US_ZIP_CODE_API_URL = "https://us-zipcode.api.smartystreets.com/lookup"
-        self.US_REVERSE_GEO_API_URL =  "https://us-reverse-geo.api.smartystreets.com/lookup"
+        self.INTERNATIONAL_STREET_API_URL = "https://international-street.api.smarty.com/verify"
+        self.INTERNATIONAL_AUTOCOMPLETE_API_URL = "https://international-autocomplete.api.smarty.com/lookup"
+        self.US_AUTOCOMPLETE_API_URL = "https://us-autocomplete.api.smarty.com/suggest"
+        self.US_AUTOCOMPLETE_PRO_API_URL = "https://us-autocomplete-pro.api.smarty.com/lookup"
+        self.US_EXTRACT_API_URL = "https://us-extract.api.smarty.com"
+        self.US_STREET_API_URL = "https://us-street.api.smarty.com/street-address"
+        self.US_ZIP_CODE_API_URL = "https://us-zipcode.api.smarty.com/lookup"
+        self.US_REVERSE_GEO_API_URL =  "https://us-reverse-geo.api.smarty.com/lookup"
 
     def retry_at_most(self, max_retries):
         """
