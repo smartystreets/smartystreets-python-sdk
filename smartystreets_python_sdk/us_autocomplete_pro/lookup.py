@@ -32,6 +32,10 @@ class Lookup:
                             meaning that if it is not set to none, you may see addresses from the customer's area
                             when you may not desire it
         :param selected: Used by UI components to request a list of secondaries (up to 100) for the specified address
+        :param source: Include results from alternate data sources. If no value is passed, the default will be `postal`. 
+                            Allowed values are:
+                            all - will include non-postal addresses in the results
+                            postal - will limit the results to postal addresses only
         """
         self.result = []
         self.search = search
