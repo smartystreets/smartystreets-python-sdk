@@ -3,7 +3,9 @@ class Candidate:
         self.street = obj.get('street', None)
         self.locality = obj.get('locality', None)
         self.administrative_area = obj.get('administrative_area', None)
-        self.super_administrative_area = obj.get('super_administrative_area', None)
-        self.sub_administrative_area = obj.get('sub_administrative_area', None)
         self.postal_code = obj.get('postal_code', None)
         self.country_iso3 = obj.get('country_iso3', None)
+        # v2 fields
+        self.entries = obj.get('entries', None)
+        self.address_text = obj.get('address_text', None)
+        self.address_id = obj.get('address_id', None)
