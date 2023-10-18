@@ -7,6 +7,7 @@ from smartystreets_python_sdk.us_autocomplete_pro import Client as USAutocomplet
 from smartystreets_python_sdk.us_reverse_geo import Client as USReverseGeoClient
 from smartystreets_python_sdk.international_street import Client as InternationalStreetClient
 from smartystreets_python_sdk.international_autocomplete import Client as InternationalAutocompleteClient
+from smartystreets_python_sdk.us_enrichment import Client as USEnrichmentClient
 
 
 class ClientBuilder:
@@ -34,6 +35,7 @@ class ClientBuilder:
         self.US_STREET_API_URL = "https://us-street.api.smarty.com/street-address"
         self.US_ZIP_CODE_API_URL = "https://us-zipcode.api.smarty.com/lookup"
         self.US_REVERSE_GEO_API_URL =  "https://us-reverse-geo.api.smarty.com/lookup"
+        self.US_ENRICHMENT_API_URL = "https://us-enrichment.api.smarty.com/lookup/"
 
     def retry_at_most(self, max_retries):
         """
@@ -151,6 +153,10 @@ class ClientBuilder:
     def build_us_reverse_geo_api_client(self):
         self.ensure_url_prefix_not_null(self.US_REVERSE_GEO_API_URL)
         return USReverseGeoClient(self.build_sender(), self.serializer)
+
+    def build_us_enrichment_api_client(self):
+        self.ensure_url_prefix_not_null(self.US_REVERSE_GEO_API_URL)
+        return USEnrichmentClient(self.build_sender(), self.serializer)
 
     def build_sender(self):
         if self.http_sender is not None:
