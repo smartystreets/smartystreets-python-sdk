@@ -1,9 +1,11 @@
 from smartystreets_python_sdk.us_street.match_type import MatchType
+from smartystreets_python_sdk.us_street.output_format import OutputFormat
 
 
 class Lookup:
     def __init__(self, street=None, street2=None, secondary=None, city=None, state=None, zipcode=None, lastline=None,
-                 addressee=None, urbanization=None, match=MatchType.STRICT, candidates=1, input_id=None):
+                 addressee=None, urbanization=None, match=MatchType.STRICT, outputformat=OutputFormat.DEFAULT,
+                 candidates=1, input_id=None):
         """
         In addition to holding all input data for this lookup, this class also will contain the result
         of the lookup after it comes back from the API.
@@ -23,3 +25,4 @@ class Lookup:
         self.urbanization = urbanization
         self.match = match
         self.candidates = candidates
+        self.outputformat = outputformat
