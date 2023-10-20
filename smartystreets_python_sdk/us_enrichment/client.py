@@ -40,16 +40,9 @@ def send_lookup(client : Client, lookup):
 
 def build_request(lookup):
     request = Request()
-    request.content_type = 'text_plain'
-    add_parameter(request, "smartykey", lookup.smartykey)
-    add_parameter(request, "dataset", lookup.dataset)
-    add_parameter(request, "datasubset", lookup.dataSubset) #TODO This isn't right, figure out how to change the url we are using.
+    request.url_prefix = lookup.smartykey + "/" + lookup.dataset + "/" + lookup.dataSubset
 
     return request
-
-def add_parameter(request, key, value):
-    if value and value != 'none':
-        request.parameters[key] = value
 
 def get_result(obj, lookup):
     if type(lookup) == FinancialLookup:
