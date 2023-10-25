@@ -1,7 +1,8 @@
 from smartystreets_python_sdk import Request
 from smartystreets_python_sdk.exceptions import SmartyException
 from .lookup import FinancialLookup, PrincipalLookup
-from .response import FinancialResponse, PrincipalResponse
+from .response import Response
+
 
 class Client:
     def __init__(self, sender, serializer):
@@ -21,22 +22,25 @@ class Client:
         send_lookup(self, l)
         return l.result
 
-def send_lookup(client : Client, lookup):
+
+def send_lookup(client: Client, lookup):
     """
     Sends a Lookup object to the US Enrichment API and stores the result in the Lookup's result field.
     """
-    if lookup is None or lookup.smartykey is None or not isinstance(lookup.smartykey, str) or len(lookup.smartykey.strip()) == 0:
+    if lookup is None or lookup.smartykey is None or not isinstance(lookup.smartykey, str) or len(
+            lookup.smartykey.strip()) == 0:
         raise SmartyException('Client.send() requires a Lookup with the "smartykey" field set')
-    
+
     request = build_request(lookup)
 
     response = client.sender.send(request)
     if response.error:
         raise response.error
-    
-    result = get_result(client.serializer.deserialize(response.payload))
+
+    result = Response(client.serializer.deserialize(response.payload))
     lookup.result = result
     return result
+
 
 def build_request(lookup):
     request = Request()
@@ -44,8 +48,13 @@ def build_request(lookup):
 
     return request
 
-def get_result(obj, lookup):
-    if type(lookup) == FinancialLookup:
-        return FinancialResponse(obj)
-    if type(lookup) == PrincipalLookup:
-        return PrincipalResponse(obj)
+
+# def get_result(obj, lookup):
+#     if isinstance(lookup, FinancialLookup):
+#         return get_filled_response(obj, FinancialAttributes)
+#     if isinstance(lookup, PrincipalLookup):
+#         return get_filled_response(obj, PrincipalResponse)
+
+
+# def get_filled_response(obj, cls):
+#     return json.loads(json.dumps(obj), object_hook=cls)
