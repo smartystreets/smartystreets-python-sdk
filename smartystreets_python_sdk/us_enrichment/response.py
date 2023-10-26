@@ -5,6 +5,12 @@ class Response:
         self.data_subset_name = obj.get('data_subset_name', None)
         self.attributes = get_attributes(self.data_set_name, self.data_subset_name, obj.get('attributes'))
 
+    def __str__(self):
+        lines = [self.__class__.__name__ + ':']
+        for key, val in vars(self).items():
+            lines += '{}: {}'.format(key, val).split('\n')
+        return '\n    '.join(lines)
+
     def __eq__(self, __value: object) -> bool:
         return isinstance(__value, type(self)) and __value.smarty_key == self.smarty_key
 
@@ -380,6 +386,9 @@ class PrincipalAttributes:
         self.year_built = obj.get('year_built', None)
         self.zoning = obj.get('zoning', None)
 
+    def __str__(self):
+        return self.__dict__.__str__()
+
 
 class FinancialAttributes:
     def __init__(self, obj):
@@ -406,8 +415,7 @@ class FinancialAttributes:
         self.contact_value = obj.get('contact_value', None)
         self.contact_zip = obj.get('contact_zip', None)
         self.contact_zip4 = obj.get('contact_zip4', None)
-        self.deed_
-        document_page = obj.get('deed_ document_page', None)
+        self.deed_document_page = obj.get('deed_ document_page', None)
         self.deed_document_book = obj.get('deed_document_book', None)
         self.deed_document_number = obj.get('deed_document_number', None)
         self.deed_owner_first_name = obj.get('deed_owner_first_name', None)
@@ -462,6 +470,9 @@ class FinancialAttributes:
         self.trust_description = obj.get('trust_description', None)
         self.veteran_tax_exemption = obj.get('veteran_tax_exemption', None)
         self.widow_tax_exemption = obj.get('widow_tax_exemption', None)
+
+    def __str__(self):
+        return self.__dict__.__str__()
 
 
 def get_financial_history(financial_history_obj):

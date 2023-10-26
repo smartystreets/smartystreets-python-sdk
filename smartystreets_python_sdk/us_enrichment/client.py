@@ -29,7 +29,7 @@ def send_lookup(client: Client, lookup):
     """
     if lookup is None or lookup.smartykey is None or not isinstance(lookup.smartykey, str) or len(
             lookup.smartykey.strip()) == 0:
-        raise SmartyException('Client.send() requires a Lookup with the "smartykey" field set')
+        raise SmartyException('Client.send() requires a Lookup with the "smartykey" field set as a string')
 
     request = build_request(lookup)
 
@@ -37,7 +37,10 @@ def send_lookup(client: Client, lookup):
     if response.error:
         raise response.error
 
-    result = Response(client.serializer.deserialize(response.payload))
+    response = client.serializer.deserialize(response.payload)
+    result = []
+    for candidate in response:
+        result.append(Response(candidate))
     lookup.result = result
     return result
 
