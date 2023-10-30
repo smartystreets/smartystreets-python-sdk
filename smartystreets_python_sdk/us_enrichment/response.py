@@ -415,7 +415,7 @@ class FinancialAttributes:
         self.contact_value = obj.get('contact_value', None)
         self.contact_zip = obj.get('contact_zip', None)
         self.contact_zip4 = obj.get('contact_zip4', None)
-        self.deed_document_page = obj.get('deed_ document_page', None)
+        self.deed_document_page = obj.get('deed_document_page', None)
         self.deed_document_book = obj.get('deed_document_book', None)
         self.deed_document_number = obj.get('deed_document_number', None)
         self.deed_owner_first_name = obj.get('deed_owner_first_name', None)
