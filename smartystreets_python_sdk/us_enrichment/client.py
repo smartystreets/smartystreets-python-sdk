@@ -50,14 +50,3 @@ def build_request(lookup):
     request.url_prefix = lookup.smartykey + "/" + lookup.dataset + "/" + lookup.dataSubset
 
     return request
-
-
-# def get_result(obj, lookup):
-#     if isinstance(lookup, FinancialLookup):
-#         return get_filled_response(obj, FinancialAttributes)
-#     if isinstance(lookup, PrincipalLookup):
-#         return get_filled_response(obj, PrincipalResponse)
-
-
-# def get_filled_response(obj, cls):
-#     return json.loads(json.dumps(obj), object_hook=cls)
