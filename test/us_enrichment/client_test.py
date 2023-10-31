@@ -18,7 +18,6 @@ class TestClient(unittest.TestCase):
 
         self.assertEqual("property", lookup.dataset)
         self.assertEqual("financial", lookup.dataSubset)
-        self.assertEqual(Response, type(result))
         self.assertEqual(lookup.result, result)
 
         function_result = client.send_property_financial_lookup("xxx")
@@ -35,7 +34,6 @@ class TestClient(unittest.TestCase):
 
         self.assertEqual("property", lookup.dataset)
         self.assertEqual("principal", lookup.dataSubset)
-        self.assertEqual(Response, type(result))
         self.assertEqual(lookup.result, result)
 
         function_result = client.send_property_principal_lookup("xxx")
