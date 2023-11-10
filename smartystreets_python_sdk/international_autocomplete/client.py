@@ -15,8 +15,8 @@ class Client:
         """
         Sends a Lookup object to the International Autocomplete API and stores the result in the Lookup's result field.
         """
-        if not lookup or not lookup.search:
-            raise SmartyException('Send() must be passed a Lookup with the search field set.')
+        if not lookup or (not lookup.search and not lookup.address_id):
+            raise SmartyException('Send() must be passed a Lookup with country set, and search or address_id set.')
 
         request = self.build_request(lookup)
 
@@ -34,16 +34,14 @@ class Client:
     def build_request(self, lookup):
         request = Request()
 
+        if lookup.address_id is not None:
+            request.url_prefix = "/" + lookup.address_id
+
         self.add_parameter(request, 'country', lookup.country)
         self.add_parameter(request, 'search', lookup.search)
         self.add_parameter(request, 'max_results', lookup.max_results)
-        self.add_parameter(request, 'distance', lookup.distance)
-        self.add_parameter(request, 'geolocation', lookup.geolocation.value)
-        self.add_parameter(request, 'include_only_administrative_area', lookup.administrative_area)
         self.add_parameter(request, 'include_only_locality', lookup.locality)
         self.add_parameter(request, 'include_only_postal_code', lookup.postal_code)
-        self.add_parameter(request, 'latitude', lookup.latitude)
-        self.add_parameter(request, 'longitude', lookup.longitude)
 
         return request
 
