@@ -4,9 +4,9 @@ class URLPrefixSender:
         self.inner = inner
 
     def send(self, request):
-        if request.url_prefix is None:
-            request.url_prefix = self.url_prefix
-        else:
+        if request.url_prefix is not None:
             request.url_prefix = self.url_prefix + request.url_prefix
+        else:
+            request.url_prefix = self.url_prefix
 
         return self.inner.send(request)

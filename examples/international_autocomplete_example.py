@@ -24,7 +24,7 @@ def run():
     # The appropriate license values to be used for your subscriptions
     # can be found on the Subscriptions page of the account dashboard.
     # https://www.smartystreets.com/docs/cloud/licensing
-    client = ClientBuilder(credentials).with_licenses(["international-autocomplete-cloud"]) \
+    client = ClientBuilder(credentials).with_licenses(["international-autocomplete-v2-cloud"]) \
         .build_international_autocomplete_api_client()
     lookup = InternationalAutocompleteLookup('Louis')
     lookup.country = "FRA"
@@ -34,8 +34,10 @@ def run():
     print('*** Result with no filter ***')
     print()
     for suggestion in lookup.result:
-        print(suggestion.street + " " + suggestion.locality, suggestion.administrative_area,
-              suggestion.super_administrative_area, suggestion.sub_administrative_area, sep=", ")
+        if suggestion.address_text:
+            print(str(suggestion.entries) + " " + suggestion.address_text + " " + suggestion.address_id)
+        else:
+            print(suggestion.street + " " + suggestion.locality, suggestion.administrative_area, sep=", ")
 
     # Documentation for input fields can be found at:
     # https://smartystreets.com/docs/us-autocomplete-api#http-request-input-fields
@@ -47,8 +49,10 @@ def run():
     print()
     print('*** Result with some filters ***')
     for suggestion in suggestions:
-        print(suggestion.street + " " + suggestion.locality, suggestion.administrative_area,
-              suggestion.super_administrative_area, suggestion.sub_administrative_area, sep=", ")
+        if suggestion.address_text:
+            print(str(suggestion.entries) + " " + suggestion.address_text + " " + suggestion.address_id)
+        else:
+            print(suggestion.street + " " + suggestion.locality, suggestion.administrative_area, sep=", ")
 
 
 if __name__ == "__main__":

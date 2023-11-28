@@ -43,14 +43,10 @@ def run():
     # Documentation for input fields can be found at:
     # https://smartystreets.com/docs/us-autocomplete-api#http-request-input-fields
 
-    lookup.add_state_filter('CO')
-    lookup.add_state_filter('UT')
-    lookup.add_city_filter('Denver')
-    lookup.add_city_filter('Orem')
+    lookup.add_city_filter('Denver,Aurora,CO')
+    lookup.add_city_filter('Orem,UT')
     lookup.add_state_preference('CO')
-    lookup.add_state_preference('UT')
-    lookup.add_city_preference('Denver')
-    lookup.selected = '1042 W Center St Apt A (24) Orem UT 84057'
+    # lookup.selected = '1042 W Center St Apt A (24) Orem UT 84057'
     lookup.max_results = 5
     lookup.prefer_geo = geolocation_type.NONE
     lookup.prefer_ratio = 33
@@ -61,7 +57,7 @@ def run():
     print()
     print('*** Result with some filters ***')
     for suggestion in suggestions:
-        print(suggestion.street_line + " " + suggestion.city, suggestion.state, sep=", ")
+        print(suggestion.street_line + " " + suggestion.city + ", " + suggestion.state)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,6 @@
 from smartystreets_python_sdk.us_street.match_type import MatchType
+from smartystreets_python_sdk.us_street.output_format import OutputFormat
+
 from smartystreets_python_sdk.us_street import Candidate
 from smartystreets_python_sdk import Request, Batch
 
@@ -75,6 +77,11 @@ def remap_keys(obj):
             add_field(converted_lookup, 'match', lookup.match.value)
         else:
             add_field(converted_lookup, 'match', lookup.match)
+
+        if isinstance(lookup.outputformat, OutputFormat):
+            add_field(converted_lookup, 'format', lookup.outputformat.value)
+        else:
+            add_field(converted_lookup, 'format', lookup.outputformat)
 
         converted_obj.append(converted_lookup)
 
