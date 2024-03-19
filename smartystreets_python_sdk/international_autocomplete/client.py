@@ -35,7 +35,7 @@ class Client:
         request = Request()
 
         if lookup.address_id is not None:
-            request.url_prefix = "/" + lookup.address_id
+            request.url_components = "/" + lookup.address_id
 
         self.add_parameter(request, 'country', lookup.country)
         self.add_parameter(request, 'search', lookup.search)
