@@ -34,7 +34,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual(7, sender.request.parameters['max_results'])
         self.assertEqual('3', sender.request.parameters['include_only_locality'])
         self.assertEqual('4', sender.request.parameters['include_only_postal_code'])
-        self.assertEqual('/5', sender.request.url_prefix)
+        self.assertEqual('/5', sender.request.url_components)
 
     def test_deserialize_called_with_response_body(self):
         response = Response('Hello, World!', 0)

@@ -47,6 +47,6 @@ def send_lookup(client: Client, lookup):
 
 def build_request(lookup):
     request = Request()
-    request.url_prefix = lookup.smartykey + "/" + lookup.dataset + "/" + lookup.dataSubset
+    request.url_components = lookup.smartykey + "/" + lookup.dataset + "/" + lookup.dataSubset
 
     return request

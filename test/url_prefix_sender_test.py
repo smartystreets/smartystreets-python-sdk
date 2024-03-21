@@ -8,7 +8,7 @@ class TestURLPrefixSender(unittest.TestCase):
         fakeSender = FakeSender()
         prefix_sender = URLPrefixSender('https://mysite.com', fakeSender)
         request = Request()
-        request.url_prefix = '/jimbo'
+        request.url_components = '/jimbo'
 
         new_request = prefix_sender.send(request)
         self.assertEqual('https://mysite.com/jimbo', new_request.url_prefix)
@@ -20,6 +20,16 @@ class TestURLPrefixSender(unittest.TestCase):
 
         new_request = prefix_sender.send(request)
         self.assertEqual('https://mysite.com', new_request.url_prefix)
+
+    def test_multiple_sends(self):
+        fakeSender = FakeSender()
+        prefix_sender = URLPrefixSender('https://mysite.com', fakeSender)
+        request = Request()
+        request.url_components = '/jimbo'
+
+        new_request = prefix_sender.send(request)
+        new_request = prefix_sender.send(request)
+        self.assertEqual('https://mysite.com/jimbo', new_request.url_prefix)
 
 class FakeSender:
     def send(self, request):
