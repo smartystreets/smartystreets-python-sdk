@@ -2,7 +2,6 @@ import smartystreets_python_sdk as smarty
 from smartystreets_python_sdk.us_street import Client as USStreetClient
 from smartystreets_python_sdk.us_zipcode import Client as USZIPClient
 from smartystreets_python_sdk.us_extract import Client as USExtractClient
-from smartystreets_python_sdk.us_autocomplete import Client as USAutocompleteClient
 from smartystreets_python_sdk.us_autocomplete_pro import Client as USAutocompleteProClient
 from smartystreets_python_sdk.us_reverse_geo import Client as USReverseGeoClient
 from smartystreets_python_sdk.international_street import Client as InternationalStreetClient
@@ -130,9 +129,6 @@ class ClientBuilder:
         self.ensure_url_prefix_not_null(self.INTERNATIONAL_AUTOCOMPLETE_API_URL)
         return InternationalAutocompleteClient(self.build_sender(), self.serializer)
 
-    def build_us_autocomplete_api_client(self):
-        self.ensure_url_prefix_not_null(self.US_AUTOCOMPLETE_API_URL)
-        return USAutocompleteClient(self.build_sender(), self.serializer)
 
     def build_us_autocomplete_pro_api_client(self):
         self.ensure_url_prefix_not_null(self.US_AUTOCOMPLETE_PRO_API_URL)
