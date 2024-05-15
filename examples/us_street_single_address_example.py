@@ -12,23 +12,23 @@ def run():
 
     # We recommend storing your secret keys in environment variables instead---it's safer!
     # for client-side requests (browser/mobile), use this code:
-    key = os.environ['SMARTY_AUTH_WEB']
-    hostname = os.environ['SMARTY_WEBSITE_DOMAIN']
+    # key = os.environ['SMARTY_AUTH_WEB']
+    # hostname = os.environ['SMARTY_WEBSITE_DOMAIN']
 
-    credentials = SharedCredentials(key, hostname)
+    # credentials = SharedCredentials(key, hostname)
 
     # for server-to-server requests, use this code:
-    # auth_id = os.environ['SMARTY_AUTH_ID']
-    # auth_token = os.environ['SMARTY_AUTH_TOKEN']
-    #
-    # credentials = StaticCredentials(auth_id, auth_token)
+    auth_id = os.environ['SMARTY_AUTH_ID']
+    auth_token = os.environ['SMARTY_AUTH_TOKEN']
+    
+    credentials = StaticCredentials(auth_id, auth_token)
 
     # The appropriate license values to be used for your subscriptions
     # can be found on the Subscriptions page of the account dashboard.
     # https://www.smartystreets.com/docs/cloud/licensing
     client = ClientBuilder(credentials).with_licenses(["us-core-cloud"]).build_us_street_api_client()
     # client = ClientBuilder(credentials).with_custom_header({'User-Agent': 'smartystreets (python@0.0.0)', 'Content-Type': 'application/json'}).build_us_street_api_client()
-    # client = ClientBuilder(credentials).with_proxy('localhost:8080', 'user', 'password').build_us_street_api_client()
+    client = ClientBuilder(credentials).with_proxy('192.168.1.243:3128').build_us_street_api_client()
     # Uncomment the line above to try it with a proxy instead
 
     # Documentation for input fields can be found at:
