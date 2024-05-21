@@ -84,15 +84,28 @@ class ClientBuilder:
         self.url_prefix = base_url
         return self
 
-    def with_proxy(self, host, username=None, password=None):
+    def with_http_proxy(self, host, username=None, password=None):
         """
-        Assigns a proxy through which to send all Lookups.
+        Assigns a http proxy through which to send all Lookups.
         :param host: The proxy host including port, but not scheme. (example: localhost:8080)
         :param username: Username to authenticate with the proxy server
         :param password: Password to authenticate with the proxy server
         :return: Returns self to accommodate method chaining.
         """
-        self.proxy = smarty.Proxy(host, username, password)
+        full_host = 'http://' + host
+        self.proxy = smarty.Proxy(full_host, username, password)
+        return self
+    
+    def with_https_proxy(self, host, username=None, password=None):
+        """
+        Assigns a https proxy through which to send all Lookups.
+        :param host: The proxy host including port, but not scheme. (example: localhost:8080)
+        :param username: Username to authenticate with the proxy server
+        :param password: Password to authenticate with the proxy server
+        :return: Returns self to accommodate method chaining.
+        """
+        full_host = 'https://' + host
+        self.proxy = smarty.Proxy(full_host, username, password)
         return self
 
     def with_custom_header(self, custom_header):
