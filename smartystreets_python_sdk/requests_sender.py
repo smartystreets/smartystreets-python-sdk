@@ -29,17 +29,18 @@ class RequestsSender:
     def build_proxies(self):
         if not self.proxy:
             return {}
-        if not self.proxy.host:
+        if (self.proxy.host == 'http://' or self.proxy.host =='https://'):
             raise smarty.exceptions.SmartyException('Proxy must have a valid host (including port)')
 
-        proxy_string = 'https://'
+        proxy_string = self.proxy.host
 
         if self.proxy.username:
             proxy_string += '{}:{}@'.format(self.proxy.username, self.proxy.password)
 
-        proxy_string += self.proxy.host
-
-        return {'https': proxy_string}
+        if ('https://' in self.proxy.host):
+            return {'https': proxy_string}
+        else:
+            return {'http': proxy_string, 'https': proxy_string}
 
 
 def build_request(smarty_request):
