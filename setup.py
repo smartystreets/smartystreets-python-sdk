@@ -14,7 +14,6 @@ setup(
         'smartystreets_python_sdk.us_street',
         'smartystreets_python_sdk.us_zipcode',
         'smartystreets_python_sdk.us_extract',
-        'smartystreets_python_sdk.us_autocomplete',
         'smartystreets_python_sdk.international_street',
         'smartystreets_python_sdk.us_reverse_geo',
         'smartystreets_python_sdk.us_autocomplete_pro',

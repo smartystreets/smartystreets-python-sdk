@@ -28,7 +28,6 @@ class ClientBuilder:
         self.licenses = []
         self.INTERNATIONAL_STREET_API_URL = "https://international-street.api.smarty.com/verify"
         self.INTERNATIONAL_AUTOCOMPLETE_API_URL = "https://international-autocomplete.api.smarty.com/v2/lookup"
-        self.US_AUTOCOMPLETE_API_URL = "https://us-autocomplete.api.smarty.com/suggest"
         self.US_AUTOCOMPLETE_PRO_API_URL = "https://us-autocomplete-pro.api.smarty.com/lookup"
         self.US_EXTRACT_API_URL = "https://us-extract.api.smarty.com"
         self.US_STREET_API_URL = "https://us-street.api.smarty.com/street-address"
