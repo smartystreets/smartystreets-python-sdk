@@ -20,7 +20,7 @@ def run():
     # for server-to-server requests, use this code:
     # auth_id = os.environ['SMARTY_AUTH_ID']
     # auth_token = os.environ['SMARTY_AUTH_TOKEN']
-    #
+    
     # credentials = StaticCredentials(auth_id, auth_token)
 
     # The appropriate license values to be used for your subscriptions
