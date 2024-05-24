@@ -5,15 +5,17 @@ import smartystreets_python_sdk_version as version
 
 
 class RequestsSender:
-    def __init__(self, max_timeout=None, proxy=None):
+    def __init__(self, max_timeout=None, proxy=None,   ip = None):
         self.session = Session()
         self.max_timeout = max_timeout or 10
         self.proxy = proxy
         self.debug = None
-
+        self.ip = ip
+    
     def send(self, smarty_request):
-        request = build_request(smarty_request)
+        request = RequestsSender.build_request(self,smarty_request)
         prepped_request = self.session.prepare_request(request)
+    
         prepped_proxies = self.build_proxies()
         if self.debug:
             print_request_data(prepped_request)
@@ -21,6 +23,8 @@ class RequestsSender:
         settings = self.session.merge_environment_settings(
             prepped_request.url, prepped_proxies, None, None, None
         )
+        print("Just before send")
+        print(prepped_request.headers)
         with self.session.send(prepped_request, timeout=self.max_timeout, **settings) as response:
             if self.debug:
                 print_response_data(response)
@@ -43,21 +47,23 @@ class RequestsSender:
             return {'http': proxy_string, 'https': proxy_string}
 
 
-def build_request(smarty_request):
-    try:
-        request = Request(url=smarty_request.url_prefix, params=smarty_request.parameters)
-        request.headers['User-Agent'] = "smartystreets (sdk:python@{})".format(version.__version__)
-        request.headers['Content-Type'] = smarty_request.content_type
-        if smarty_request.referer:
-            request.headers['Referer'] = smarty_request.referer
-        if smarty_request.payload:
-            request.data = smarty_request.payload
-            request.method = 'POST'
-        else:
-            request.method = 'GET'
-        return request
-    except AttributeError:
-        return smarty_request
+    def build_request(self,smarty_request):
+        try:
+            request = Request(url=smarty_request.url_prefix, params=smarty_request.parameters)
+            request.headers['User-Agent'] = "smartystreets (sdk:python@{})".format(version.__version__)
+            request.headers['Content-Type'] = smarty_request.content_type
+            if smarty_request.referer:
+                request.headers['Referer'] = smarty_request.referer
+            if self.ip:
+                request.headers['X-Forwarded-For'] = self.ip
+            if smarty_request.payload:
+                request.data = smarty_request.payload
+                request.method = 'POST'
+            else:
+                request.method = 'GET'
+            return request
+        except AttributeError:
+            return smarty_request
 
 
 def build_smarty_response(inner_response, error=None):

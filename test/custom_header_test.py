@@ -34,8 +34,10 @@ class TestCustomHeaderSender(unittest.TestCase):
         smartyrequest.payload = "This is the test content."
 
         request = sender.build_request(smartyrequest)
+        
+        # request = smarty.requests_sender.build_request(request)
 
-        request = smarty.requests_sender.build_request(request)
+        request = smarty.RequestsSender.build_request(request)
 
         self.assertEqual('Test-Agent', request.headers['User-Agent'])
         self.assertEqual('Test-Type', request.headers['Content-Type'])

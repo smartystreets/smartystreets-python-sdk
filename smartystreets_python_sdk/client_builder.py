@@ -134,6 +134,10 @@ class ClientBuilder:
         """
         self.licenses = licenses
         return self
+    
+    def withXForwardedFor(self,ip):
+        self.ip = ip
+        return self
 
     def build_international_street_api_client(self):
         self.ensure_url_prefix_not_null(self.INTERNATIONAL_STREET_API_URL)
