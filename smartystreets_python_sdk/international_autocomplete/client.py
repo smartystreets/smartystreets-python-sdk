@@ -6,7 +6,7 @@ from smartystreets_python_sdk.international_autocomplete import Candidate
 class Client:
     def __init__(self, sender, serializer):
         """
-        It is recommended to instantiate this class using ClientBuilder.build_us_autocomplete_api_client()
+        It is recommended to instantiate this class using ClientBuilder.build_international_autocomplete_api_client()
         """
         self.sender = sender
         self.serializer = serializer
