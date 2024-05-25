@@ -23,8 +23,6 @@ class RequestsSender:
         settings = self.session.merge_environment_settings(
             prepped_request.url, prepped_proxies, None, None, None
         )
-        print("Just before send")
-        print(prepped_request.headers)
         with self.session.send(prepped_request, timeout=self.max_timeout, **settings) as response:
             if self.debug:
                 print_response_data(response)
