@@ -27,6 +27,7 @@ class ClientBuilder:
         self.debug = None
         self.header = None
         self.licenses = []
+        self.ip = None
         self.INTERNATIONAL_STREET_API_URL = "https://international-street.api.smarty.com/verify"
         self.INTERNATIONAL_AUTOCOMPLETE_API_URL = "https://international-autocomplete.api.smarty.com/v2/lookup"
         self.US_AUTOCOMPLETE_API_URL = "https://us-autocomplete.api.smarty.com/suggest"
@@ -136,6 +137,11 @@ class ClientBuilder:
         return self
     
     def withXForwardedFor(self,ip):
+        """
+        Allows the caller to include an X-Forwarded-For header in their request, passing open the end user's ip address
+        param: string ip, The IP of the end user
+        return: returns self to accomodate method chaining
+        """
         self.ip = ip
         return self
 
