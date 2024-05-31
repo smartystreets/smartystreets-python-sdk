@@ -33,7 +33,7 @@ class TestRequestsSender(unittest.TestCase):
         smartyrequest.url_prefix = "http://localhost"
 
         smartyrequest.payload = "Test Payload"
-        request = smarty.RequestsSender.build_request(smartyrequest)
+        request = smarty.requests_sender.build_request(smartyrequest)
 
         self.assertEqual("POST", request.method)
 
@@ -42,7 +42,7 @@ class TestRequestsSender(unittest.TestCase):
         smartyrequest.url_prefix = "http://localhost"
         smartyrequest.payload = "This is the test content."
 
-        request = smarty.RequestsSender.build_request(smartyrequest)
+        request = smarty.requests_sender.build_request(smartyrequest)
 
         self.assertEqual("This is the test content.", request.data)
 
@@ -52,7 +52,7 @@ class TestRequestsSender(unittest.TestCase):
         smartyrequest.payload = "This is the test content."
         smartyrequest.content_type = 'text/plain'
 
-        request = smarty.RequestsSender.build_request(smartyrequest)
+        request = smarty.requests_sender.build_request(smartyrequest)
 
         self.assertEqual('text/plain', request.headers['Content-Type'])
 
