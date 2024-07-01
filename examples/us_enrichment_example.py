@@ -33,6 +33,8 @@ def run():
     smarty_key = "1682393594"
     try:
         results = client.send_property_principal_lookup(smarty_key)
+        # results = client.send_generic_lookup(smarty_key, 'property', 'principal')
+        # Uncomment the line above to try it as a generic lookup instead
     except Exception as err:
         print(err)
         return
