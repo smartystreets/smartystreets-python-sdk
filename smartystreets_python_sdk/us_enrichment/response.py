@@ -585,10 +585,13 @@ class GeoReferenceOutputCategories:
     def __str__(self):
         lines = ['']
         for key, val in vars(self).items():
-            lines.append(key + ': ')
-            for item in val:
-                for subkey, subval in vars(item).items():
-                    lines += '    {}: {}'.format(subkey, subval).split('\n')
+            if type(val) is list:
+                lines.append(key + ': ')
+                for item in val:
+                    for subkey, subval in vars(item).items():
+                        lines += '    {}: {}'.format(subkey, subval).split('\n')
+            else:
+                lines.append(key + ': ' + str(val))
         return '\n    '.join(lines)
 
 class GeoReferenceCensusBlock:
