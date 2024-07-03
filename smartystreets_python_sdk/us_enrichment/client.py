@@ -1,6 +1,6 @@
 from smartystreets_python_sdk import Request
 from smartystreets_python_sdk.exceptions import SmartyException
-from .lookup import FinancialLookup, PrincipalLookup
+from .lookup import FinancialLookup, PrincipalLookup, GeoReferenceLookup, Lookup
 from .response import Response
 
 
@@ -19,6 +19,16 @@ class Client:
 
     def send_property_principal_lookup(self, smartykey):
         l = PrincipalLookup(smartykey)
+        send_lookup(self, l)
+        return l.result
+    
+    def send_geo_reference_lookup(self, smartykey):
+        l = GeoReferenceLookup(smartykey)
+        send_lookup(self, l)
+        return l.result
+    
+    def send_generic_lookup(self, smartykey, dataset, dataSubset):
+        l = Lookup(smartykey, dataset, dataSubset)
         send_lookup(self, l)
         return l.result
 
@@ -47,6 +57,10 @@ def send_lookup(client: Client, lookup):
 
 def build_request(lookup):
     request = Request()
+    if lookup.dataSubset == None:
+        request.url_components = lookup.smartykey + "/" + lookup.dataset
+        return request
+    
     request.url_components = lookup.smartykey + "/" + lookup.dataset + "/" + lookup.dataSubset
 
     return request

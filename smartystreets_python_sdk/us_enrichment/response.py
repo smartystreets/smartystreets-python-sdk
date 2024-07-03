@@ -3,7 +3,7 @@ class Response:
         self.smarty_key = obj.get('smarty_key', None)
         self.data_set_name = obj.get('data_set_name', None)
         self.data_subset_name = obj.get('data_subset_name', None)
-        self.attributes = get_attributes(self.data_set_name, self.data_subset_name, obj.get('attributes'))
+        self.attributes = get_attributes(self.data_set_name, self.data_subset_name, obj.get('attributes', None))
 
     def __str__(self):
         lines = [self.__class__.__name__ + ':']
@@ -21,6 +21,8 @@ def get_attributes(dataset, data_subset, attribute_obj):
             return FinancialAttributes(attribute_obj)
         if data_subset == "principal":
             return PrincipalAttributes(attribute_obj)
+    if dataset == "geo-reference":
+        return GeoReferenceOutputCategories(attribute_obj)
 
 
 class PrincipalAttributes:
@@ -387,7 +389,16 @@ class PrincipalAttributes:
         self.zoning = obj.get('zoning', None)
 
     def __str__(self):
-        return self.__dict__.__str__()
+        lines = ['']
+        for key, val in vars(self).items():
+            if type(val) is list:
+                lines.append(key + ': ')
+                for item in val:
+                    for subkey, subval in vars(item).items():
+                        lines += '    {}: {}'.format(subkey, subval).split('\n')
+            else:
+                lines.append(key + ': ' + str(val))
+        return '\n    '.join(lines)
 
 
 class FinancialAttributes:
@@ -492,7 +503,16 @@ class FinancialAttributes:
         self.widow_tax_exemption = obj.get('widow_tax_exemption', None)
 
     def __str__(self):
-        return self.__dict__.__str__()
+        lines = ['']
+        for key, val in vars(self).items():
+            if type(val) is list:
+                lines.append(key + ': ')
+                for item in val:
+                    for subkey, subval in vars(item).items():
+                        lines += '    {}: {}'.format(subkey, subval).split('\n')
+            else:
+                lines.append(key + ': ' + str(val))
+        return '\n    '.join(lines)
 
 
 def get_financial_history(financial_history_obj):
@@ -549,3 +569,104 @@ class FinancialHistory:
         self.name_title_company = obj.get('name_title_company', None)
         self.recording_date = obj.get('recording_date', None)
         self.transfer_amount = obj.get('transfer_amount', None)
+
+    def __str__(self):
+        return self.__dict__.__str__()
+    
+class GeoReferenceOutputCategories:
+    def __init__(self, obj):
+
+        self.census_block = get_geo_reference_census_block(obj.get('census_block', None))
+        self.census_county_division = get_geo_reference_census_county_division(obj.get('census_county_division', None))
+        self.census_tract = get_geo_reference_census_tract(obj.get('census_tract', None))
+        self.core_based_stat_area = get_geo_reference_core_based_stat_area(obj.get('core_based_stat_area', None))
+        self.place = get_geo_reference_place(obj.get('place', None))
+
+    def __str__(self):
+        lines = ['']
+        for key, val in vars(self).items():
+            if type(val) is list:
+                lines.append(key + ': ')
+                for item in val:
+                    for subkey, subval in vars(item).items():
+                        lines += '    {}: {}'.format(subkey, subval).split('\n')
+            else:
+                lines.append(key + ': ' + str(val))
+        return '\n    '.join(lines)
+
+class GeoReferenceCensusBlock:
+    def __init__(self, obj):
+        self.accuracy = obj.get('accuracy', None)
+        self.geoid = obj.get('geoid', None)
+
+    def __str__(self):
+        return self.__dict__.__str__()
+    
+def get_geo_reference_census_block(geo_reference_census_block_obj):
+    if geo_reference_census_block_obj is None:
+        return None
+    output = []
+    output.append(GeoReferenceCensusBlock(geo_reference_census_block_obj))
+    return output
+
+class GeoReferenceCensusCountyDivision:
+    def __init__(self, obj):
+        self.accuracy = obj.get('accuracy', None)
+        self.code = obj.get('code', None)
+        self.name = obj.get('name', None)
+
+    def __str__(self):
+        return self.__dict__.__str__()
+    
+def get_geo_reference_census_county_division(geo_reference_census_county_division_obj):
+    if geo_reference_census_county_division_obj is None:
+        return None
+    output = []
+    output.append(GeoReferenceCensusCountyDivision(geo_reference_census_county_division_obj))
+    return output
+
+class GeoReferenceCensusTract:
+    def __init__(self, obj):
+        self.code = obj.get('code', None)
+
+    def __str__(self):
+        return self.__dict__.__str__()
+    
+def get_geo_reference_census_tract(geo_reference_census_tract_obj):
+    if geo_reference_census_tract_obj is None:
+        return None
+    output = []
+    output.append(GeoReferenceCensusTract(geo_reference_census_tract_obj))
+    return output
+
+class GeoReferenceCoreBasedStatArea:
+    def __init__(self, obj):
+        self.code = obj.get('code', None)
+        self.name = obj.get('name', None)
+
+    def __str__(self):
+        return self.__dict__.__str__()
+    
+def get_geo_reference_core_based_stat_area(geo_reference_core_based_stat_area_obj):
+    if geo_reference_core_based_stat_area_obj is None:
+        return None
+    output = []
+    output.append(GeoReferenceCoreBasedStatArea(geo_reference_core_based_stat_area_obj))
+    return output
+
+class GeoReferencePlace:
+    def __init__(self, obj):
+        self.accuracy = obj.get('accuracy', None)
+        self.code = obj.get('code', None)
+        self.name = obj.get('name', None)
+        self.type = obj.get('type', None)
+
+    def __str__(self):
+        return self.__dict__.__str__()
+
+def get_geo_reference_place(geo_reference_place_obj):
+    if geo_reference_place_obj is None:
+        return None
+    output = []
+    output.append(GeoReferencePlace(geo_reference_place_obj))
+    return output
