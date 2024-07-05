@@ -23,6 +23,7 @@ class ClientBuilder:
         self.max_timeout = 10
         self.url_prefix = None
         self.proxy = None
+        self.ip = None
         self.debug = None
         self.header = None
         self.licenses = []
@@ -114,6 +115,15 @@ class ClientBuilder:
         """
         self.header = custom_header
         return self
+    
+    def with_x_forwarded_for(self, ip):
+        """
+        Add and X-Forwarded-For header when necessary.
+        :param ip: Input the desired ip for the X-Forwarded-For header
+        :return: Returns self to accommodate method chaining
+        """
+        self.ip = ip
+        return self
 
     def with_debug(self):
         """
@@ -170,7 +180,7 @@ class ClientBuilder:
         if self.http_sender is not None:
             return self.http_sender
 
-        sender = smarty.RequestsSender(self.max_timeout, self.proxy)
+        sender = smarty.RequestsSender(self.max_timeout, self.proxy, self.ip)
         sender.debug = self.debug
 
         sender = smarty.StatusCodeSender(sender)
