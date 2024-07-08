@@ -5,14 +5,16 @@ import smartystreets_python_sdk_version as version
 
 
 class RequestsSender:
-    def __init__(self, max_timeout=None, proxy=None):
+    def __init__(self, max_timeout=None, proxy=None, ip=None):
         self.session = Session()
         self.max_timeout = max_timeout or 10
         self.proxy = proxy
         self.debug = None
+        self.ip = ip
 
     def send(self, smarty_request):
-        request = build_request(smarty_request)
+        ip = self.ip
+        request = build_request(smarty_request, ip)
         prepped_request = self.session.prepare_request(request)
         prepped_proxies = self.build_proxies()
         if self.debug:
@@ -43,13 +45,15 @@ class RequestsSender:
             return {'http': proxy_string, 'https': proxy_string}
 
 
-def build_request(smarty_request):
+def build_request(smarty_request, ip=None):
     try:
         request = Request(url=smarty_request.url_prefix, params=smarty_request.parameters)
         request.headers['User-Agent'] = "smartystreets (sdk:python@{})".format(version.__version__)
         request.headers['Content-Type'] = smarty_request.content_type
         if smarty_request.referer:
             request.headers['Referer'] = smarty_request.referer
+        if ip != None:
+            request.headers['X-Forwarded-For'] = ip
         if smarty_request.payload:
             request.data = smarty_request.payload
             request.method = 'POST'
