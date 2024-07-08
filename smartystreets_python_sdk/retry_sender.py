@@ -14,7 +14,6 @@ class RetrySender:
         self.max_retries = max_retries
 
     def send(self, request):
-        standard_retry = False
         response = self.inner.send(request)
 
         for i in range(self.max_retries):
