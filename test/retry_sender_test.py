@@ -23,8 +23,16 @@ class TestRetrySender(unittest.TestCase):
         self.assertEqual(1, inner.current_status_code_index)
 
     @patch('smartystreets_python_sdk.retry_sender.backoff', side_effect=mock_backoff)
+    def test_payment_required_does_not_retry(self, mocked):
+        inner = FailingSender([402])
+
+        send_with_retry(5, inner)
+
+        self.assertEqual(1, inner.current_status_code_index)
+
+    @patch('smartystreets_python_sdk.retry_sender.backoff', side_effect=mock_backoff)
     def test_retry_until_success(self, mocked):
-        inner = FailingSender([401, 402, 400, 200, 500])
+        inner = FailingSender([408, 500, 502, 200, 504])
 
         send_with_retry(10, inner)
 
@@ -43,7 +51,7 @@ class TestRetrySender(unittest.TestCase):
 
     @patch('smartystreets_python_sdk.retry_sender.backoff', side_effect=mock_backoff)
     def test_backoff_does_not_exceed_max(self, mocked):
-        inner = FailingSender([401, 402, 400, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 200])
+        inner = FailingSender([408, 408, 408, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 200])
 
         send_with_retry(20, inner)
 

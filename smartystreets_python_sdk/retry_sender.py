@@ -5,8 +5,9 @@ import sys
 
 class RetrySender:
     MAX_BACKOFF_DURATION = 10
-    STATUS_OK = 200
     TOO_MANY_REQUESTS = 429
+    STATUS_TO_RETRY = [408, 500, 502, 503, 504]
+    
 
     def __init__(self, max_retries, inner):
         self.inner = inner
@@ -16,9 +17,6 @@ class RetrySender:
         response = self.inner.send(request)
 
         for i in range(self.max_retries):
-            if response.status_code == RetrySender.STATUS_OK:
-                break
-
             if response.status_code == RetrySender.TOO_MANY_REQUESTS:
                 backoff_seconds = 10
                 retry_after = response.getHeader("Retry-After")
@@ -27,8 +25,10 @@ class RetrySender:
                     backoff_seconds = int(retry_after)
 
                 backoff(backoff_seconds, True)
-            else:
+            elif response.status_code in RetrySender.STATUS_TO_RETRY:
                 backoff(i)
+            else:
+                break
 
             response = self.inner.send(request)
 
