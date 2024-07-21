@@ -1,9 +1,22 @@
 class Response:
     def __init__(self, obj):
         self.smarty_key = obj.get('smarty_key', None)
-        self.data_set_name = obj.get('data_set_name', None)
-        self.data_subset_name = obj.get('data_subset_name', None)
-        self.attributes = get_attributes(self.data_set_name, self.data_subset_name, obj.get('attributes', None))
+        if 'secondaries' in obj:
+            self.data_set_name = 'secondary'
+        else:
+            self.data_set_name = obj.get('data_set_name')
+        if 'count' in obj:
+            self.data_set_name = 'secondary'
+            self.data_subset_name = 'count'
+        else:
+            self.data_subset_name = obj.get('data_subset_name', None)
+        if self.data_set_name == 'secondary':
+            if self.data_subset_name == 'count':
+                self.attributes = get_attributes(self.data_set_name, self.data_subset_name, obj)
+            else:
+                self.attributes = get_attributes(self.data_set_name, self.data_subset_name, obj)
+        else:
+            self.attributes = get_attributes(self.data_set_name, self.data_subset_name, obj.get('attributes', None))
 
     def __str__(self):
         lines = [self.__class__.__name__ + ':']
@@ -23,6 +36,11 @@ def get_attributes(dataset, data_subset, attribute_obj):
             return PrincipalAttributes(attribute_obj)
     if dataset == "geo-reference":
         return GeoReferenceOutputCategories(attribute_obj)
+    if dataset == "secondary":
+        if data_subset == "count":
+            return SecondaryCountAttributes(attribute_obj)
+        return SecondaryListAttributes(attribute_obj)
+
 
 
 class PrincipalAttributes:
@@ -575,7 +593,7 @@ class FinancialHistory:
     
 class GeoReferenceOutputCategories:
     def __init__(self, obj):
-
+        
         self.census_block = get_geo_reference_census_block(obj.get('census_block', None))
         self.census_county_division = get_geo_reference_census_county_division(obj.get('census_county_division', None))
         self.census_tract = get_geo_reference_census_tract(obj.get('census_tract', None))
@@ -670,3 +688,120 @@ def get_geo_reference_place(geo_reference_place_obj):
     output = []
     output.append(GeoReferencePlace(geo_reference_place_obj))
     return output
+
+class SecondaryListAttributes:
+    def __init__(self, obj):
+
+        self.root_address = get_secondary_root_address(obj.get('root_address', None))
+        self.aliases = get_secondary_aliases(obj.get('aliases', None))
+        self.secondaries = get_secondary_secondaries(obj.get('secondaries', None))
+
+    def __str__(self):
+        lines = ['']
+        for key, val in vars(self).items():
+            if (type(val) == list or type(val) == dict):
+                lines.append(key + ': ')
+            if type(val) is list:
+                for item in val:
+                    if type(item) is list:
+                        for subitem in item:
+                            lines.append('    ' + str(val.index(item)) + ': ')
+                            for subkey, subval in vars(subitem).items():
+                                lines += '        {}: {}'.format(subkey, subval).split('\n')
+                    else:
+                        for subkey, subval in vars(item).items():
+                                lines += '    {}: {}'.format(subkey, subval).split('\n')
+        return '\n    '.join(lines)
+
+class SecondaryRootAddress:
+    def __init__(self, obj):
+        self.secondary_count = obj.get('secondary_count', None)
+        self.smarty_key = obj.get('smarty_key', None)
+        self.primary_number = obj.get('primary_number', None)
+        self.street_predirection = obj.get('street_predirection', None)
+        self.street_name = obj.get('street_name', None)
+        self.street_suffix = obj.get('street_suffix', None)
+        self.street_postdirection = obj.get('street_postdirection', None)
+        self.city_name = obj.get('city_name', None)
+        self.state_abbreviation = obj.get('state_abbreviation', None)
+        self.zipcode = obj.get('zipcode', None)
+        self.plus4_code = obj.get('plus4_code', None)
+
+    def __str__(self):
+        lines = ['']
+        for key, val in vars(self).items():
+            if type(val) is list:
+                lines.append(key + ': ')
+                for item in val:
+                    for subkey, subval in vars(item).items():
+                        lines += '    {}: {}'.format(subkey, subval).split('\n')
+            else:
+                lines.append(key + ': ' + str(val))
+        return '\n    '.join(lines)
+
+def get_secondary_root_address(secondary_root_address_obj):
+    if secondary_root_address_obj is None:
+        return None
+    output = []
+    output.append(SecondaryRootAddress(secondary_root_address_obj))
+
+    return output
+
+class SecondaryAliases:
+    def __init__(self, obj):
+        self.smarty_key = obj.get('smarty_key', None)
+        self.primary_number = obj.get('primary_number', None)
+        self.street_predirection = obj.get('street_predirection', None)
+        self.street_name = obj.get('street_name', None)
+        self.street_suffix = obj.get('street_suffix', None)
+        self.street_postdirection = obj.get('street_postdirection', None)
+        self.city_name = obj.get('city_name', None)
+        self.state_abbreviation = obj.get('state_abbreviation', None)
+        self.zipcode = obj.get('zipcode', None)
+        self.plus4_code = obj.get('plus4_code', None)
+
+def get_secondary_aliases(secondary_aliases_obj):
+    if secondary_aliases_obj is None:
+        return None
+    output = []
+    output_list = []
+    for item in secondary_aliases_obj:
+        output.append(SecondaryAliases(item))
+        output_list.append(output)
+        output = []
+    return output_list
+
+class SecondarySecondaries:
+    def __init__(self, obj):
+        self.smarty_key = obj.get('smarty_key', None)
+        self.secondary_designator = obj.get('secondary_designator', None)
+        self.secondary_number = obj.get('secondary_number', None)
+        self.plus4_code = obj.get('plus4_code', None)
+
+def get_secondary_secondaries(secondary_secondaries_obj):
+    if secondary_secondaries_obj is None:
+        return None
+    output = []
+    output_list = []
+    for item in secondary_secondaries_obj:
+        output.append(SecondarySecondaries(item))
+        output_list.append(output)
+        output = []
+    return output_list
+
+class SecondaryCountAttributes:
+    def __init__(self, obj):
+        self.smarty_key = obj.get('smarty_key', None)
+        self.count = obj.get('count', None)
+
+    def __str__(self):
+        lines = ['']
+        for key, val in vars(self).items():
+            if type(val) is list:
+                lines.append(key + ': ')
+                for item in val:
+                    for subkey, subval in vars(item).items():
+                        lines += '    {}: {}'.format(subkey, subval).split('\n')
+            else:
+                lines.append(key + ': ' + str(val))
+        return '\n    '.join(lines)

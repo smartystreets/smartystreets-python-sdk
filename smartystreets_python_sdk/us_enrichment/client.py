@@ -1,6 +1,6 @@
 from smartystreets_python_sdk import Request
 from smartystreets_python_sdk.exceptions import SmartyException
-from .lookup import FinancialLookup, PrincipalLookup, GeoReferenceLookup, Lookup
+from .lookup import FinancialLookup, PrincipalLookup, GeoReferenceLookup, SecondaryLookup, SecondaryCountLookup, Lookup
 from .response import Response
 
 
@@ -24,6 +24,16 @@ class Client:
     
     def send_geo_reference_lookup(self, smartykey):
         l = GeoReferenceLookup(smartykey)
+        send_lookup(self, l)
+        return l.result
+    
+    def send_secondary_lookup(self, smartykey):
+        l = SecondaryLookup(smartykey)
+        send_lookup(self, l)
+        return l.result
+    
+    def send_secondary_count_lookup(self, smartykey):
+        l = SecondaryCountLookup(smartykey)
         send_lookup(self, l)
         return l.result
     
