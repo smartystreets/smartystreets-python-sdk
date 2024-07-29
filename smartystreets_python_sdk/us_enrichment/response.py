@@ -1,32 +1,54 @@
 class Response:
     def __init__(self, obj):
         self.smarty_key = obj.get('smarty_key', None)
-        if 'secondaries' in obj:
-            self.data_set_name = 'secondary'
-        else:
+        data_set_name = ''
+        data_subset_name = ''
+        if 'data_set_name' in obj:
             self.data_set_name = obj.get('data_set_name')
-        if 'count' in obj:
-            self.data_set_name = 'secondary'
-            self.data_subset_name = 'count'
-        else:
+        elif 'secondaries' in obj:
+            data_set_name = 'secondary'
+
+        if 'data_subset_name' in obj:
             self.data_subset_name = obj.get('data_subset_name', None)
-        if self.data_set_name == 'secondary':
-            if self.data_subset_name == 'count':
-                self.attributes = get_attributes(self.data_set_name, self.data_subset_name, obj)
+        elif 'count' in obj:
+            data_set_name = 'secondary'
+            data_subset_name = 'count'
+            
+        if data_set_name == 'secondary':
+            if data_subset_name == 'count':
+                self.count = obj.get('count', None)
             else:
-                self.attributes = get_attributes(self.data_set_name, self.data_subset_name, obj)
+                self.root_address = get_secondary_root_address(obj.get('root_address', None))
+                if 'aliases' in obj:
+                    self.aliases = get_secondary_aliases(obj.get('aliases', None))
+                self.secondaries = get_secondary_secondaries(obj.get('secondaries', None))
         else:
             self.attributes = get_attributes(self.data_set_name, self.data_subset_name, obj.get('attributes', None))
 
     def __str__(self):
         lines = [self.__class__.__name__ + ':']
         for key, val in vars(self).items():
-            lines += '{}: {}'.format(key, val).split('\n')
+            lines += get_lines(key, val)
         return '\n    '.join(lines)
 
     def __eq__(self, __value: object) -> bool:
         return isinstance(__value, type(self)) and __value.smarty_key == self.smarty_key
 
+def get_lines(key, val):
+    lines = ['']
+    if type(val) is list:
+        if len(val) > 1:
+            for item in val:
+                if val.index(item) == 0:
+                    lines += ['secondaries:']
+                lines += get_lines(val.index(item), val[val.index(item)])
+            return lines
+        else:
+            return get_lines(key, val[0])
+    else:
+        if type(key) == int:
+            return '    {}: {}'.format(key, val).split('\n')
+        return '{}: {}'.format(key, val).split('\n')
 
 def get_attributes(dataset, data_subset, attribute_obj):
     if dataset == "property":
@@ -36,12 +58,6 @@ def get_attributes(dataset, data_subset, attribute_obj):
             return PrincipalAttributes(attribute_obj)
     if dataset == "geo-reference":
         return GeoReferenceOutputCategories(attribute_obj)
-    if dataset == "secondary":
-        if data_subset == "count":
-            return SecondaryCountAttributes(attribute_obj)
-        return SecondaryListAttributes(attribute_obj)
-
-
 
 class PrincipalAttributes:
     def __init__(self, obj):
@@ -689,30 +705,6 @@ def get_geo_reference_place(geo_reference_place_obj):
     output.append(GeoReferencePlace(geo_reference_place_obj))
     return output
 
-class SecondaryListAttributes:
-    def __init__(self, obj):
-
-        self.root_address = get_secondary_root_address(obj.get('root_address', None))
-        self.aliases = get_secondary_aliases(obj.get('aliases', None))
-        self.secondaries = get_secondary_secondaries(obj.get('secondaries', None))
-
-    def __str__(self):
-        lines = ['']
-        for key, val in vars(self).items():
-            if (type(val) == list or type(val) == dict):
-                lines.append(key + ': ')
-            if type(val) is list:
-                for item in val:
-                    if type(item) is list:
-                        for subitem in item:
-                            lines.append('    ' + str(val.index(item)) + ': ')
-                            for subkey, subval in vars(subitem).items():
-                                lines += '        {}: {}'.format(subkey, subval).split('\n')
-                    else:
-                        for subkey, subval in vars(item).items():
-                                lines += '    {}: {}'.format(subkey, subval).split('\n')
-        return '\n    '.join(lines)
-
 class SecondaryRootAddress:
     def __init__(self, obj):
         self.secondary_count = obj.get('secondary_count', None)
@@ -760,6 +752,18 @@ class SecondaryAliases:
         self.zipcode = obj.get('zipcode', None)
         self.plus4_code = obj.get('plus4_code', None)
 
+    def __str__(self):
+        lines = ['']
+        for key, val in vars(self).items():
+            if type(val) is list:
+                lines.append(key + ': ')
+                for item in val:
+                    for subkey, subval in vars(item).items():
+                        lines += '    {}: {}'.format(subkey, subval).split('\n')
+            else:
+                lines.append(key + ': ' + str(val))
+        return '\n    '.join(lines)
+
 def get_secondary_aliases(secondary_aliases_obj):
     if secondary_aliases_obj is None:
         return None
@@ -778,6 +782,18 @@ class SecondarySecondaries:
         self.secondary_number = obj.get('secondary_number', None)
         self.plus4_code = obj.get('plus4_code', None)
 
+    def __str__(self):
+        lines = ['']
+        for key, val in vars(self).items():
+            if type(val) is list:
+                lines.append(key + ': ')
+                for item in val:
+                    for subkey, subval in vars(item).items():
+                        lines += '    {}: {}'.format(subkey, subval).split('\n')
+            else:
+                lines.append(key + ': ' + str(val))
+        return '\n    '.join(lines)
+
 def get_secondary_secondaries(secondary_secondaries_obj):
     if secondary_secondaries_obj is None:
         return None
@@ -795,13 +811,4 @@ class SecondaryCountAttributes:
         self.count = obj.get('count', None)
 
     def __str__(self):
-        lines = ['']
-        for key, val in vars(self).items():
-            if type(val) is list:
-                lines.append(key + ': ')
-                for item in val:
-                    for subkey, subval in vars(item).items():
-                        lines += '    {}: {}'.format(subkey, subval).split('\n')
-            else:
-                lines.append(key + ': ' + str(val))
-        return '\n    '.join(lines)
+        return self.__dict__.__str__()
