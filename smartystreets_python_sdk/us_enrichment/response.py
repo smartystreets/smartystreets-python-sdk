@@ -1,15 +1,17 @@
 class Response:
     def __init__(self, obj):
         self.smarty_key = obj.get('smarty_key', None)
-        data_set_name = ''
-        data_subset_name = ''
+        data_set_name = None
+        data_subset_name = None
         if 'data_set_name' in obj:
             self.data_set_name = obj.get('data_set_name')
+            data_set_name = obj.get('data_set_name')
         elif 'secondaries' in obj:
             data_set_name = 'secondary'
 
         if 'data_subset_name' in obj:
             self.data_subset_name = obj.get('data_subset_name', None)
+            data_subset_name = obj.get('data_subset_name', None)
         elif 'count' in obj:
             data_set_name = 'secondary'
             data_subset_name = 'count'
@@ -23,7 +25,7 @@ class Response:
                     self.aliases = get_secondary_aliases(obj.get('aliases', None))
                 self.secondaries = get_secondary_secondaries(obj.get('secondaries', None))
         else:
-            self.attributes = get_attributes(self.data_set_name, self.data_subset_name, obj.get('attributes', None))
+            self.attributes = get_attributes(data_set_name, data_subset_name, obj.get('attributes', None))
 
     def __str__(self):
         lines = [self.__class__.__name__ + ':']
