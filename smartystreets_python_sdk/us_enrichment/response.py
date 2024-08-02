@@ -770,12 +770,9 @@ def get_secondary_aliases(secondary_aliases_obj):
     if secondary_aliases_obj is None:
         return None
     output = []
-    output_list = []
     for item in secondary_aliases_obj:
         output.append(SecondaryAliases(item))
-        output_list.append(output)
-        output = []
-    return output_list
+    return output
 
 class SecondarySecondaries:
     def __init__(self, obj):
@@ -800,12 +797,9 @@ def get_secondary_secondaries(secondary_secondaries_obj):
     if secondary_secondaries_obj is None:
         return None
     output = []
-    output_list = []
     for item in secondary_secondaries_obj:
         output.append(SecondarySecondaries(item))
-        output_list.append(output)
-        output = []
-    return output_list
+    return output
 
 class SecondaryCountAttributes:
     def __init__(self, obj):
