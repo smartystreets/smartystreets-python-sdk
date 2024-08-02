@@ -2,6 +2,8 @@ propertyDataset = "property"
 financialDataSubset = "financial"
 principalDataSubset = "principal"
 geoReferenceDataset = "geo-reference"
+secondaryDataset = "secondary"
+countDataSubset = "count"
 noneDataSubset = None
 
 class Lookup:
@@ -22,3 +24,11 @@ class PrincipalLookup(Lookup):
 class GeoReferenceLookup(Lookup):
     def __init__(self, smartykey):
         super().__init__(smartykey, geoReferenceDataset, noneDataSubset)
+
+class SecondaryLookup(Lookup):
+    def __init__(self, smartykey):
+        super().__init__(smartykey, secondaryDataset, noneDataSubset)
+
+class SecondaryCountLookup(Lookup):
+    def __init__(self, smartykey):
+        super().__init__(smartykey, secondaryDataset, countDataSubset)
