@@ -23,6 +23,25 @@ class TestClient(unittest.TestCase):
         function_result = client.send_property_financial_lookup("xxx")
         self.assertEqual(result, function_result)
 
+    def test_sending_Financial_address_Lookup(self):
+        capturing_sender = RequestCapturingSender()
+        sender = URLPrefixSender('http://localhost/', capturing_sender)
+        serializer = FakeSerializer(None)
+        client = Client(sender, serializer)
+        lookup = FinancialLookup()
+        lookup.street = "street"
+        lookup.city = "city"
+        lookup.state = "state"
+        lookup.zipcode = "zipcode"
+        result = send_lookup(client, lookup)
+
+        self.assertEqual("property", lookup.dataset)
+        self.assertEqual("financial", lookup.dataSubset)
+        self.assertEqual(lookup.result, result)
+
+        function_result = client.send_property_financial_lookup(lookup)
+        self.assertEqual(result, function_result)
+
     def test_sending_principal_lookup(self):
         capturing_sender = RequestCapturingSender()
         sender = URLPrefixSender('http://localhost/', capturing_sender)
@@ -37,6 +56,26 @@ class TestClient(unittest.TestCase):
         self.assertEqual(lookup.result, result)
 
         function_result = client.send_property_principal_lookup("xxx")
+        self.assertEqual(result, function_result)
+
+    def test_sending_principal_address_lookup(self):
+        capturing_sender = RequestCapturingSender()
+        sender = URLPrefixSender('http://localhost/', capturing_sender)
+        serializer = FakeSerializer(None)
+        client = Client(sender, serializer)
+
+        lookup = PrincipalLookup()
+        lookup.street = "street"
+        lookup.city = "city"
+        lookup.state = "state"
+        lookup.zipcode = "zipcode"
+        result = send_lookup(client, lookup)
+
+        self.assertEqual("property", lookup.dataset)
+        self.assertEqual("principal", lookup.dataSubset)
+        self.assertEqual(lookup.result, result)
+
+        function_result = client.send_property_principal_lookup(lookup)
         self.assertEqual(result, function_result)
     
     def test_sending_geo_reference_lookup(self):
@@ -53,6 +92,26 @@ class TestClient(unittest.TestCase):
         self.assertEqual(lookup.result, result)
 
         function_result = client.send_geo_reference_lookup("xxx")
+        self.assertEqual(result, function_result)
+    
+    def test_sending_geo_reference_address_lookup(self):
+        capturing_sender = RequestCapturingSender()
+        sender = URLPrefixSender('http://localhost/', capturing_sender)
+        serializer = FakeSerializer(None)
+        client = Client(sender, serializer)
+
+        lookup = GeoReferenceLookup()
+        lookup.street = "street"
+        lookup.city = "city"
+        lookup.state = "state"
+        lookup.zipcode = "zipcode"
+        result = send_lookup(client, lookup)
+
+        self.assertEqual("geo-reference", lookup.dataset)
+        self.assertEqual(None, lookup.dataSubset)
+        self.assertEqual(lookup.result, result)
+
+        function_result = client.send_geo_reference_lookup(lookup)
         self.assertEqual(result, function_result)
 
     def test_sending_secondary_lookup(self):
@@ -71,6 +130,26 @@ class TestClient(unittest.TestCase):
         function_result = client.send_secondary_lookup("xxx")
         self.assertEqual(result, function_result)
 
+    def test_sending_secondary_address_lookup(self):
+        capturing_sender = RequestCapturingSender()
+        sender = URLPrefixSender('http://localhost/', capturing_sender)
+        serializer = FakeSerializer(None)
+        client = Client(sender, serializer)
+
+        lookup = SecondaryLookup()
+        lookup.street = "street"
+        lookup.city = "city"
+        lookup.state = "state"
+        lookup.zipcode = "zipcode"
+        result = send_lookup(client, lookup)
+
+        self.assertEqual("secondary", lookup.dataset)
+        self.assertEqual(None, lookup.dataSubset)
+        self.assertEqual(lookup.result, result)
+
+        function_result = client.send_secondary_lookup(lookup)
+        self.assertEqual(result, function_result)
+
     def test_sending_secondary_count_lookup(self):
         capturing_sender = RequestCapturingSender()
         sender = URLPrefixSender('http://localhost/', capturing_sender)
@@ -85,4 +164,24 @@ class TestClient(unittest.TestCase):
         self.assertEqual(lookup.result, result)
 
         function_result = client.send_secondary_count_lookup("xxx")
+        self.assertEqual(result, function_result)
+
+    def test_sending_secondary_count_address_lookup(self):
+        capturing_sender = RequestCapturingSender()
+        sender = URLPrefixSender('http://localhost/', capturing_sender)
+        serializer = FakeSerializer(None)
+        client = Client(sender, serializer)
+
+        lookup = SecondaryCountLookup()
+        lookup.street = "street"
+        lookup.city = "city"
+        lookup.state = "state"
+        lookup.zipcode = "zipcode"
+        result = send_lookup(client, lookup)
+
+        self.assertEqual("secondary", lookup.dataset)
+        self.assertEqual("count", lookup.dataSubset)
+        self.assertEqual(lookup.result, result)
+
+        function_result = client.send_secondary_count_lookup(lookup)
         self.assertEqual(result, function_result)

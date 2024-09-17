@@ -12,44 +12,79 @@ class Client:
         self.sender = sender
         self.serializer = serializer
 
-    def send_property_financial_lookup(self, smartykey):
-        l = FinancialLookup(smartykey)
-        send_lookup(self, l)
-        return l.result
-
-    def send_property_principal_lookup(self, smartykey):
-        l = PrincipalLookup(smartykey)
-        send_lookup(self, l)
-        return l.result
+    def send_property_financial_lookup(self, lookup):
+        if isinstance(lookup, str):
+            l = FinancialLookup(lookup)
+            send_lookup(self, l)
+            return l.result
+        else:
+            lookup.dataset = 'property'
+            lookup.dataSubset = 'financial'
+            send_lookup(self, lookup)
+            return lookup.result
+        
+    def send_property_principal_lookup(self, lookup):
+        if isinstance(lookup, str):
+            l = PrincipalLookup(lookup)
+            send_lookup(self, l)
+            return l.result
+        else:
+            lookup.dataset = 'property'
+            lookup.dataSubset = 'principal'
+            send_lookup(self, lookup)
+            return lookup.result
     
-    def send_geo_reference_lookup(self, smartykey):
-        l = GeoReferenceLookup(smartykey)
-        send_lookup(self, l)
-        return l.result
+    def send_geo_reference_lookup(self, lookup):
+        if isinstance(lookup, str):
+            l = GeoReferenceLookup(lookup)
+            send_lookup(self, l)
+            return l.result
+        else:
+            lookup.dataset = 'geo-reference'
+            lookup.dataSubset = None
+            send_lookup(self, lookup)
+            return lookup.result
     
-    def send_secondary_lookup(self, smartykey):
-        l = SecondaryLookup(smartykey)
-        send_lookup(self, l)
-        return l.result
+    def send_secondary_lookup(self, lookup):
+        if isinstance(lookup, str):
+            l = SecondaryLookup(lookup)
+            send_lookup(self, l)
+            return l.result
+        else:
+            lookup.dataset = 'secondary'
+            lookup.dataSubset = None
+            send_lookup(self, lookup)
+            return lookup.result
     
-    def send_secondary_count_lookup(self, smartykey):
-        l = SecondaryCountLookup(smartykey)
-        send_lookup(self, l)
-        return l.result
+    def send_secondary_count_lookup(self, lookup):
+        if isinstance(lookup, str):
+            l = SecondaryCountLookup(lookup)
+            send_lookup(self, l)
+            return l.result
+        else:
+            lookup.dataset = 'secondary'
+            lookup.dataSubset = 'count'
+            send_lookup(self, lookup)
+            return lookup.result
     
-    def send_generic_lookup(self, smartykey, dataset, dataSubset):
-        l = Lookup(smartykey, dataset, dataSubset)
-        send_lookup(self, l)
-        return l.result
+    def send_generic_lookup(self, lookup, dataset, dataSubset):
+        if isinstance(lookup, str):
+            l = Lookup(lookup, dataset, dataSubset)
+            send_lookup(self, l)
+            return l.result
+        else:
+            lookup.dataset = dataset
+            lookup.dataSubset = dataSubset
+            send_lookup(self, lookup)
+            return lookup.result
 
 
 def send_lookup(client: Client, lookup):
     """
     Sends a Lookup object to the US Enrichment API and stores the result in the Lookup's result field.
     """
-    if lookup is None or lookup.smartykey is None or not isinstance(lookup.smartykey, str) or len(
-            lookup.smartykey.strip()) == 0:
-        raise SmartyException('Client.send() requires a Lookup with the "smartykey" field set as a string')
+    if lookup is None or (lookup.smartykey is None and lookup.street is None and lookup.freeform is None):
+        raise SmartyException('Client.send() requires a Lookup with either the "smartykey", "street, or "freeform" field set as a string')
 
     request = build_request(lookup)
 
@@ -67,10 +102,37 @@ def send_lookup(client: Client, lookup):
 
 def build_request(lookup):
     request = Request()
-    if lookup.dataSubset == None:
-        request.url_components = lookup.smartykey + "/" + lookup.dataset
+    if lookup.smartykey != None:
+        if lookup.dataSubset == None:
+            request.url_components = lookup.smartykey + "/" + lookup.dataset
+            return request
+    
+        request.url_components = lookup.smartykey + "/" + lookup.dataset + "/" + lookup.dataSubset
+
+        return request
+    else:
+        if lookup.dataSubset == None:
+            request.url_components = 'search/' + lookup.dataset
+            request.parameters = remap_keys(lookup)
+            return request
+    
+        request.url_components = 'search/' + lookup.dataset + "/" + lookup.dataSubset
+
+        request.parameters = remap_keys(lookup)
         return request
     
-    request.url_components = lookup.smartykey + "/" + lookup.dataset + "/" + lookup.dataSubset
+def remap_keys(lookup):
+    converted_lookup = {}
 
-    return request
+    add_field(converted_lookup, 'freeform', lookup.freeform)
+    add_field(converted_lookup, 'street', lookup.street)
+    add_field(converted_lookup, 'city', lookup.city)
+    add_field(converted_lookup, 'state', lookup.state)
+    add_field(converted_lookup, 'zipcode', lookup.zipcode)
+
+    return converted_lookup
+
+
+def add_field(converted_lookup, key, value):
+    if value:
+        converted_lookup[key] = value
