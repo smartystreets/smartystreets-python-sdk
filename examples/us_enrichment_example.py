@@ -58,7 +58,7 @@ def run():
         return
 
     if not results:
-        print("No results found. This means the Smartykey is likely not valid.")
+        print("No results found. This means the Smartykey or address is likely not valid, or does not have data in this dataset")
         return
 
     top_result = results[0]
