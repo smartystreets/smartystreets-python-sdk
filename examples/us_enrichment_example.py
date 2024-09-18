@@ -1,6 +1,7 @@
 import os
 
 from smartystreets_python_sdk import SharedCredentials, StaticCredentials, exceptions, ClientBuilder
+from smartystreets_python_sdk.us_enrichment.lookup import Lookup as EnrichmentLookup
 
 
 # from smartystreets_python_sdk.us_enrichment import
@@ -30,9 +31,26 @@ def run():
     # client = ClientBuilder(credentials).with_http_proxy('localhost:8080', 'user', 'password').build_us_street_api_client()
     # Uncomment the line above to try it with a proxy instead
 
-    smarty_key = "1682393594"
+    smarty_key = "325023201"
+
+    lookup = EnrichmentLookup()
+    freeform_lookup = EnrichmentLookup()
+
+    lookup.street = "56 Union Ave"
+    lookup.city = "Somerville"
+    lookup.state = "NJ"
+    lookup.zipcode = "08876"
+
+    freeform_lookup.freeform = "56 Union Ave Somerville NJ 08876"
+
     try:
+        # use the below line to send a lookup with a smarty key
         results = client.send_property_principal_lookup(smarty_key)
+        # Or, uncomment the below line to send a lookup with an address in components
+        # results = client.send_property_principal_lookup(lookup)
+        # Or, uncomment the below line to send a lookup with an address in freeform
+        # results = client.send_property_principal_lookup(freeform_lookup)
+
         # results = client.send_generic_lookup(smarty_key, 'property', 'principal')
         # Uncomment the line above to try it as a generic lookup instead
     except Exception as err:
@@ -40,7 +58,7 @@ def run():
         return
 
     if not results:
-        print("No results found. This means the Smartykey is likely not valid.")
+        print("No results found. This means the Smartykey or address is likely not valid, or does not have data in this dataset")
         return
 
     top_result = results[0]
