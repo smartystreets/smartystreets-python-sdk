@@ -46,3 +46,11 @@ class Components:
         self.post_box = obj.get("post_box", None)
         self.post_box_type = obj.get("post_box_type", None)
         self.post_box_number = obj.get("post_box_number", None)
+        self.additional_content = obj.get("additional_content", None)
+        self.delivery_installation = obj.get("delivery_installation", None)
+        self.delivery_installation_type = obj.get("delivery_installation_type", None)
+        self.delivery_installation_qualifier_name = obj.get("delivery_installation_qualifier_name", None)
+        self.route = obj.get("route", None)
+        self.route_number = obj.get("route_number", None)
+        self.route_type = obj.get("route_type", None)
+

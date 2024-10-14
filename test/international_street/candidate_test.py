@@ -46,7 +46,7 @@ class TestCandidate(unittest.TestCase):
                 "\"building_leading_type\":\"102\",\"building_name\":\"103\",\"building_trailing_type\":\"104\","\
                 "\"sub_building_type\":\"105\",\"sub_building_number\":\"106\",\"sub_building_name\":\"107\"," \
                 "\"sub_building\":\"108\",\"level_type\":\"108.1\",\"level_number\":\"108.2\","\
-                "\"post_box\":\"109\",\"post_box_type\":\"110\",\"post_box_number\":\"111\"}}}}]"
+                "\"post_box\":\"109\",\"post_box_type\":\"110\",\"post_box_number\":\"111\",\"additional_content\":\"112\",\"delivery_installation\":\"113\",\"delivery_installation_type\":\"114\",\"delivery_installation_qualifier_name\":\"115\",\"route\":\"116\",\"route_number\":\"117\",\"route_type\":\"118\"}}}}]"
 
         serializer = NativeSerializer()
         candidate = Candidate(serializer.deserialize(response_payload)[0])
@@ -187,3 +187,10 @@ class TestCandidate(unittest.TestCase):
         self.assertEqual("109", components.post_box)
         self.assertEqual("110", components.post_box_type)
         self.assertEqual("111", components.post_box_number)
+        self.assertEqual("112", components.additional_content)
+        self.assertEqual("113", components.delivery_installation)
+        self.assertEqual("114", components.delivery_installation_type)
+        self.assertEqual("115", components.delivery_installation_qualifier_name)
+        self.assertEqual("116", components.route)
+        self.assertEqual("117", components.route_number)
+        self.assertEqual("118", components.route_type)
