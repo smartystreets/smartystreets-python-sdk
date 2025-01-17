@@ -7,7 +7,10 @@ class Lookup:
         See https://smartystreets.com/docs/cloud/us-reverse-geo-api#http-input-fields
         """
         self.results = []
-
+        self.custom_parameter_array = {}
         self.latitude = round(latitude, 8)
         self.longitude = round(longitude, 8)
         self.source = source
+
+    def add_custom_parameter(self, parameter, value):
+        self.custom_parameter_array[parameter] = value

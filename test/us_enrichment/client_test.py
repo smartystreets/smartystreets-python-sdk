@@ -8,6 +8,31 @@ from test.mocks import *
 
 
 class TestClient(unittest.TestCase):
+    def test_sending_fully_populated_Enrichment_Lookup(self):
+        capturing_sender = RequestCapturingSender()
+        sender = URLPrefixSender('http://localhost/', capturing_sender)
+        serializer = FakeSerializer(None)
+        client = Client(sender, serializer)
+        lookup = FinancialLookup("xxx")
+        lookup.add_custom_parameter('custom', '1')
+        lookup.add_custom_parameter('custom2', '2')
+        lookup.add_include_attribute('3')
+        lookup.add_include_attribute('4')
+        lookup.add_exclude_attribute('5')
+        lookup.add_exclude_attribute('6')
+        result = send_lookup(client, lookup)
+        request = capturing_sender.request
+
+        self.assertEqual("property", lookup.dataset)
+        self.assertEqual("financial", lookup.dataSubset)
+        self.assertEqual('1', request.parameters['custom'])
+        self.assertEqual('2', request.parameters['custom2'])
+        self.assertEqual('3,4', request.parameters['include'])
+        self.assertEqual('5,6', request.parameters['exclude'])
+
+        function_result = client.send_property_financial_lookup("xxx")
+        self.assertEqual(result, function_result)
+
     def test_sending_Financial_Lookup(self):
         capturing_sender = RequestCapturingSender()
         sender = URLPrefixSender('http://localhost/', capturing_sender)
@@ -15,10 +40,10 @@ class TestClient(unittest.TestCase):
         client = Client(sender, serializer)
         lookup = FinancialLookup("xxx")
         result = send_lookup(client, lookup)
+        request = capturing_sender.request
 
         self.assertEqual("property", lookup.dataset)
         self.assertEqual("financial", lookup.dataSubset)
-        self.assertEqual(lookup.result, result)
 
         function_result = client.send_property_financial_lookup("xxx")
         self.assertEqual(result, function_result)

@@ -7,7 +7,11 @@ class Lookup:
             See "https://smartystreets.com/docs/cloud/us-zipcode-api#http-request-input-fields"
         """
         self.result = None
+        self.custom_parameter_array = {}
         self.input_id = input_id
         self.city = city
         self.state = state
         self.zipcode = zipcode
+
+    def add_custom_parameter(self, parameter, value):
+        self.custom_parameter_array[parameter] = value

@@ -19,6 +19,7 @@ class Lookup:
         """
         self.result = []
 
+        self.custom_parameter_array = {}
         self.input_id = None
         self.country = country
         self.geocode = None
@@ -75,3 +76,6 @@ class Lookup:
 
         if self.missing_locality_or_administrative_area:
             raise UnprocessableEntityError('Insufficient information: One or more required fields were not set on the lookup.')
+        
+    def add_custom_parameter(self, parameter, value):
+        self.custom_parameter_array[parameter] = value

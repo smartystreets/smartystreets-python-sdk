@@ -10,16 +10,16 @@ def run():
 
     # We recommend storing your secret keys in environment variables instead---it's safer!
     # for client-side requests (browser/mobile), use this code:
-    key = os.environ['SMARTY_AUTH_WEB']
-    hostname = os.environ['SMARTY_WEBSITE_DOMAIN']
+    #key = os.environ['SMARTY_AUTH_WEB']
+    #hostname = os.environ['SMARTY_WEBSITE_DOMAIN']
 
-    credentials = SharedCredentials(key, hostname)
+    #credentials = SharedCredentials(key, hostname)
 
     # for server-to-server requests, use this code:
-    # auth_id = os.environ['SMARTY_AUTH_ID']
-    # auth_token = os.environ['SMARTY_AUTH_TOKEN']
+    auth_id = os.environ['SMARTY_AUTH_ID']
+    auth_token = os.environ['SMARTY_AUTH_TOKEN']
     #
-    # credentials = StaticCredentials(auth_id, auth_token)
+    credentials = StaticCredentials(auth_id, auth_token)
 
     # Documentation for input fields can be found at:
     # https://smartystreet.com/docs/us-zipcode-api#input-fields
@@ -31,6 +31,9 @@ def run():
     lookup.city = "Mountain View"
     lookup.state = "California"
     lookup.zipcode = "94043"
+
+    # Uncomment the below line to add a custom parameter
+    # lookup.add_custom_parameter("parameter", "value")
 
     try:
         client.send_lookup(lookup)
@@ -51,6 +54,7 @@ def run():
         print("\nZIP Code: " + zipcode.zipcode)
         print("Latitude: {}".format(zipcode.latitude))
         print("Longitude: {}".format(zipcode.longitude))
+        print("County: {}".format(zipcode.county_name))
 
 
 if __name__ == "__main__":

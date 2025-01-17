@@ -23,10 +23,15 @@ def run():
     #
     # credentials = StaticCredentials(auth_id, auth_token)
 
+    client = ClientBuilder(credentials).build_us_enrichment_api_client()
+
+    # (Advanced) Uncomment the below line to explicitly specify a license value
+    # client = ClientBuilder(credentials).with_licenses(["us-property-data-principal-cloud"]).build_us_enrichment_api_client()
+
     # The appropriate license values to be used for your subscriptions
     # can be found on the Subscriptions page of the account dashboard.
     # https://www.smartystreets.com/docs/cloud/licensing
-    client = ClientBuilder(credentials).with_licenses(["us-property-data-principal-cloud"]).build_us_enrichment_api_client()
+
     # client = ClientBuilder(credentials).with_custom_header({'User-Agent': 'smartystreets (python@0.0.0)', 'Content-Type': 'application/json'}).build_us_enrichment_api_client()
     # client = ClientBuilder(credentials).with_http_proxy('localhost:8080', 'user', 'password').build_us_street_api_client()
     # Uncomment the line above to try it with a proxy instead
@@ -40,6 +45,17 @@ def run():
     lookup.city = "Somerville"
     lookup.state = "NJ"
     lookup.zipcode = "08876"
+
+    # Uncomment the below lines to add attributes to the "include" parameter
+    # lookup.add_include_attribute('assessed_improvement_percent')
+    # lookup.add_include_attribute('assessed_improvement_value')
+
+    # Uncomment the below lines to add attributes to the "exclude" parameter
+    # lookup.add_exclude_attribute('assessed_land_value')
+    # lookup.add_exclude_attribute('assessed_value')
+
+    # Uncomment the below line to add a custom parameter
+    # lookup.add_custom_parameter("parameter", "value")
 
     freeform_lookup.freeform = "56 Union Ave Somerville NJ 08876"
 

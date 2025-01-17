@@ -16,12 +16,14 @@ class TestClient(unittest.TestCase):
         lookup.city = '0'
         lookup.state = '1'
         lookup.zipcode = '2'
+        lookup.add_custom_parameter('custom', '3')
 
         client.send_lookup(lookup)
 
         self.assertEqual('0', sender.request.parameters['city'])
         self.assertEqual('1', sender.request.parameters['state'])
         self.assertEqual('2', sender.request.parameters['zipcode'])
+        self.assertEqual('3', sender.request.parameters['custom'])
 
     def test_empty_batch_not_sent(self):
         sender = RequestCapturingSender()

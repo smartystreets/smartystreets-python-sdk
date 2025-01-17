@@ -27,6 +27,7 @@ class ClientBuilder:
         self.debug = None
         self.header = None
         self.licenses = []
+        self.pool_size = None
         self.INTERNATIONAL_STREET_API_URL = "https://international-street.api.smarty.com/verify"
         self.INTERNATIONAL_AUTOCOMPLETE_API_URL = "https://international-autocomplete.api.smarty.com/v2/lookup"
         self.US_AUTOCOMPLETE_PRO_API_URL = "https://us-autocomplete-pro.api.smarty.com/lookup"
@@ -142,6 +143,14 @@ class ClientBuilder:
         """
         self.licenses = licenses
         return self
+    
+    def with_connection_pool_size(self, connections):
+        """
+        Allows the caller to specify the size of the connection pool for multithreading.
+        :param connections: The desired size of the connection pool
+        """
+        self.pool_size = connections
+        return self
 
     def build_international_street_api_client(self):
         self.ensure_url_prefix_not_null(self.INTERNATIONAL_STREET_API_URL)
@@ -180,7 +189,7 @@ class ClientBuilder:
         if self.http_sender is not None:
             return self.http_sender
 
-        sender = smarty.RequestsSender(self.max_timeout, self.proxy, self.ip)
+        sender = smarty.RequestsSender(self.max_timeout, self.proxy, self.ip, self.pool_size)
         sender.debug = self.debug
 
         sender = smarty.StatusCodeSender(sender)

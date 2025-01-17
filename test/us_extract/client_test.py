@@ -29,6 +29,7 @@ class TestClient(unittest.TestCase):
         lookup.aggressive = True
         lookup.addresses_have_line_breaks = True
         lookup.addresses_per_line = 2
+        lookup.add_custom_parameter('custom', '2')
 
         client.send(lookup)
 
@@ -37,6 +38,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual('true', request.parameters['aggressive'])
         self.assertEqual('true', request.parameters['addr_line_breaks'])
         self.assertEqual(2, request.parameters['addr_per_line'])
+        self.assertEqual('2', request.parameters['custom'])
 
     def test_reject_blank_lookup(self):
         capturing_sender = RequestCapturingSender()

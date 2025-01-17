@@ -11,12 +11,26 @@ class Lookup:
         self.smartykey = smartykey
         self.dataset = dataset
         self.dataSubset = dataSubset
+        self.include_array = []
+        self.exclude_array = []
         self.freeform = freeform
         self.street = street
         self.city = city
         self.state = state
         self.zipcode = zipcode
         self.result = []
+        self.custom_parameter_array = {}
+    
+    def add_custom_parameter(self, parameter, value):
+        self.custom_parameter_array[parameter] = value
+
+    def add_include_attribute(self, attribute):
+        if (attribute not in self.include_array):
+            self.include_array.append(attribute)
+    
+    def add_exclude_attribute(self, attribute):
+        if (attribute not in self.exclude_array):
+            self.exclude_array.append(attribute)
 
 class FinancialLookup(Lookup):
     def __init__(self, smartykey = None):

@@ -21,11 +21,14 @@ def run():
     #
     # credentials = StaticCredentials(auth_id, auth_token)
 
+    client = ClientBuilder(credentials).build_international_street_api_client()
+
+    # (Advanced) Uncomment the below line to explicitly specify a license value
+    # client = ClientBuilder(credentials).with_licenses(['international-global-plus-cloud']).build_international_street_api_client()
+
     # The appropriate license values to be used for your subscriptions
     # can be found on the Subscription page of the account dashboard.
     # https://www.smartystreets.com/docs/cloud/licensing
-    client = ClientBuilder(credentials).with_licenses(['international-global-plus-cloud'])\
-        .build_international_street_api_client()
 
     # Documentation for input fields can be found at:
     # https://smartystreets.com/docs/cloud/international-street-api#http-input-fields
@@ -40,6 +43,9 @@ def run():
     lookup.administrative_area = "SP"
     lookup.country = "Brazil"
     lookup.postal_code = "02516-050"
+
+    # Uncomment the below line to add a custom parameter
+    # lookup.add_custom_parameter("parameter", "value")
 
     candidates = client.send(lookup)  # The candidates are also stored in the lookup's 'result' field.
 

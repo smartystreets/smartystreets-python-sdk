@@ -26,6 +26,7 @@ class TestClient(unittest.TestCase):
         lookup.locality = '3'
         lookup.postal_code = '4'
         lookup.address_id = '5'
+        lookup.add_custom_parameter('custom', '6')
 
         client.send(lookup)
 
@@ -35,6 +36,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual('3', sender.request.parameters['include_only_locality'])
         self.assertEqual('4', sender.request.parameters['include_only_postal_code'])
         self.assertEqual('/5', sender.request.url_components)
+        self.assertEqual('6', sender.request.parameters['custom'])
 
     def test_deserialize_called_with_response_body(self):
         response = Response('Hello, World!', 0)

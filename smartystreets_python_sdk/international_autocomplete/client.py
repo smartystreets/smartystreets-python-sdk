@@ -43,6 +43,9 @@ class Client:
         self.add_parameter(request, 'include_only_locality', lookup.locality)
         self.add_parameter(request, 'include_only_postal_code', lookup.postal_code)
 
+        for parameter in lookup.custom_parameter_array:
+            self.add_parameter(request, parameter, lookup.custom_parameter_array[parameter])
+
         return request
 
     @staticmethod

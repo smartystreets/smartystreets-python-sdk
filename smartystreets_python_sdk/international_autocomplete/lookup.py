@@ -13,9 +13,13 @@ class Lookup:
         """
         self.result = []
 
+        self.custom_parameter_array = {}
         self.search = search
         self.address_id = address_id
         self.country = country
         self.max_results = max_results
         self.locality = locality
         self.postal_code = postal_code
+
+    def add_custom_parameter(self, parameter, value):
+        self.custom_parameter_array[parameter] = value
