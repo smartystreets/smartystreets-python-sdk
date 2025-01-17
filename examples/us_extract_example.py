@@ -40,6 +40,9 @@ def run():
     lookup.addresses_per_line = 1
     lookup.match = MatchType.ENHANCED
 
+    # Uncomment the below line to add a custom parameter
+    # lookup.add_custom_parameter("parameter", "value")
+
     result = client.send(lookup)
 
     metadata = result.metadata

@@ -11,21 +11,26 @@ def run():
 
     # We recommend storing your secret keys in environment variables instead---it's safer!
     # for client-side requests (browser/mobile), use this code:
-    key = os.environ['SMARTY_AUTH_WEB']
-    hostname = os.environ['SMARTY_WEBSITE_DOMAIN']
+    # key = os.environ['SMARTY_AUTH_WEB']
+    # hostname = os.environ['SMARTY_WEBSITE_DOMAIN']
 
-    credentials = SharedCredentials(key, hostname)
+    # credentials = SharedCredentials(key, hostname)
 
     # for server-to-server requests, use this code:
-    # auth_id = os.environ['SMARTY_AUTH_ID']
-    # auth_token = os.environ['SMARTY_AUTH_TOKEN']
-    #
-    # credentials = StaticCredentials(auth_id, auth_token)
+    auth_id = os.environ['SMARTY_AUTH_ID']
+    auth_token = os.environ['SMARTY_AUTH_TOKEN']
+    
+    credentials = StaticCredentials(auth_id, auth_token)
+
+    client = ClientBuilder(credentials).build_us_street_api_client()
+
+    # (Advanced) Uncomment the below line to explicitly specify a license value
+    # client = ClientBuilder(credentials).with_licenses(['us-core-cloud']).build_us_street_api_client()
 
     # The appropriate license values to be used for your subscriptions
     # can be found on the Subscription page of the account dashboard.
     # https://www.smartystreets.com/docs/cloud/licensing
-    client = ClientBuilder(credentials).with_licenses(['us-core-cloud']).build_us_street_api_client()
+    
     batch = Batch()
 
     # Documentation for input fields can be found at:
@@ -43,6 +48,9 @@ def run():
     batch[0].match = MatchType.INVALID  # "invalid" is the most permissive match,
                                         # this will always return at least one result even if the address is invalid.
                                         # Refer to the documentation for additional Match Strategy options.
+
+    # Uncomment the below line to add a custom parameter
+    # batch[0].add_custom_parameter("parameter", "value")
 
     batch.add(StreetLookup("1 Rosedale, Baltimore, Maryland"))  # Freeform addresses work too.
     batch[1].candidates = 10  # Allows up to ten possible matches to be returned (default is 1).

@@ -12,8 +12,10 @@ class TestClient(unittest.TestCase):
         serializer = FakeDeserializer({})
         client = Client(sender, serializer)
         lookup = Lookup(44.888888888, -111.111111111)
+        lookup.add_custom_parameter('custom', '1')
 
         client.send(lookup)
 
         self.assertEqual(44.88888889, sender.request.parameters['latitude'])
         self.assertEqual(-111.11111111, sender.request.parameters['longitude'])
+        self.assertEqual('1', sender.request.parameters['custom'])

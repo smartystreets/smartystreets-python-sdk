@@ -61,6 +61,9 @@ def remap_keys(obj):
         add_field(converted_lookup, 'state', lookup.state)
         add_field(converted_lookup, 'zipcode', lookup.zipcode)
 
+        for parameter in lookup.custom_parameter_array:
+            add_field(converted_lookup, parameter, lookup.custom_parameter_array[parameter])
+
         converted_obj.append(converted_lookup)
 
     return converted_obj

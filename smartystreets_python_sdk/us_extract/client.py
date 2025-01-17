@@ -46,6 +46,9 @@ class Client:
         else:
             Client.add_parameter(request, 'match', lookup.match)
 
+        for parameter in lookup.custom_parameter_array:
+            Client.add_parameter(request, parameter, lookup.custom_parameter_array[parameter])
+
         return request
 
     @staticmethod

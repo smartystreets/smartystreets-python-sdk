@@ -33,6 +33,9 @@ class Client:
         self.add_parameter(request, 'longitude', lookup.longitude)
         self.add_parameter(request, 'source', lookup.source)
 
+        for parameter in lookup.custom_parameter_array:
+            self.add_parameter(request, parameter, lookup.custom_parameter_array[parameter])
+
         return request
 
     @staticmethod

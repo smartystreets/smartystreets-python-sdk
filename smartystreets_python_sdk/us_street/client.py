@@ -73,6 +73,7 @@ def remap_keys(obj):
         add_field(converted_lookup, 'lastline', lookup.lastline)
         add_field(converted_lookup, 'addressee', lookup.addressee)
         add_field(converted_lookup, 'urbanization', lookup.urbanization)
+        add_field(converted_lookup, 'county_source', lookup.county_source)
         if isinstance(lookup.match, MatchType):
             add_field(converted_lookup, 'match', lookup.match.value)
         else:
@@ -82,6 +83,9 @@ def remap_keys(obj):
             add_field(converted_lookup, 'format', lookup.outputformat.value)
         else:
             add_field(converted_lookup, 'format', lookup.outputformat)
+
+        for parameter in lookup.custom_parameter_array:
+            add_field(converted_lookup, parameter, lookup.custom_parameter_array[parameter])
 
         converted_obj.append(converted_lookup)
 

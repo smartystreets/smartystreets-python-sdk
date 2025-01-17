@@ -105,9 +105,11 @@ def build_request(lookup):
     if lookup.smartykey != None:
         if lookup.dataSubset == None:
             request.url_components = lookup.smartykey + "/" + lookup.dataset
+            request.parameters = remap_keys(lookup)
             return request
     
         request.url_components = lookup.smartykey + "/" + lookup.dataset + "/" + lookup.dataSubset
+        request.parameters = remap_keys(lookup)
 
         return request
     else:
@@ -124,11 +126,24 @@ def build_request(lookup):
 def remap_keys(lookup):
     converted_lookup = {}
 
-    add_field(converted_lookup, 'freeform', lookup.freeform)
-    add_field(converted_lookup, 'street', lookup.street)
-    add_field(converted_lookup, 'city', lookup.city)
-    add_field(converted_lookup, 'state', lookup.state)
-    add_field(converted_lookup, 'zipcode', lookup.zipcode)
+    if (lookup.freeform != None):
+        add_field(converted_lookup, 'freeform', lookup.freeform)
+    if (lookup.street != None):
+        add_field(converted_lookup, 'street', lookup.street)
+    if (lookup.city != None):
+        add_field(converted_lookup, 'city', lookup.city)
+    if (lookup.state != None):
+        add_field(converted_lookup, 'state', lookup.state)
+    if (lookup.zipcode != None):
+        add_field(converted_lookup, 'zipcode', lookup.zipcode)
+    if (lookup.include_array != None):
+        add_field(converted_lookup, 'include', build_filter_string(lookup.include_array))
+    if (lookup.exclude_array != None):
+        add_field(converted_lookup, 'exclude', build_filter_string(lookup.exclude_array))
+    
+
+    for parameter in lookup.custom_parameter_array:
+        add_field(converted_lookup, parameter, lookup.custom_parameter_array[parameter])
 
     return converted_lookup
 
@@ -136,3 +151,6 @@ def remap_keys(lookup):
 def add_field(converted_lookup, key, value):
     if value:
         converted_lookup[key] = value
+
+def build_filter_string(filter_list):
+    return ','.join(filter_list or []) or None
