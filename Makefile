@@ -14,6 +14,6 @@ dependencies:
 
 package: test
 	echo "__version__=\"${VERSION}\"" >> "$(VERSION_FILE)" \
-		&& python3 setup.py sdist
+		&& python3 -m build
 
 .PHONY: clean test dependencies package
