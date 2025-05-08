@@ -10,7 +10,7 @@ class TestCandidate(unittest.TestCase):
                 "\"address3\":\"4\",\"address4\":\"5\",\"address5\":\"6\",\"address6\":\"7\",\"address7\":\"8\","\
                 "\"address8\":\"9\",\"address9\":\"10\",\"address10\":\"11\",\"address11\":\"12\",\"address12\":\"13\","\
                 "\"components\":{\"country_iso_3\":\"14\",\"super_administrative_area\":\"15\","\
-                "\"administrative_area\":\"16\",\"administrative_area_short\":\"16.1\",\"administrative_area_long\":\"16.2\","\
+                "\"administrative_area\":\"16\",\"administrative_area_iso2\":\"16.1\",\"administrative_area_short\":\"16.2\",\"administrative_area_long\":\"16.3\","\
                 "\"sub_administrative_area\":\"17\",\"dependent_locality\":\"18\","\
                 "\"dependent_locality_name\":\"19\",\"double_dependent_locality\":\"20\",\"locality\":\"21\","\
                 "\"postal_code\":\"22\",\"postal_code_short\":\"23\",\"postal_code_extra\":\"24\","\
@@ -71,8 +71,9 @@ class TestCandidate(unittest.TestCase):
         self.assertEqual("14", components.country_iso_3)
         self.assertEqual("15", components.super_administrative_area)
         self.assertEqual("16", components.administrative_area)
-        self.assertEqual("16.1", components.administrative_area_short)
-        self.assertEqual("16.2", components.administrative_area_long)
+        self.assertEqual("16.1", components.administrative_area_iso2)
+        self.assertEqual("16.2", components.administrative_area_short)
+        self.assertEqual("16.3", components.administrative_area_long)
         self.assertEqual("17", components.sub_administrative_area)
         self.assertEqual("18", components.dependent_locality)
         self.assertEqual("19", components.dependent_locality_name)
