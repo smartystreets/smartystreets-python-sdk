@@ -6,6 +6,7 @@ class Components:
         self.country_iso_3 = obj.get("country_iso_3", None)
         self.super_administrative_area = obj.get("super_administrative_area", None)
         self.administrative_area = obj.get("administrative_area", None)
+        self.administrative_area_iso2 = obj.get("administrative_area_iso2", None)
         self.administrative_area_short = obj.get("administrative_area_short", None)
         self.administrative_area_long = obj.get("administrative_area_long", None)
         self.sub_administrative_area = obj.get("sub_administrative_area", None)
