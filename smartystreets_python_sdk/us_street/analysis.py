@@ -1,3 +1,5 @@
+from .component_analysis import ComponentAnalysis
+
 class Analysis:
     def __init__(self, obj):
         """
@@ -15,3 +17,5 @@ class Analysis:
         self.lacs_link_indicator = obj.get('lacslink_indicator', None)
         self.is_suite_link_match = obj.get('suitelink_match', None)
         self.enhanced_match = obj.get('enhanced_match', None)
+        components_obj = obj.get("components", None)
+        self.components = ComponentAnalysis(components_obj) if components_obj else None
