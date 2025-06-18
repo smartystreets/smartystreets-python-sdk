@@ -46,6 +46,7 @@ def run():
         print("State Abbreviation: {}".format(address.state_abbreviation))
         print("ZIP Code: {}".format(address.zipcode))
         print("License: {}".format(coordinate.get_license()))
+        print("Smartykey: {}".format(address.smartykey))
         print()
 
 
