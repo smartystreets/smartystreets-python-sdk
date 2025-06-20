@@ -28,13 +28,6 @@ def run():
     # credentials = StaticCredentials(auth_id, auth_token)
 
     client = ClientBuilder(credentials).build_us_autocomplete_pro_api_client()
-
-    # (Advanced) Uncomment the below line to explicitly specify a license value
-    # client = ClientBuilder(credentials).with_licenses(["us-autocomplete-pro-cloud"]).build_us_autocomplete_pro_api_client()
-
-    # The appropriate license values to be used for your subscriptions
-    # can be found on the Subscriptions page of the account dashboard.
-    # https://www.smartystreets.com/docs/cloud/licensing
     
     lookup = AutocompleteProLookup('1042 W Center')
 

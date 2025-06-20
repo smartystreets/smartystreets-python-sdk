@@ -23,13 +23,6 @@ def run():
 
     client = ClientBuilder(credentials).build_international_street_api_client()
 
-    # (Advanced) Uncomment the below line to explicitly specify a license value
-    # client = ClientBuilder(credentials).with_licenses(['international-global-plus-cloud']).build_international_street_api_client()
-
-    # The appropriate license values to be used for your subscriptions
-    # can be found on the Subscription page of the account dashboard.
-    # https://www.smartystreets.com/docs/cloud/licensing
-
     # Documentation for input fields can be found at:
     # https://smartystreets.com/docs/cloud/international-street-api#http-input-fields
 

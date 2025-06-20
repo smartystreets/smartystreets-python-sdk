@@ -22,14 +22,7 @@ def run():
     # credentials = StaticCredentials(auth_id, auth_token)
 
     client = ClientBuilder(credentials).build_us_reverse_geo_api_client()
-
-    # (Advanced) Uncomment the below line to explicitly specify a license value
-    # client = ClientBuilder(credentials).with_licenses(["us-reverse-geocoding-cloud"]).build_us_reverse_geo_api_client()
-
-    # The appropriate license values to be used for your subscriptions
-    # can be found on the Subscriptions page of the account dashboard.
-    # https://www.smartystreets.com/docs/cloud/licensing
-
+    
     # Documentation for input fields can be found at:
     # https://smartystreets.com/docs/cloud/us-reverse-geo-api#http-input-fields
 
@@ -53,6 +46,7 @@ def run():
         print("State Abbreviation: {}".format(address.state_abbreviation))
         print("ZIP Code: {}".format(address.zipcode))
         print("License: {}".format(coordinate.get_license()))
+        print("Smartykey: {}".format(address.smartykey))
         print()
 
 
