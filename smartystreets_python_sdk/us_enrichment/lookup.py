@@ -2,6 +2,7 @@ propertyDataset = "property"
 financialDataSubset = "financial"
 principalDataSubset = "principal"
 geoReferenceDataset = "geo-reference"
+riskDataset = "risk"
 secondaryDataset = "secondary"
 countDataSubset = "count"
 noneDataSubset = None
@@ -43,6 +44,10 @@ class PrincipalLookup(Lookup):
 class GeoReferenceLookup(Lookup):
     def __init__(self, smartykey = None):
         super().__init__(smartykey, geoReferenceDataset, noneDataSubset)
+
+class RiskLookup(Lookup):
+    def __init__(self, smartykey = None):
+        super().__init__(smartykey, riskDataset, noneDataSubset)
 
 class SecondaryLookup(Lookup):
     def __init__(self, smartykey = None):
