@@ -35,7 +35,8 @@ class TestClient(unittest.TestCase):
         lookup.locality = '7'
         lookup.administrative_area = '8'
         lookup.postal_code = '9'
-        lookup.add_custom_parameter('custom', '10')
+        lookup.features = '10'
+        lookup.add_custom_parameter('custom', '11')
 
         client.send(lookup)
 
@@ -51,7 +52,8 @@ class TestClient(unittest.TestCase):
         self.assertEqual('7', sender.request.parameters['locality'])
         self.assertEqual('8', sender.request.parameters['administrative_area'])
         self.assertEqual('9', sender.request.parameters['postal_code'])
-        self.assertEqual('10', sender.request.parameters['custom'])
+        self.assertEqual('10', sender.request.parameters['features'])
+        self.assertEqual('11', sender.request.parameters['custom'])
 
     def test_empty_lookup_rejected(self):
         sender = MockSender(None)

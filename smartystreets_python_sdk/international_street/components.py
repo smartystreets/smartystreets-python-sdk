@@ -54,5 +54,4 @@ class Components:
         self.route = obj.get("route", None)
         self.route_number = obj.get("route_number", None)
         self.route_type = obj.get("route_type", None)
-        self.use_indicator = obj.get("use_indicator", None)
 
