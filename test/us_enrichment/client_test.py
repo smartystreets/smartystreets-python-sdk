@@ -2,7 +2,7 @@ import unittest
 
 from smartystreets_python_sdk import URLPrefixSender
 from smartystreets_python_sdk.us_enrichment.client import Client, send_lookup
-from smartystreets_python_sdk.us_enrichment.lookup import FinancialLookup, PrincipalLookup, GeoReferenceLookup, SecondaryLookup, SecondaryCountLookup
+from smartystreets_python_sdk.us_enrichment.lookup import FinancialLookup, PrincipalLookup, GeoReferenceLookup, RiskLookup, SecondaryLookup, SecondaryCountLookup
 from smartystreets_python_sdk.us_enrichment.response import Response
 from test.mocks import *
 
@@ -137,6 +137,42 @@ class TestClient(unittest.TestCase):
         self.assertEqual(lookup.result, result)
 
         function_result = client.send_geo_reference_lookup(lookup)
+        self.assertEqual(result, function_result)
+
+    def test_sending_risk_lookup(self):
+        capturing_sender = RequestCapturingSender()
+        sender = URLPrefixSender('http://localhost/', capturing_sender)
+        serializer = FakeSerializer(None)
+        client = Client(sender, serializer)
+
+        lookup = RiskLookup("xxx")
+        result = send_lookup(client, lookup)
+
+        self.assertEqual("risk", lookup.dataset)
+        self.assertEqual(None, lookup.dataSubset)
+        self.assertEqual(lookup.result, result)
+
+        function_result = client.send_risk_lookup("xxx")
+        self.assertEqual(result, function_result)
+
+    def test_sending_risk_address_lookup(self):
+        capturing_sender = RequestCapturingSender()
+        sender = URLPrefixSender('http://localhost/', capturing_sender)
+        serializer = FakeSerializer(None)
+        client = Client(sender, serializer)
+
+        lookup = RiskLookup()
+        lookup.street = "street"
+        lookup.city = "city"
+        lookup.state = "state"
+        lookup.zipcode = "zipcode"
+        result = send_lookup(client, lookup)
+
+        self.assertEqual("risk", lookup.dataset)
+        self.assertEqual(None, lookup.dataSubset)
+        self.assertEqual(lookup.result, result)
+
+        function_result = client.send_risk_lookup(lookup)
         self.assertEqual(result, function_result)
 
     def test_sending_secondary_lookup(self):
