@@ -24,9 +24,12 @@ class TestCandidate(unittest.TestCase):
                 "\"building\":\"41\",\"building_leading_type\":\"42\",\"building_name\":\"43\","\
                 "\"building_trailing_type\":\"44\",\"sub_building_type\":\"45\",\"sub_building_number\":\"46\","\
                 "\"sub_building_name\":\"47\",\"sub_building\":\"48\",\"level_type\":\"48.1\",\"level_number\":\"48.2\"," \
-                "\"post_box\":\"49\",\"post_box_type\":\"50\"," \
-                "\"post_box_number\":\"51\"},\"metadata\":{\"latitude\":52.0,\"longitude\":53.0,"\
-                "\"geocode_precision\":\"54\",\"max_geocode_precision\":\"55\",\"address_format\":\"56\"},"\
+                "\"post_box\":\"49\",\"post_box_type\":\"50\",\"post_box_number\":\"51\"," \
+                "\"additional_content\":\"112\",\"delivery_installation\":\"113\",\"delivery_installation_type\":\"114\"," \
+                "\"delivery_installation_qualifier_name\":\"115\",\"route\":\"116\",\"route_number\":\"117\"," \
+                "\"route_type\":\"118\"},"\
+                "\"metadata\":{\"latitude\":52.0,\"longitude\":53.0,"\
+                "\"geocode_precision\":\"54\",\"max_geocode_precision\":\"55\",\"address_format\":\"56\",\"occupant_use\":\"56.1\"},"\
                 "\"analysis\":{\"verification_status\":\"57\",\"address_precision\":\"58\","\
                 "\"max_address_precision\":\"59\",\"changes\":{\"organization\":\"60\","\
                 "\"address1\":\"61\",\"address2\":\"62\",\"address3\":\"63\",\"address4\":\"64\",\"address5\":\"65\","\
@@ -46,7 +49,7 @@ class TestCandidate(unittest.TestCase):
                 "\"building_leading_type\":\"102\",\"building_name\":\"103\",\"building_trailing_type\":\"104\","\
                 "\"sub_building_type\":\"105\",\"sub_building_number\":\"106\",\"sub_building_name\":\"107\"," \
                 "\"sub_building\":\"108\",\"level_type\":\"108.1\",\"level_number\":\"108.2\","\
-                "\"post_box\":\"109\",\"post_box_type\":\"110\",\"post_box_number\":\"111\",\"additional_content\":\"112\",\"delivery_installation\":\"113\",\"delivery_installation_type\":\"114\",\"delivery_installation_qualifier_name\":\"115\",\"route\":\"116\",\"route_number\":\"117\",\"route_type\":\"118\"}}}}]"
+                "\"post_box\":\"109\",\"post_box_type\":\"110\",\"post_box_number\":\"111\"}}}}]"
 
         serializer = NativeSerializer()
         candidate = Candidate(serializer.deserialize(response_payload)[0])
@@ -112,6 +115,13 @@ class TestCandidate(unittest.TestCase):
         self.assertEqual("49", components.post_box)
         self.assertEqual("50", components.post_box_type)
         self.assertEqual("51", components.post_box_number)
+        self.assertEqual("112", components.additional_content)
+        self.assertEqual("113", components.delivery_installation)
+        self.assertEqual("114", components.delivery_installation_type)
+        self.assertEqual("115", components.delivery_installation_qualifier_name)
+        self.assertEqual("116", components.route)
+        self.assertEqual("117", components.route_number)
+        self.assertEqual("118", components.route_type)
 
         metadata = candidate.metadata
         self.assertIsNotNone(metadata)
@@ -120,6 +130,7 @@ class TestCandidate(unittest.TestCase):
         self.assertEqual("54", metadata.geocode_precision)
         self.assertEqual("55", metadata.max_geocode_precision)
         self.assertEqual("56", metadata.address_format)
+        self.assertEqual("56.1", metadata.occupant_use)
 
         analysis = candidate.analysis
         self.assertIsNotNone(analysis)
@@ -188,10 +199,3 @@ class TestCandidate(unittest.TestCase):
         self.assertEqual("109", components.post_box)
         self.assertEqual("110", components.post_box_type)
         self.assertEqual("111", components.post_box_number)
-        self.assertEqual("112", components.additional_content)
-        self.assertEqual("113", components.delivery_installation)
-        self.assertEqual("114", components.delivery_installation_type)
-        self.assertEqual("115", components.delivery_installation_qualifier_name)
-        self.assertEqual("116", components.route)
-        self.assertEqual("117", components.route_number)
-        self.assertEqual("118", components.route_type)

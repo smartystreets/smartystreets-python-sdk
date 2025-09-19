@@ -33,6 +33,7 @@ class Lookup:
         self.locality = None
         self.administrative_area = None
         self.postal_code = None
+        self.features = None
 
     @property
     def missing_country(self):
