@@ -12,16 +12,16 @@ def run():
 
     # We recommend storing your secret keys in environment variables instead---it's safer!
     # for client-side requests (browser/mobile), use this code:
-    key = os.environ['SMARTY_AUTH_WEB']
-    hostname = os.environ['SMARTY_WEBSITE_DOMAIN']
+    #key = os.environ['SMARTY_AUTH_WEB']
+    #hostname = os.environ['SMARTY_WEBSITE_DOMAIN']
 
-    credentials = SharedCredentials(key, hostname)
+    #credentials = SharedCredentials(key, hostname)
 
     # for server-to-server requests, use this code:
-    # auth_id = os.environ['SMARTY_AUTH_ID']
-    # auth_token = os.environ['SMARTY_AUTH_TOKEN']
+    auth_id = os.environ['SMARTY_AUTH_ID']
+    auth_token = os.environ['SMARTY_AUTH_TOKEN']
     #
-    # credentials = StaticCredentials(auth_id, auth_token)
+    credentials = StaticCredentials(auth_id, auth_token)
 
     client = ClientBuilder(credentials).build_us_enrichment_api_client()
 
@@ -29,15 +29,17 @@ def run():
     # client = ClientBuilder(credentials).with_http_proxy('localhost:8080', 'user', 'password').build_us_street_api_client()
     # Uncomment the line above to try it with a proxy instead
 
-    smarty_key = "325023201"
+    smarty_key = "87844267"
 
     lookup = EnrichmentLookup()
     freeform_lookup = EnrichmentLookup()
 
-    lookup.street = "56 Union Ave"
-    lookup.city = "Somerville"
-    lookup.state = "NJ"
-    lookup.zipcode = "08876"
+    lookup.smartykey = smarty_key
+    # lookup.street = "56 Union Ave"
+    # lookup.city = "Somerville"
+    # lookup.state = "NJ"
+    # lookup.zipcode = "08876"
+    lookup.features = "financial"
 
     # Uncomment the below lines to add attributes to the "include" parameter
     # lookup.add_include_attribute('assessed_improvement_percent')
@@ -54,9 +56,9 @@ def run():
 
     try:
         # use the below line to send a lookup with a smarty key
-        results = client.send_property_principal_lookup(smarty_key)
+        # results = client.send_property_principal_lookup(smarty_key)
         # Or, uncomment the below line to send a lookup with an address in components
-        # results = client.send_property_principal_lookup(lookup)
+        results = client.send_property_principal_lookup(lookup)
         # Or, uncomment the below line to send a lookup with an address in freeform
         # results = client.send_property_principal_lookup(freeform_lookup)
 

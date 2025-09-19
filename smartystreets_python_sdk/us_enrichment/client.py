@@ -151,7 +151,9 @@ def remap_keys(lookup):
         add_field(converted_lookup, 'include', build_filter_string(lookup.include_array))
     if (lookup.exclude_array != None):
         add_field(converted_lookup, 'exclude', build_filter_string(lookup.exclude_array))
-    
+    if (lookup.features != None):
+        add_field(converted_lookup, 'features', lookup.features)
+
 
     for parameter in lookup.custom_parameter_array:
         add_field(converted_lookup, parameter, lookup.custom_parameter_array[parameter])

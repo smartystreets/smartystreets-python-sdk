@@ -209,6 +209,7 @@ class PrincipalAttributes:
         self.family_room = obj.get('family_room', None)
         self.fence = obj.get('fence', None)
         self.fence_area = obj.get('fence_area', None)
+        self.financial_history = get_financial_history(obj.get('financial_history', None))
         self.fips_code = obj.get('fips_code', None)
         self.fire_resistance_code = obj.get('fire_resistance_code', None)
         self.fire_sprinklers_flag = obj.get('fire_sprinklers_flag', None)

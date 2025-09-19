@@ -8,12 +8,13 @@ countDataSubset = "count"
 noneDataSubset = None
 
 class Lookup:
-    def __init__(self, smartykey = None, dataset = None, dataSubset = None, freeform = None, street = None, city = None, state = None, zipcode = None):
+    def __init__(self, smartykey = None, dataset = None, dataSubset = None, features = None, freeform = None, street = None, city = None, state = None, zipcode = None):
         self.smartykey = smartykey
         self.dataset = dataset
         self.dataSubset = dataSubset
         self.include_array = []
         self.exclude_array = []
+        self.features = features
         self.freeform = freeform
         self.street = street
         self.city = city
