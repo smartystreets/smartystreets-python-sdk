@@ -185,7 +185,7 @@ class ClientBuilder:
         Adds to the request query to use the component analysis feature.
         :return: Returns self to accommodate method chaining
         """
-        return self.with_custom_query('features', 'component-analysis')
+        return self.with_custom_comma_separated_query('features', 'component-analysis')
 
     def build_international_street_api_client(self):
         self.ensure_url_prefix_not_null(self.INTERNATIONAL_STREET_API_URL)
