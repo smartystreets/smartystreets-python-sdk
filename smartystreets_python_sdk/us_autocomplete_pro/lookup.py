@@ -38,6 +38,7 @@ class Lookup:
                             postal - will limit the results to postal addresses only
         """
         self.result = []
+        self.custom_parameter_array = {}
         self.search = search
         self.max_results = max_results
         self.city_filter = city_filter or []
@@ -74,3 +75,6 @@ class Lookup:
     def add_zip_preference(self, zipcode):
         self.prefer_geo = geolocation_type.NONE
         self.prefer_zips.append(zipcode)
+
+    def add_custom_parameter(self, parameter, value):
+        self.custom_parameter_array[parameter] = value

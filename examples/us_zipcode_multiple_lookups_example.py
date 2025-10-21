@@ -10,16 +10,16 @@ def run():
 
     # We recommend storing your secret keys in environment variables instead---it's safer!
     # for client-side requests (browser/mobile), use this code:
-    key = os.environ['SMARTY_AUTH_WEB']
-    hostname = os.environ['SMARTY_WEBSITE_DOMAIN']
+    # key = os.environ['SMARTY_AUTH_WEB']
+    # hostname = os.environ['SMARTY_WEBSITE_DOMAIN']
 
-    credentials = SharedCredentials(key, hostname)
+    # credentials = SharedCredentials(key, hostname)
 
     # for server-to-server requests, use this code:
-    # auth_id = os.environ['SMARTY_AUTH_ID']
-    # auth_token = os.environ['SMARTY_AUTH_TOKEN']
-    #
-    # credentials = StaticCredentials(auth_id, auth_token)
+    auth_id = os.environ['SMARTY_AUTH_ID']
+    auth_token = os.environ['SMARTY_AUTH_TOKEN']
+    
+    credentials = StaticCredentials(auth_id, auth_token)
 
     client = ClientBuilder(credentials).build_us_zipcode_api_client()
     batch = Batch()
@@ -30,6 +30,9 @@ def run():
     batch.add(ZIPCodeLookup())
     batch[0].input_id = "011889998819991197253"  # Optional ID from your system
     batch[0].zipcode = "12345"  # A Lookup may have a ZIP Code, city and state, or city, state, and ZIP Code
+
+    # Uncomment the below line to add a custom parameter
+    # batch[0].add_custom_parameter("parameter", "value")
 
     batch.add(ZIPCodeLookup())
     batch[1].city = "Phoenix"

@@ -42,6 +42,10 @@ class Client:
         self.add_parameter(request, 'locality', lookup.locality)
         self.add_parameter(request, 'administrative_area', lookup.administrative_area)
         self.add_parameter(request, 'postal_code', lookup.postal_code)
+        self.add_parameter(request, 'features', lookup.features)
+
+        for parameter in lookup.custom_parameter_array:
+            self.add_parameter(request, parameter, lookup.custom_parameter_array[parameter])
 
         return request
 

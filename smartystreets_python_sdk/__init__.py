@@ -10,6 +10,7 @@ from .license_sender import LicenseSender
 from .custom_header_sender import CustomHeaderSender
 from .retry_sender import RetrySender
 from .url_prefix_sender import URLPrefixSender
+from .custom_query_sender import CustomQuerySender
 from .batch import Batch
 from .client_builder import ClientBuilder
 from .proxy import Proxy

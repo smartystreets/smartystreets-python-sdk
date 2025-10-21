@@ -1,20 +1,25 @@
 from requests import Session, Request
 from .response import Response
+import requests.adapters
 import smartystreets_python_sdk as smarty
 import smartystreets_python_sdk_version as version
 
 
 class RequestsSender:
-    def __init__(self, max_timeout=None, proxy=None, ip=None):
+    def __init__(self, max_timeout=None, proxy=None, ip=None, pool_size=None):
         self.session = Session()
         self.max_timeout = max_timeout or 10
         self.proxy = proxy
         self.debug = None
         self.ip = ip
+        self.pool_size = pool_size
 
     def send(self, smarty_request):
         ip = self.ip
         request = build_request(smarty_request, ip)
+        if (self.pool_size != None):
+            adapter = requests.adapters.HTTPAdapter(pool_connections=self.pool_size, pool_maxsize=self.pool_size)
+            self.session.mount('https://', adapter)
         prepped_request = self.session.prepare_request(request)
         prepped_proxies = self.build_proxies()
         if self.debug:

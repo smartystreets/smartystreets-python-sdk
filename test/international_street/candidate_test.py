@@ -10,7 +10,7 @@ class TestCandidate(unittest.TestCase):
                 "\"address3\":\"4\",\"address4\":\"5\",\"address5\":\"6\",\"address6\":\"7\",\"address7\":\"8\","\
                 "\"address8\":\"9\",\"address9\":\"10\",\"address10\":\"11\",\"address11\":\"12\",\"address12\":\"13\","\
                 "\"components\":{\"country_iso_3\":\"14\",\"super_administrative_area\":\"15\","\
-                "\"administrative_area\":\"16\",\"administrative_area_short\":\"16.1\",\"administrative_area_long\":\"16.2\","\
+                "\"administrative_area\":\"16\",\"administrative_area_iso2\":\"16.1\",\"administrative_area_short\":\"16.2\",\"administrative_area_long\":\"16.3\","\
                 "\"sub_administrative_area\":\"17\",\"dependent_locality\":\"18\","\
                 "\"dependent_locality_name\":\"19\",\"double_dependent_locality\":\"20\",\"locality\":\"21\","\
                 "\"postal_code\":\"22\",\"postal_code_short\":\"23\",\"postal_code_extra\":\"24\","\
@@ -24,9 +24,12 @@ class TestCandidate(unittest.TestCase):
                 "\"building\":\"41\",\"building_leading_type\":\"42\",\"building_name\":\"43\","\
                 "\"building_trailing_type\":\"44\",\"sub_building_type\":\"45\",\"sub_building_number\":\"46\","\
                 "\"sub_building_name\":\"47\",\"sub_building\":\"48\",\"level_type\":\"48.1\",\"level_number\":\"48.2\"," \
-                "\"post_box\":\"49\",\"post_box_type\":\"50\"," \
-                "\"post_box_number\":\"51\"},\"metadata\":{\"latitude\":52.0,\"longitude\":53.0,"\
-                "\"geocode_precision\":\"54\",\"max_geocode_precision\":\"55\",\"address_format\":\"56\"},"\
+                "\"post_box\":\"49\",\"post_box_type\":\"50\",\"post_box_number\":\"51\"," \
+                "\"additional_content\":\"112\",\"delivery_installation\":\"113\",\"delivery_installation_type\":\"114\"," \
+                "\"delivery_installation_qualifier_name\":\"115\",\"route\":\"116\",\"route_number\":\"117\"," \
+                "\"route_type\":\"118\"},"\
+                "\"metadata\":{\"latitude\":52.0,\"longitude\":53.0,"\
+                "\"geocode_precision\":\"54\",\"max_geocode_precision\":\"55\",\"address_format\":\"56\",\"occupant_use\":\"56.1\"},"\
                 "\"analysis\":{\"verification_status\":\"57\",\"address_precision\":\"58\","\
                 "\"max_address_precision\":\"59\",\"changes\":{\"organization\":\"60\","\
                 "\"address1\":\"61\",\"address2\":\"62\",\"address3\":\"63\",\"address4\":\"64\",\"address5\":\"65\","\
@@ -71,8 +74,9 @@ class TestCandidate(unittest.TestCase):
         self.assertEqual("14", components.country_iso_3)
         self.assertEqual("15", components.super_administrative_area)
         self.assertEqual("16", components.administrative_area)
-        self.assertEqual("16.1", components.administrative_area_short)
-        self.assertEqual("16.2", components.administrative_area_long)
+        self.assertEqual("16.1", components.administrative_area_iso2)
+        self.assertEqual("16.2", components.administrative_area_short)
+        self.assertEqual("16.3", components.administrative_area_long)
         self.assertEqual("17", components.sub_administrative_area)
         self.assertEqual("18", components.dependent_locality)
         self.assertEqual("19", components.dependent_locality_name)
@@ -111,6 +115,13 @@ class TestCandidate(unittest.TestCase):
         self.assertEqual("49", components.post_box)
         self.assertEqual("50", components.post_box_type)
         self.assertEqual("51", components.post_box_number)
+        self.assertEqual("112", components.additional_content)
+        self.assertEqual("113", components.delivery_installation)
+        self.assertEqual("114", components.delivery_installation_type)
+        self.assertEqual("115", components.delivery_installation_qualifier_name)
+        self.assertEqual("116", components.route)
+        self.assertEqual("117", components.route_number)
+        self.assertEqual("118", components.route_type)
 
         metadata = candidate.metadata
         self.assertIsNotNone(metadata)
@@ -119,6 +130,7 @@ class TestCandidate(unittest.TestCase):
         self.assertEqual("54", metadata.geocode_precision)
         self.assertEqual("55", metadata.max_geocode_precision)
         self.assertEqual("56", metadata.address_format)
+        self.assertEqual("56.1", metadata.occupant_use)
 
         analysis = candidate.analysis
         self.assertIsNotNone(analysis)

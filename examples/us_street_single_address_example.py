@@ -23,10 +23,8 @@ def run():
     
     # credentials = StaticCredentials(auth_id, auth_token)
 
-    # The appropriate license values to be used for your subscriptions
-    # can be found on the Subscriptions page of the account dashboard.
-    # https://www.smartystreets.com/docs/cloud/licensing
-    client = ClientBuilder(credentials).with_licenses(["us-core-cloud"]).build_us_street_api_client()
+    client = ClientBuilder(credentials).build_us_street_api_client()
+
     # client = ClientBuilder(credentials).with_custom_header({'User-Agent': 'smartystreets (python@0.0.0)', 'Content-Type': 'application/json'}).build_us_street_api_client()
     # client = ClientBuilder(credentials).with_http_proxy('localhost:8080', 'user', 'password').build_us_street_api_client()
     # Uncomment the line above to try it with a proxy instead
@@ -48,6 +46,9 @@ def run():
     lookup.match = MatchType.INVALID  # "invalid" is the most permissive match,
                                       # this will always return at least one result even if the address is invalid.
                                       # Refer to the documentation for additional Match Strategy options.
+
+    # Uncomment the below line to add a custom parameter
+    # lookup.add_custom_parameter("parameter", "value")
 
     try:
         client.send_lookup(lookup)

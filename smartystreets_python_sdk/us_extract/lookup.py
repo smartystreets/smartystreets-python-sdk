@@ -11,10 +11,14 @@ class Lookup:
         See "https://smartystreets.com/docs/cloud/us-extract-api#http-request-input-fields"
         """
         self.result = None
+        self.custom_parameter_array = {}
         self.text = text
         self.html = html
         self.aggressive = aggressive
         self.addresses_have_line_breaks = addresses_have_line_breaks
         self.addresses_per_line = addresses_per_line
         self.match = match
+
+    def add_custom_parameter(self, parameter, value):
+        self.custom_parameter_array[parameter] = value
 

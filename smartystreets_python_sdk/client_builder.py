@@ -27,6 +27,8 @@ class ClientBuilder:
         self.debug = None
         self.header = None
         self.licenses = []
+        self.pool_size = None
+        self.custom_queries = None
         self.INTERNATIONAL_STREET_API_URL = "https://international-street.api.smarty.com/verify"
         self.INTERNATIONAL_AUTOCOMPLETE_API_URL = "https://international-autocomplete.api.smarty.com/v2/lookup"
         self.US_AUTOCOMPLETE_PRO_API_URL = "https://us-autocomplete-pro.api.smarty.com/lookup"
@@ -142,6 +144,48 @@ class ClientBuilder:
         """
         self.licenses = licenses
         return self
+    
+    def with_connection_pool_size(self, connections):
+        """
+        Allows the caller to specify the size of the connection pool for multithreading.
+        :param connections: The desired size of the connection pool
+        """
+        self.pool_size = connections
+        return self
+    
+    def with_custom_query(self, key, value):
+        """
+        Allows the caller to specify key and value pair that is added to the request query.
+        :param key: The key of the custom query parameter
+        :param value: The value of the custom query parameter
+        :return: Returns self to accommodate method chaining
+        """
+        if self.custom_queries is None:
+            self.custom_queries = {}
+        self.custom_queries[key] = value
+        return self
+
+    def with_custom_comma_separated_query(self, key, values):
+        """
+        Allows the caller to specify a key and value pair and appends the value to the current value associated with the key, separated by a comma.
+        :param key: The key of the custom query parameter
+        :param values: The value of the custom query parameter
+        :return: Returns self to accommodate method chaining
+        """
+        if self.custom_queries is None:
+            self.custom_queries = {}
+        if key in self.custom_queries:
+            self.custom_queries[key] = self.custom_queries[key] + ',' + values
+        else:
+            self.custom_queries[key] = values
+        return self
+    
+    def with_feature_component_analysis(self):
+        """
+        Adds to the request query to use the component analysis feature.
+        :return: Returns self to accommodate method chaining
+        """
+        return self.with_custom_comma_separated_query('features', 'component-analysis')
 
     def build_international_street_api_client(self):
         self.ensure_url_prefix_not_null(self.INTERNATIONAL_STREET_API_URL)
@@ -150,7 +194,6 @@ class ClientBuilder:
     def build_international_autocomplete_api_client(self):
         self.ensure_url_prefix_not_null(self.INTERNATIONAL_AUTOCOMPLETE_API_URL)
         return InternationalAutocompleteClient(self.build_sender(), self.serializer)
-
 
     def build_us_autocomplete_pro_api_client(self):
         self.ensure_url_prefix_not_null(self.US_AUTOCOMPLETE_PRO_API_URL)
@@ -180,13 +223,16 @@ class ClientBuilder:
         if self.http_sender is not None:
             return self.http_sender
 
-        sender = smarty.RequestsSender(self.max_timeout, self.proxy, self.ip)
+        sender = smarty.RequestsSender(self.max_timeout, self.proxy, self.ip, self.pool_size)
         sender.debug = self.debug
 
         sender = smarty.StatusCodeSender(sender)
 
         if self.header is not None:
             sender = smarty.CustomHeaderSender(self.header, sender)
+
+        if self.custom_queries is not None:
+            sender = smarty.CustomQuerySender(self.custom_queries, sender)
 
         if self.signer is not None:
             sender = smarty.SigningSender(self.signer, sender)

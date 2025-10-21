@@ -28,9 +28,11 @@ class TestClient(unittest.TestCase):
         lookup.lastline = '6'
         lookup.addressee = '7'
         lookup.urbanization = '8'
+        lookup.county_source = '9'
         lookup.match = MatchType.ENHANCED
         lookup.outputformat = OutputFormat.PROJECT_USA
         lookup.candidates = 1
+        lookup.add_custom_parameter('custom', '10')
 
         client.send_lookup(lookup)
 
@@ -43,9 +45,11 @@ class TestClient(unittest.TestCase):
         self.assertEqual('6', sender.request.parameters['lastline'])
         self.assertEqual('7', sender.request.parameters['addressee'])
         self.assertEqual('8', sender.request.parameters['urbanization'])
+        self.assertEqual('9', sender.request.parameters['county_source'])
         self.assertEqual(MatchType.ENHANCED.value, sender.request.parameters['match'])
         self.assertEqual(OutputFormat.PROJECT_USA.value, sender.request.parameters['format'])
         self.assertEqual(5, sender.request.parameters['candidates'])
+        self.assertEqual('10', sender.request.parameters['custom'])
 
     def test_empty_batch_not_sent(self):
         sender = RequestCapturingSender()

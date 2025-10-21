@@ -21,13 +21,13 @@ def run():
     #
     # credentials = StaticCredentials(auth_id, auth_token)
 
-    # The appropriate license values to be used for your subscriptions
-    # can be found on the Subscriptions page of the account dashboard.
-    # https://www.smartystreets.com/docs/cloud/licensing
-    client = ClientBuilder(credentials).with_licenses(["international-autocomplete-v2-cloud"]) \
-        .build_international_autocomplete_api_client()
+    client = ClientBuilder(credentials).build_international_autocomplete_api_client()
+
     lookup = InternationalAutocompleteLookup('Louis')
     lookup.country = "FRA"
+
+    # Uncomment the below line to add a custom parameter
+    # lookup.add_custom_parameter("parameter", "value")
 
     client.send(lookup)
 

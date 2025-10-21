@@ -8,3 +8,4 @@ class Metadata:
         self.geocode_precision = obj.get('geocode_precision', None)
         self.max_geocode_precision = obj.get('max_geocode_precision', None)
         self.address_format = obj.get('address_format', None)
+        self.occupant_use = obj.get("occupant_use", None)
