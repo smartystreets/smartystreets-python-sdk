@@ -153,7 +153,7 @@ class TestClient(unittest.TestCase):
                     "elot_sort": "A",
                     "latitude": 40.27658,
                     "longitude": -111.65759,
-                    "coordinate_license": 1, 
+                    "coordinate_license": 1,
                     "precision": "Zip9",
                     "time_zone": "Mountain",
                     "utc_offset": -7,
@@ -171,7 +171,55 @@ class TestClient(unittest.TestCase):
                     "lacslink_code": "lacslink_code",
                     "lacslink_indicator": "lacslink_indicator",
                     "suitelink_match": true,
-                    "enhanced_match": "enhanced_match"
+                    "enhanced_match": "enhanced_match",
+                    "components": {
+                        "primary_number": {
+                            "status": "confirmed",
+                            "change": ["spelling"]
+                        },
+                        "street_predirection": {
+                            "status": "confirmed",
+                            "change": ["spelling"]
+                        },
+                        "street_name": {
+                            "status": "confirmed",
+                            "change": ["added"]
+                        },
+                        "street_postdirection": {
+                            "status": "confirmed"
+                        },
+                        "street_suffix": {
+                            "status": "confirmed"
+                        },
+                        "secondary_number": {
+                            "status": "confirmed"
+                        },
+                        "secondary_designator": {
+                            "status": "confirmed"
+                        },
+                        "extra_secondary_number": {
+                            "status": "confirmed"
+                        },
+                        "extra_secondary_designator": {
+                            "status": "confirmed",
+                            "change": ["abbreviated"]
+                        },
+                        "city_name": {
+                            "status": "confirmed"
+                        },
+                        "state_abbreviation": {
+                            "status": "confirmed"
+                        },
+                        "zipcode": {
+                            "status": "confirmed"
+                        },
+                        "plus4_code": {
+                            "status": "confirmed"
+                        },
+                        "urbanization": {
+                            "status": "unconfirmed"
+                        }
+                    }
                 }
             }"""
 
@@ -234,3 +282,33 @@ class TestClient(unittest.TestCase):
         self.assertEqual(actual_candidate.analysis.lacs_link_indicator, "lacslink_indicator")
         self.assertEqual(actual_candidate.analysis.is_suite_link_match, True)
         self.assertEqual(actual_candidate.analysis.enhanced_match, "enhanced_match")
+
+        self.assertEqual(actual_candidate.analysis.components.primary_number.status, "confirmed")
+        self.assertEqual(actual_candidate.analysis.components.primary_number.change, ["spelling"])
+        self.assertEqual(actual_candidate.analysis.components.street_predirection.status, "confirmed")
+        self.assertEqual(actual_candidate.analysis.components.street_predirection.change, ["spelling"])
+        self.assertEqual(actual_candidate.analysis.components.street_name.status, "confirmed")
+        self.assertEqual(actual_candidate.analysis.components.street_name.change, ["added"])
+        self.assertEqual(actual_candidate.analysis.components.street_postdirection.status, "confirmed")
+        self.assertIsNone(actual_candidate.analysis.components.street_postdirection.change)
+        self.assertEqual(actual_candidate.analysis.components.street_suffix.status, "confirmed")
+        self.assertIsNone(actual_candidate.analysis.components.street_suffix.change)
+        self.assertEqual(actual_candidate.analysis.components.secondary_number.status, "confirmed")
+        self.assertIsNone(actual_candidate.analysis.components.secondary_number.change)
+        self.assertEqual(actual_candidate.analysis.components.secondary_designator.status, "confirmed")
+        self.assertIsNone(actual_candidate.analysis.components.secondary_designator.change)
+        self.assertEqual(actual_candidate.analysis.components.extra_secondary_number.status, "confirmed")
+        self.assertIsNone(actual_candidate.analysis.components.extra_secondary_number.change)
+        self.assertEqual(actual_candidate.analysis.components.extra_secondary_designator.status, "confirmed")
+        self.assertEqual(actual_candidate.analysis.components.extra_secondary_designator.change, ["abbreviated"])
+        self.assertEqual(actual_candidate.analysis.components.city_name.status, "confirmed")
+        self.assertIsNone(actual_candidate.analysis.components.city_name.change)
+        self.assertEqual(actual_candidate.analysis.components.state_abbreviation.status, "confirmed")
+        self.assertIsNone(actual_candidate.analysis.components.state_abbreviation.change)
+        self.assertEqual(actual_candidate.analysis.components.zipcode.status, "confirmed")
+        self.assertIsNone(actual_candidate.analysis.components.zipcode.change)
+        self.assertEqual(actual_candidate.analysis.components.plus4_code.status, "confirmed")
+        self.assertIsNone(actual_candidate.analysis.components.plus4_code.change)
+        self.assertEqual(actual_candidate.analysis.components.urbanization.status, "unconfirmed")
+        self.assertIsNone(actual_candidate.analysis.components.urbanization.change)
+
