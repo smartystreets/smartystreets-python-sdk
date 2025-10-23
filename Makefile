@@ -35,7 +35,7 @@ us_reverse_geo_api:
 	PYTHONPATH=. python3 examples/us_reverse_geo_example.py
 
 us_street_api:
-	PYTHONPATH=. python3 examples/us_street_single_address_example.py && PYTHONPATH=. python3 examples/us_street_multiple_addresses_example.py
+	PYTHONPATH=. python3 examples/us_street_single_address_example.py && PYTHONPATH=. python3 examples/us_street_multiple_addresses_example.py && PYTHONPATH=. python3 examples/us_street_component_analysis_example.py
 
 us_zipcode_api:
 	PYTHONPATH=. python3 examples/us_zipcode_single_lookup_example.py && PYTHONPATH=. python3 examples/us_zipcode_multiple_lookups_example.py
