@@ -19,6 +19,9 @@ package: test
 international_autocomplete_api:
 	PYTHONPATH=. python3 examples/international_autocomplete_example.py
 
+international_postal_code_api:
+	PYTHONPATH=. python3 examples/international_postal_code_example.py
+
 international_street_api:
 	PYTHONPATH=. python3 examples/international_example.py
 
