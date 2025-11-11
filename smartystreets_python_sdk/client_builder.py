@@ -7,6 +7,7 @@ from smartystreets_python_sdk.us_reverse_geo import Client as USReverseGeoClient
 from smartystreets_python_sdk.international_street import Client as InternationalStreetClient
 from smartystreets_python_sdk.international_autocomplete import Client as InternationalAutocompleteClient
 from smartystreets_python_sdk.us_enrichment import Client as USEnrichmentClient
+from smartystreets_python_sdk.international_postal_code import Client as InternationalPostalCodeClient
 
 
 class ClientBuilder:
@@ -37,6 +38,7 @@ class ClientBuilder:
         self.US_ZIP_CODE_API_URL = "https://us-zipcode.api.smarty.com/lookup"
         self.US_REVERSE_GEO_API_URL = "https://us-reverse-geo.api.smarty.com/lookup"
         self.US_ENRICHMENT_API_URL = "https://us-enrichment.api.smarty.com/lookup/"
+        self.INTERNATIONAL_POSTAL_CODE_API_URL = "https://international-postal-code.api.smarty.com/lookup"
 
     def retry_at_most(self, max_retries):
         """
@@ -218,6 +220,10 @@ class ClientBuilder:
     def build_us_enrichment_api_client(self):
         self.ensure_url_prefix_not_null(self.US_ENRICHMENT_API_URL)
         return USEnrichmentClient(self.build_sender(), self.serializer)
+
+    def build_international_postal_code_api_client(self):
+        self.ensure_url_prefix_not_null(self.INTERNATIONAL_POSTAL_CODE_API_URL)
+        return InternationalPostalCodeClient(self.build_sender(), self.serializer)
 
     def build_sender(self):
         if self.http_sender is not None:
