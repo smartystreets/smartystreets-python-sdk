@@ -1,6 +1,6 @@
-# This workflow will upload a Python Package using Twine when a release is created
 
-name: Make Package # whenever you push to any branch you should run make package, but not the publish
+
+name: Make Package # whenever you push to any branch you should run make test
 
 on:
   push:
@@ -19,4 +19,4 @@ jobs:
           python-version: '3.10'
 
       - name: Package
-        run: VERSION="${GITHUB_REF#refs/*/}" make package
+        run: VERSION="${GITHUB_REF#refs/*/}" make test
