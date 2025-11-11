@@ -6,6 +6,7 @@ class Metadata:
         self.latitude = obj.get('latitude', None)
         self.longitude = obj.get('longitude', None)
         self.geocode_precision = obj.get('geocode_precision', None)
+        self.geocode_classification = obj.get('geocode_classification', None)
         self.max_geocode_precision = obj.get('max_geocode_precision', None)
         self.address_format = obj.get('address_format', None)
         self.occupant_use = obj.get("occupant_use", None)
