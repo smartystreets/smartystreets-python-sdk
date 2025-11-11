@@ -18,6 +18,7 @@ setup(
         'smartystreets_python_sdk.us_reverse_geo',
         'smartystreets_python_sdk.us_autocomplete_pro',
         'smartystreets_python_sdk.international_autocomplete',
+        'smartystreets_python_sdk.international_postal_code',
         'smartystreets_python_sdk.us_enrichment'
     ],
     version=__version__,
