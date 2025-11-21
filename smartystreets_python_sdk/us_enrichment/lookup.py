@@ -1,5 +1,4 @@
 propertyDataset = "property"
-financialDataSubset = "financial"
 principalDataSubset = "principal"
 geoReferenceDataset = "geo-reference"
 riskDataset = "risk"
@@ -33,10 +32,6 @@ class Lookup:
     def add_exclude_attribute(self, attribute):
         if (attribute not in self.exclude_array):
             self.exclude_array.append(attribute)
-
-class FinancialLookup(Lookup):
-    def __init__(self, smartykey = None):
-        super().__init__(smartykey, propertyDataset, financialDataSubset)
 
 class PrincipalLookup(Lookup):
     def __init__(self, smartykey = None):

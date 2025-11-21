@@ -1,6 +1,6 @@
 from smartystreets_python_sdk import Request
 from smartystreets_python_sdk.exceptions import SmartyException
-from .lookup import FinancialLookup, PrincipalLookup, GeoReferenceLookup, RiskLookup, SecondaryLookup, SecondaryCountLookup, Lookup
+from .lookup import PrincipalLookup, GeoReferenceLookup, RiskLookup, SecondaryLookup, SecondaryCountLookup, Lookup
 from .response import Response
 
 
@@ -12,17 +12,6 @@ class Client:
         self.sender = sender
         self.serializer = serializer
 
-    def send_property_financial_lookup(self, lookup):
-        if isinstance(lookup, str):
-            l = FinancialLookup(lookup)
-            send_lookup(self, l)
-            return l.result
-        else:
-            lookup.dataset = 'property'
-            lookup.dataSubset = 'financial'
-            send_lookup(self, lookup)
-            return lookup.result
-        
     def send_property_principal_lookup(self, lookup):
         if isinstance(lookup, str):
             l = PrincipalLookup(lookup)
