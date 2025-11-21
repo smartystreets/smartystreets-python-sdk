@@ -31,7 +31,7 @@ class TestClient(unittest.TestCase):
         lookup.county_source = '9'
         lookup.match = MatchType.ENHANCED
         lookup.outputformat = OutputFormat.PROJECT_USA
-        lookup.candidates = 1
+        lookup.candidates = 0
         lookup.add_custom_parameter('custom', '10')
 
         client.send_lookup(lookup)
