@@ -82,8 +82,6 @@ def get_matched_address(matched_address_obj):
 
 def get_attributes(dataset, data_subset, attribute_obj):
     if dataset == "property":
-        if data_subset == "financial":
-            return FinancialAttributes(attribute_obj)
         if data_subset == "principal":
             return PrincipalAttributes(attribute_obj)
     if dataset == "geo-reference":
@@ -468,120 +466,6 @@ class PrincipalAttributes:
         return '\n    '.join(lines)
 
 
-class FinancialAttributes:
-    def __init__(self, obj):
-        self.assessed_improvement_percent = obj.get('assessed_improvement_percent', None)
-        self.assessed_improvement_value = obj.get('assessed_improvement_value', None)
-        self.assessed_land_value = obj.get('assessed_land_value', None)
-        self.assessed_value = obj.get('assessed_value', None)
-        self.assessor_last_update = obj.get('assessor_last_update', None)
-        self.assessor_taxroll_update = obj.get('assessor_taxroll_update', None)
-        self.contact_city = obj.get('contact_city', None)
-        self.contact_crrt = obj.get('contact_crrt', None)
-        self.contact_full_address = obj.get('contact_full_address', None)
-        self.contact_house_number = obj.get('contact_house_number', None)
-        self.contact_mail_info_format = obj.get('contact_mail_info_format', None)
-        self.contact_mail_info_privacy = obj.get('contact_mail_info_privacy', None)
-        self.contact_mailing_county = obj.get('contact_mailing_county', None)
-        self.contact_mailing_fips = obj.get('contact_mailing_fips', None)
-        self.contact_post_direction = obj.get('contact_post_direction', None)
-        self.contact_pre_direction = obj.get('contact_pre_direction', None)
-        self.contact_state = obj.get('contact_state', None)
-        self.contact_street_name = obj.get('contact_street_name', None)
-        self.contact_suffix = obj.get('contact_suffix', None)
-        self.contact_unit_designator = obj.get('contact_unit_designator', None)
-        self.contact_value = obj.get('contact_value', None)
-        self.contact_zip = obj.get('contact_zip', None)
-        self.contact_zip4 = obj.get('contact_zip4', None)
-        self.deed_document_page = obj.get('deed_document_page', None)
-        self.deed_document_book = obj.get('deed_document_book', None)
-        self.deed_document_number = obj.get('deed_document_number', None)
-        self.deed_owner_first_name = obj.get('deed_owner_first_name', None)
-        self.deed_owner_first_name2 = obj.get('deed_owner_first_name2', None)
-        self.deed_owner_first_name3 = obj.get('deed_owner_first_name3', None)
-        self.deed_owner_first_name4 = obj.get('deed_owner_first_name4', None)
-        self.deed_owner_full_name = obj.get('deed_owner_full_name', None)
-        self.deed_owner_full_name2 = obj.get('deed_owner_full_name2', None)
-        self.deed_owner_full_name3 = obj.get('deed_owner_full_name3', None)
-        self.deed_owner_full_name4 = obj.get('deed_owner_full_name4', None)
-        self.deed_owner_last_name = obj.get('deed_owner_last_name', None)
-        self.deed_owner_last_name2 = obj.get('deed_owner_last_name2', None)
-        self.deed_owner_last_name3 = obj.get('deed_owner_last_name3', None)
-        self.deed_owner_last_name4 = obj.get('deed_owner_last_name4', None)
-        self.deed_owner_middle_name = obj.get('deed_owner_middle_name', None)
-        self.deed_owner_middle_name2 = obj.get('deed_owner_middle_name2', None)
-        self.deed_owner_middle_name3 = obj.get('deed_owner_middle_name3', None)
-        self.deed_owner_middle_name4 = obj.get('deed_owner_middle_name4', None)
-        self.deed_owner_suffix = obj.get('deed_owner_suffix', None)
-        self.deed_owner_suffix2 = obj.get('deed_owner_suffix2', None)
-        self.deed_owner_suffix3 = obj.get('deed_owner_suffix3', None)
-        self.deed_owner_suffix4 = obj.get('deed_owner_suffix4', None)
-        self.deed_sale_date = obj.get('deed_sale_date', None)
-        self.deed_sale_price = obj.get('deed_sale_price', None)
-        self.deed_transaction_id = obj.get('deed_transaction_id', None)
-        self.disabled_tax_exemption = obj.get('disabled_tax_exemption', None)
-        self.financial_history = get_financial_history(obj.get('financial_history', None))
-        self.first_name = obj.get('first_name', None)
-        self.first_name_2 = obj.get('first_name_2', None)
-        self.first_name_3 = obj.get('first_name_3', None)
-        self.first_name_4 = obj.get('first_name_4', None)
-        self.homeowner_tax_exemption = obj.get('homeowner_tax_exemption', None)
-        self.last_name= obj.get('last_name', None)
-        self.last_name_2 = obj.get('last_name_2', None)
-        self.last_name_3 = obj.get('last_name_3', None)
-        self.last_name_4 = obj.get('last_name_4', None)
-        self.market_improvement_percent = obj.get('market_improvement_percent', None)
-        self.market_improvement_value = obj.get('market_improvement_value', None)
-        self.market_land_value = obj.get('market_land_value', None)
-        self.market_value_year = obj.get('market_value_year', None)
-        self.match_type = obj.get('match_type', None)
-        self.middle_name= obj.get('middle_name', None)
-        self.middle_name_2 = obj.get('middle_name_2', None)
-        self.middle_name_3 = obj.get('middle_name_3', None)
-        self.middle_name_4 = obj.get('middle_name_4', None)
-        self.other_tax_exemption = obj.get('other_tax_exemption', None)
-        self.owner_full_name = obj.get('owner_full_name', None)
-        self.owner_full_name_2 = obj.get('owner_full_name_2', None)
-        self.owner_full_name_3 = obj.get('owner_full_name_3', None)
-        self.owner_full_name_4 = obj.get('owner_full_name_4', None)
-        self.ownership_transfer_date = obj.get('ownership_transfer_date', None)
-        self.ownership_transfer_doc_number = obj.get('ownership_transfer_doc_number', None)
-        self.ownership_transfer_transaction_id = obj.get('ownership_transfer_transaction_id', None)
-        self.ownership_type = obj.get('ownership_type', None)
-        self.ownership_type_2 = obj.get('ownership_type_2', None)
-        self.previous_assessed_value = obj.get('previous_assessed_value', None)
-        self.prior_sale_amount = obj.get('prior_sale_amount', None)
-        self.prior_sale_date = obj.get('prior_sale_date', None)
-        self.sale_amount = obj.get('sale_amount', None)
-        self.sale_date = obj.get('sale_date', None)
-        self.senior_tax_exemption = obj.get('senior_tax_exemption', None)
-        self.suffix = obj.get('suffix', None)
-        self.suffix_2 = obj.get('suffix_2', None)
-        self.suffix_3 = obj.get('suffix_3', None)
-        self.suffix_4 = obj.get('suffix_4', None)
-        self.tax_assess_year = obj.get('tax_assess_year', None)
-        self.tax_billed_amount = obj.get('tax_billed_amount', None)
-        self.tax_delinquent_year = obj.get('tax_delinquent_year', None)
-        self.tax_fiscal_year = obj.get('tax_fiscal_year', None)
-        self.tax_rate_area = obj.get('tax_rate_area', None)
-        self.total_market_value = obj.get('total_market_value', None)
-        self.trust_description = obj.get('trust_description', None)
-        self.veteran_tax_exemption = obj.get('veteran_tax_exemption', None)
-        self.widow_tax_exemption = obj.get('widow_tax_exemption', None)
-
-    def __str__(self):
-        lines = ['']
-        for key, val in vars(self).items():
-            if type(val) is list:
-                lines.append(key + ': ')
-                for item in val:
-                    for subkey, subval in vars(item).items():
-                        lines += '    {}: {}'.format(subkey, subval).split('\n')
-            else:
-                lines.append(key + ': ' + str(val))
-        return '\n    '.join(lines)
-
-
 def get_financial_history(financial_history_obj):
     if financial_history_obj is None:
         return None
@@ -639,7 +523,7 @@ class FinancialHistory:
 
     def __str__(self):
         return self.__dict__.__str__()
-    
+
 class GeoReferenceOutputCategories:
     def __init__(self, obj):
         
