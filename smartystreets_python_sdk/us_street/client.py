@@ -58,7 +58,7 @@ def remap_keys(obj):
     for lookup in obj:
         converted_lookup = {}
 
-        if (lookup.match == MatchType.ENHANCED or lookup.match == "enhanced") and lookup.candidates == 1:
+        if (lookup.match == MatchType.ENHANCED or lookup.match == "enhanced") and lookup.candidates == 0:
             add_field(converted_lookup, 'candidates', 5)
         else:
             add_field(converted_lookup, 'candidates', lookup.candidates)
