@@ -31,6 +31,9 @@ def run():
     lookup.zipcode = "21229"
     lookup.match = MatchType.ENHANCED # Enhanced matching is required to return component analysis results.
 
+    # Uncomment the below line to add a custom parameter
+    # lookup.add_custom_parameter("parameter", "value")
+
     try:
         client.send_lookup(lookup)
     except exceptions.SmartyException as err:
