@@ -48,7 +48,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual('9', sender.request.parameters['county_source'])
         self.assertEqual(MatchType.ENHANCED.value, sender.request.parameters['match'])
         self.assertEqual(OutputFormat.PROJECT_USA.value, sender.request.parameters['format'])
-        self.assertEqual(5, sender.request.parameters['candidates'])
+        self.assertEqual(1, sender.request.parameters['candidates'])
         self.assertEqual('10', sender.request.parameters['custom'])
 
     def test_empty_batch_not_sent(self):
