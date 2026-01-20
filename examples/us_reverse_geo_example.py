@@ -1,6 +1,6 @@
 import os
 
-from smartystreets_python_sdk import SharedCredentials, StaticCredentials, ClientBuilder
+from smartystreets_python_sdk import SharedCredentials, StaticCredentials, BasicAuthCredentials, ClientBuilder
 from smartystreets_python_sdk.us_reverse_geo import Lookup
 
 
@@ -19,7 +19,7 @@ def run():
     # auth_id = os.environ['SMARTY_AUTH_ID']
     # auth_token = os.environ['SMARTY_AUTH_TOKEN']
     #
-    # credentials = StaticCredentials(auth_id, auth_token)
+    # credentials = BasicAuthCredentials(auth_id, auth_token)
 
     client = ClientBuilder(credentials).build_us_reverse_geo_api_client()
     

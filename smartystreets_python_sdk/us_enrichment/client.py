@@ -12,81 +12,87 @@ class Client:
         self.sender = sender
         self.serializer = serializer
 
-    def send_property_principal_lookup(self, lookup):
+    def send_property_principal_lookup(self, lookup, auth_id=None, auth_token=None):
         if isinstance(lookup, str):
             l = PrincipalLookup(lookup)
-            send_lookup(self, l)
+            send_lookup(self, l, auth_id, auth_token)
             return l.result
         else:
             lookup.dataset = 'property'
             lookup.dataSubset = 'principal'
-            send_lookup(self, lookup)
+            send_lookup(self, lookup, auth_id, auth_token)
             return lookup.result
-    
-    def send_geo_reference_lookup(self, lookup):
+
+    def send_geo_reference_lookup(self, lookup, auth_id=None, auth_token=None):
         if isinstance(lookup, str):
             l = GeoReferenceLookup(lookup)
-            send_lookup(self, l)
+            send_lookup(self, l, auth_id, auth_token)
             return l.result
         else:
             lookup.dataset = 'geo-reference'
             lookup.dataSubset = None
-            send_lookup(self, lookup)
+            send_lookup(self, lookup, auth_id, auth_token)
             return lookup.result
-    
-    def send_risk_lookup(self, lookup):
+
+    def send_risk_lookup(self, lookup, auth_id=None, auth_token=None):
         if isinstance(lookup, str):
             l = RiskLookup(lookup)
-            send_lookup(self, l)
+            send_lookup(self, l, auth_id, auth_token)
             return l.result
         else:
             lookup.dataset = 'risk'
             lookup.dataSubset = None
-            send_lookup(self, lookup)
+            send_lookup(self, lookup, auth_id, auth_token)
             return lookup.result
 
-    def send_secondary_lookup(self, lookup):
+    def send_secondary_lookup(self, lookup, auth_id=None, auth_token=None):
         if isinstance(lookup, str):
             l = SecondaryLookup(lookup)
-            send_lookup(self, l)
+            send_lookup(self, l, auth_id, auth_token)
             return l.result
         else:
             lookup.dataset = 'secondary'
             lookup.dataSubset = None
-            send_lookup(self, lookup)
+            send_lookup(self, lookup, auth_id, auth_token)
             return lookup.result
-    
-    def send_secondary_count_lookup(self, lookup):
+
+    def send_secondary_count_lookup(self, lookup, auth_id=None, auth_token=None):
         if isinstance(lookup, str):
             l = SecondaryCountLookup(lookup)
-            send_lookup(self, l)
+            send_lookup(self, l, auth_id, auth_token)
             return l.result
         else:
             lookup.dataset = 'secondary'
             lookup.dataSubset = 'count'
-            send_lookup(self, lookup)
+            send_lookup(self, lookup, auth_id, auth_token)
             return lookup.result
-    
-    def send_generic_lookup(self, lookup, dataset, dataSubset):
+
+    def send_generic_lookup(self, lookup, dataset, dataSubset, auth_id=None, auth_token=None):
         if isinstance(lookup, str):
             l = Lookup(lookup, dataset, dataSubset)
-            send_lookup(self, l)
+            send_lookup(self, l, auth_id, auth_token)
             return l.result
         else:
             lookup.dataset = dataset
             lookup.dataSubset = dataSubset
-            send_lookup(self, lookup)
+            send_lookup(self, lookup, auth_id, auth_token)
             return lookup.result
 
 
-def send_lookup(client: Client, lookup):
+def send_lookup(client: Client, lookup, auth_id=None, auth_token=None):
     """
     Sends a Lookup object to the US Enrichment API and stores the result in the Lookup's result field.
+    If auth_id and auth_token are both non-empty, they will be used for this request instead of the
+    client-level credentials. This is useful for multi-tenant scenarios where different requests
+    require different credentials.
     """
     if lookup is None or (lookup.smartykey is None and lookup.street is None and lookup.freeform is None):
         raise SmartyException('Client.send() requires a Lookup with either the "smartykey", "street, or "freeform" field set as a string')
 
     request = build_request(lookup)
+
+    if auth_id and auth_token:
+        request.basic_auth = (auth_id, auth_token)
 
     response = client.sender.send(request)
     if response.error:

@@ -18,7 +18,7 @@ def run():
     auth_id = os.environ['SMARTY_AUTH_ID']
     auth_token = os.environ['SMARTY_AUTH_TOKEN']
     
-    credentials = StaticCredentials(auth_id, auth_token)
+    credentials = BasicAuthCredentials(auth_id, auth_token)
 
     client = ClientBuilder(credentials).build_international_postal_code_api_client()
 

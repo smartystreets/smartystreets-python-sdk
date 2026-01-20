@@ -21,10 +21,13 @@ class Client:
         batch.add(lookup)
         self.send_batch(batch)
 
-    def send_batch(self, batch):
+    def send_batch(self, batch, auth_id=None, auth_token=None):
         """
         Sends a Batch object containing no more than 100 Lookup objects to the US Street API and stores the
         results in the result field of the Lookup object.
+        If auth_id and auth_token are both non-empty, they will be used for this request instead of the
+        client-level credentials. This is useful for multi-tenant scenarios where different requests
+        require different credentials.
         """
         smartyrequest = Request()
 
@@ -37,6 +40,9 @@ class Client:
             smartyrequest.parameters = converted_lookups[0]
         else:
             smartyrequest.payload = self.serializer.serialize(converted_lookups)
+
+        if auth_id and auth_token:
+            smartyrequest.basic_auth = (auth_id, auth_token)
 
         response = self.sender.send(smartyrequest)
 
