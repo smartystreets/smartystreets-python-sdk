@@ -12,15 +12,25 @@ class Client:
         self.sender = sender
         self.serializer = serializer
 
-    def send(self, lookup):
+    def send(self, lookup, auth_id=None, auth_token=None):
         """
         Sends a Lookup object to the US Extract Code API and stores the result in the Lookup's result field.
         It also returns the result directly.
+
+        :param lookup: Lookup object with text to extract
+        :param auth_id: Optional per-request auth_id for multi-tenant scenarios
+        :param auth_token: Optional per-request auth_token for multi-tenant scenarios
         """
         if lookup is None or lookup.text is None or not isinstance(lookup.text, str) or len(lookup.text.strip()) == 0:
             raise SmartyException('Client.send() requires a Lookup with the "text" field set')
 
         request = self.build_request(lookup)
+
+        if auth_id and auth_token:
+            import base64
+            credentials = "{}:{}".format(auth_id, auth_token)
+            encoded_credentials = base64.b64encode(credentials.encode('utf-8')).decode('ascii')
+            request.headers['Authorization'] = 'Basic {}'.format(encoded_credentials)
 
         response = self.sender.send(request)
         if response.error:

@@ -10,12 +10,22 @@ class Client:
         self.sender = sender
         self.serializer = serializer
 
-    def send(self, lookup):
+    def send(self, lookup, auth_id=None, auth_token=None):
         """
         Sends a Lookup object to the International Street API and stores the result in the Lookup's result field.
+
+        :param lookup: Lookup object with address information
+        :param auth_id: Optional per-request auth_id for multi-tenant scenarios
+        :param auth_token: Optional per-request auth_token for multi-tenant scenarios
         """
         lookup.ensure_enough_info()
         request = self.build_request(lookup)
+
+        if auth_id and auth_token:
+            import base64
+            credentials = "{}:{}".format(auth_id, auth_token)
+            encoded_credentials = base64.b64encode(credentials.encode('utf-8')).decode('ascii')
+            request.headers['Authorization'] = 'Basic {}'.format(encoded_credentials)
 
         response = self.sender.send(request)
 

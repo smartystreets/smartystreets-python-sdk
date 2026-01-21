@@ -1,6 +1,6 @@
 import os
 
-from smartystreets_python_sdk import StaticCredentials, ClientBuilder
+from smartystreets_python_sdk import BasicCredentials, ClientBuilder
 from smartystreets_python_sdk.international_postal_code import Lookup
 
 
@@ -18,7 +18,7 @@ def run():
     auth_id = os.environ['SMARTY_AUTH_ID']
     auth_token = os.environ['SMARTY_AUTH_TOKEN']
     
-    credentials = StaticCredentials(auth_id, auth_token)
+    credentials = BasicCredentials(auth_id, auth_token)
 
     client = ClientBuilder(credentials).build_international_postal_code_api_client()
 

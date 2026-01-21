@@ -9,3 +9,4 @@ class Request:
         self.url_components = None
         self.referer = None
         self.content_type = 'application/json'
+        self.headers = {}

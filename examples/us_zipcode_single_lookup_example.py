@@ -1,6 +1,6 @@
 import os
 
-from smartystreets_python_sdk import SharedCredentials, StaticCredentials, exceptions, ClientBuilder
+from smartystreets_python_sdk import SharedCredentials, BasicCredentials, exceptions, ClientBuilder
 from smartystreets_python_sdk.us_zipcode import Lookup as ZIPCodeLookup
 
 
@@ -19,7 +19,7 @@ def run():
     auth_id = os.environ['SMARTY_AUTH_ID']
     auth_token = os.environ['SMARTY_AUTH_TOKEN']
     #
-    credentials = StaticCredentials(auth_id, auth_token)
+    credentials = BasicCredentials(auth_id, auth_token)
 
     # Documentation for input fields can be found at:
     # https://smartystreet.com/docs/us-zipcode-api#input-fields

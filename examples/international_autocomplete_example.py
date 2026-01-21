@@ -1,6 +1,6 @@
 import os
 
-from smartystreets_python_sdk import SharedCredentials, ClientBuilder, StaticCredentials
+from smartystreets_python_sdk import SharedCredentials, ClientBuilder, BasicCredentials
 from smartystreets_python_sdk.international_autocomplete import Lookup as InternationalAutocompleteLookup
 
 
@@ -19,7 +19,7 @@ def run():
     # auth_id = os.environ['SMARTY_AUTH_ID']
     # auth_token = os.environ['SMARTY_AUTH_TOKEN']
     #
-    # credentials = StaticCredentials(auth_id, auth_token)
+    # credentials = BasicCredentials(auth_id, auth_token)
 
     client = ClientBuilder(credentials).build_international_autocomplete_api_client()
 

@@ -1,6 +1,6 @@
 import os
 
-from smartystreets_python_sdk import StaticCredentials, ClientBuilder, SharedCredentials
+from smartystreets_python_sdk import BasicCredentials, ClientBuilder, SharedCredentials
 from smartystreets_python_sdk.international_street import Lookup as InternationalLookup
 
 
@@ -19,7 +19,7 @@ def run():
     # auth_id = os.environ['SMARTY_AUTH_ID']
     # auth_token = os.environ['SMARTY_AUTH_TOKEN']
     #
-    # credentials = StaticCredentials(auth_id, auth_token)
+    # credentials = BasicCredentials(auth_id, auth_token)
 
     client = ClientBuilder(credentials).build_international_street_api_client()
 

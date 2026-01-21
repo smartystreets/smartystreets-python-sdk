@@ -13,18 +13,26 @@ class Client:
         self.sender = sender
         self.serializer = serializer
 
-    def send_lookup(self, lookup):
+    def send_lookup(self, lookup, auth_id=None, auth_token=None):
         """
         Sends a Lookup object to the US Street API and stores the result in the Lookup's result field.
+
+        :param lookup: Lookup object with address information
+        :param auth_id: Optional per-request auth_id for multi-tenant scenarios
+        :param auth_token: Optional per-request auth_token for multi-tenant scenarios
         """
         batch = Batch()
         batch.add(lookup)
-        self.send_batch(batch)
+        self.send_batch(batch, auth_id, auth_token)
 
-    def send_batch(self, batch):
+    def send_batch(self, batch, auth_id=None, auth_token=None):
         """
         Sends a Batch object containing no more than 100 Lookup objects to the US Street API and stores the
         results in the result field of the Lookup object.
+
+        :param batch: Batch object containing Lookup objects
+        :param auth_id: Optional per-request auth_id for multi-tenant scenarios
+        :param auth_token: Optional per-request auth_token for multi-tenant scenarios
         """
         smartyrequest = Request()
 
@@ -37,6 +45,12 @@ class Client:
             smartyrequest.parameters = converted_lookups[0]
         else:
             smartyrequest.payload = self.serializer.serialize(converted_lookups)
+
+        if auth_id and auth_token:
+            import base64
+            credentials = "{}:{}".format(auth_id, auth_token)
+            encoded_credentials = base64.b64encode(credentials.encode('utf-8')).decode('ascii')
+            smartyrequest.headers['Authorization'] = 'Basic {}'.format(encoded_credentials)
 
         response = self.sender.send(smartyrequest)
 

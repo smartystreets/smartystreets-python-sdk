@@ -1,6 +1,6 @@
 import os
 
-from smartystreets_python_sdk import SharedCredentials, StaticCredentials, ClientBuilder
+from smartystreets_python_sdk import SharedCredentials, BasicCredentials, ClientBuilder
 from smartystreets_python_sdk.us_autocomplete_pro import Lookup as AutocompleteProLookup, geolocation_type
 
 
@@ -19,13 +19,13 @@ def run():
     auth_id = os.environ['SMARTY_AUTH_ID']
     auth_token = os.environ['SMARTY_AUTH_TOKEN']
 
-    credentials = StaticCredentials(auth_id, auth_token)
+    credentials = BasicCredentials(auth_id, auth_token)
 
     # for server-to-server requests, use this code:
     # auth_id = os.environ['SMARTY_AUTH_ID']
     # auth_token = os.environ['SMARTY_AUTH_TOKEN']
     #
-    # credentials = StaticCredentials(auth_id, auth_token)
+    # credentials = BasicCredentials(auth_id, auth_token)
 
     client = ClientBuilder(credentials).build_us_autocomplete_pro_api_client()
     
