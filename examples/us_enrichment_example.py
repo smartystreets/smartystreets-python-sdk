@@ -1,10 +1,8 @@
 import os
 
-from smartystreets_python_sdk import SharedCredentials, StaticCredentials, exceptions, ClientBuilder
+from smartystreets_python_sdk import SharedCredentials, BasicAuthCredentials, exceptions, ClientBuilder
 from smartystreets_python_sdk.us_enrichment.lookup import Lookup as EnrichmentLookup
 
-
-# from smartystreets_python_sdk.us_enrichment import
 
 def run():
     # key = "Your SmartyStreets Key here"
@@ -12,16 +10,16 @@ def run():
 
     # We recommend storing your secret keys in environment variables instead---it's safer!
     # for client-side requests (browser/mobile), use this code:
-    #key = os.environ['SMARTY_AUTH_WEB']
-    #hostname = os.environ['SMARTY_WEBSITE_DOMAIN']
-
-    #credentials = SharedCredentials(key, hostname)
+    # key = os.environ['SMARTY_AUTH_WEB']
+    # hostname = os.environ['SMARTY_WEBSITE_DOMAIN']
+    #
+    # credentials = SharedCredentials(key, hostname)
 
     # for server-to-server requests, use this code:
     auth_id = os.environ['SMARTY_AUTH_ID']
     auth_token = os.environ['SMARTY_AUTH_TOKEN']
-    #
-    credentials = StaticCredentials(auth_id, auth_token)
+
+    credentials = BasicAuthCredentials(auth_id, auth_token)
 
     client = ClientBuilder(credentials).build_us_enrichment_api_client()
 

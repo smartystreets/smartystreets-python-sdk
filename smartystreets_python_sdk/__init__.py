@@ -4,6 +4,7 @@ from .requests_sender import RequestsSender
 from .native_serializer import NativeSerializer
 from .static_credentials import StaticCredentials
 from .shared_credentials import SharedCredentials
+from .basic_auth_credentials import BasicAuthCredentials
 from .status_code_sender import StatusCodeSender
 from .signing_sender import SigningSender
 from .license_sender import LicenseSender
