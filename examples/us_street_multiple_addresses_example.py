@@ -1,6 +1,6 @@
 import os
 
-from smartystreets_python_sdk import SharedCredentials, StaticCredentials, exceptions, Batch, ClientBuilder
+from smartystreets_python_sdk import SharedCredentials, BasicAuthCredentials, exceptions, Batch, ClientBuilder
 from smartystreets_python_sdk.us_street import Lookup as StreetLookup
 from smartystreets_python_sdk.us_street.match_type import MatchType
 
@@ -13,14 +13,14 @@ def run():
     # for client-side requests (browser/mobile), use this code:
     # key = os.environ['SMARTY_AUTH_WEB']
     # hostname = os.environ['SMARTY_WEBSITE_DOMAIN']
-
+    #
     # credentials = SharedCredentials(key, hostname)
 
     # for server-to-server requests, use this code:
     auth_id = os.environ['SMARTY_AUTH_ID']
     auth_token = os.environ['SMARTY_AUTH_TOKEN']
-    
-    credentials = StaticCredentials(auth_id, auth_token)
+
+    credentials = BasicAuthCredentials(auth_id, auth_token)
 
     client = ClientBuilder(credentials).build_us_street_api_client()
     

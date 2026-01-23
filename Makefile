@@ -6,6 +6,9 @@ clean:
 	rm -rf dist/ MANIFEST
 	git checkout "$(VERSION_FILE)"
 
+test_dev: clean
+	python3 -m unittest discover -p *_test.py
+
 test: clean dependencies
 	python3 -m unittest discover -p *_test.py
 

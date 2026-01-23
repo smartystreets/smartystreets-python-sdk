@@ -1,6 +1,6 @@
 import os
 
-from smartystreets_python_sdk import StaticCredentials, ClientBuilder
+from smartystreets_python_sdk import BasicAuthCredentials, ClientBuilder, SharedCredentials
 from smartystreets_python_sdk.international_postal_code import Lookup
 
 
@@ -12,13 +12,14 @@ def run():
     # for client-side requests (browser/mobile), use this code:
     # key = os.environ['SMARTY_AUTH_WEB']
     # hostname = os.environ['SMARTY_WEBSITE_DOMAIN']
+    #
     # credentials = SharedCredentials(key, hostname)
 
     # for server-to-server requests, use this code:
     auth_id = os.environ['SMARTY_AUTH_ID']
     auth_token = os.environ['SMARTY_AUTH_TOKEN']
-    
-    credentials = StaticCredentials(auth_id, auth_token)
+
+    credentials = BasicAuthCredentials(auth_id, auth_token)
 
     client = ClientBuilder(credentials).build_international_postal_code_api_client()
 

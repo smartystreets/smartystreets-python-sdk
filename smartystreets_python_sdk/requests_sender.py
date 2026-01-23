@@ -59,6 +59,8 @@ def build_request(smarty_request, ip=None):
             request.headers['Referer'] = smarty_request.referer
         if ip != None:
             request.headers['X-Forwarded-For'] = ip
+        if smarty_request.auth:
+            request.auth = smarty_request.auth
         if smarty_request.payload:
             request.data = smarty_request.payload
             request.method = 'POST'
