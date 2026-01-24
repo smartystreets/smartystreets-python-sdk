@@ -58,10 +58,16 @@ def remap_keys(obj):
     for lookup in obj:
         converted_lookup = {}
 
-        if (lookup.match == MatchType.ENHANCED or lookup.match == "enhanced") and lookup.candidates == 0:
-            add_field(converted_lookup, 'candidates', 5)
-        else:
+        # Determine effective match strategy (default to ENHANCED if not specified)
+        match_strategy = lookup.match
+        if match_strategy is None:
+            match_strategy = MatchType.ENHANCED
+
+        # Handle candidates
+        if lookup.candidates > 0:
             add_field(converted_lookup, 'candidates', lookup.candidates)
+        elif match_strategy == MatchType.ENHANCED or match_strategy == "enhanced":
+            add_field(converted_lookup, 'candidates', 5)
 
         add_field(converted_lookup, 'input_id', lookup.input_id)
         add_field(converted_lookup, 'street', lookup.street)
@@ -74,10 +80,13 @@ def remap_keys(obj):
         add_field(converted_lookup, 'addressee', lookup.addressee)
         add_field(converted_lookup, 'urbanization', lookup.urbanization)
         add_field(converted_lookup, 'county_source', lookup.county_source)
-        if isinstance(lookup.match, MatchType):
-            add_field(converted_lookup, 'match', lookup.match.value)
-        else:
-            add_field(converted_lookup, 'match', lookup.match)
+
+        # Only send match parameter if not STRICT
+        if match_strategy != MatchType.STRICT and match_strategy != "strict":
+            if isinstance(match_strategy, MatchType):
+                add_field(converted_lookup, 'match', match_strategy.value)
+            else:
+                add_field(converted_lookup, 'match', match_strategy)
 
         if isinstance(lookup.outputformat, OutputFormat):
             add_field(converted_lookup, 'format', lookup.outputformat.value)

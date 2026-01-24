@@ -312,3 +312,39 @@ class TestClient(unittest.TestCase):
         self.assertEqual(actual_candidate.analysis.components.urbanization.status, "unconfirmed")
         self.assertIsNone(actual_candidate.analysis.components.urbanization.change)
 
+    def test_default_match_strategy_is_enhanced(self):
+        sender = RequestCapturingSender()
+        serializer = FakeDeserializer({})
+        client = Client(sender, serializer)
+        lookup = Lookup()
+
+        client.send_lookup(lookup)
+
+        self.assertEqual('enhanced', sender.request.parameters['match'])
+        self.assertEqual(5, sender.request.parameters['candidates'])
+
+    def test_explicit_match_strict(self):
+        sender = RequestCapturingSender()
+        serializer = FakeDeserializer({})
+        client = Client(sender, serializer)
+        lookup = Lookup()
+        lookup.match = MatchType.STRICT
+
+        client.send_lookup(lookup)
+
+        self.assertNotIn('match', sender.request.parameters)
+        self.assertNotIn('candidates', sender.request.parameters)
+
+    def test_explicit_match_strict_with_candidates(self):
+        sender = RequestCapturingSender()
+        serializer = FakeDeserializer({})
+        client = Client(sender, serializer)
+        lookup = Lookup()
+        lookup.match = MatchType.STRICT
+        lookup.candidates = 3
+
+        client.send_lookup(lookup)
+
+        self.assertNotIn('match', sender.request.parameters)
+        self.assertEqual(3, sender.request.parameters['candidates'])
+
