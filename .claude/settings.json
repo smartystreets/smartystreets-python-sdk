@@ -8,5 +8,9 @@
       "Bash(make *)",
       "Bash(python3 *)"
     ]
+  },
+  "attribution": {
+    "commit": "",
+    "pr": ""
   }
 }
