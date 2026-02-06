@@ -39,3 +39,16 @@ class TestCustomHeaderSender(unittest.TestCase):
 
         self.assertEqual('Test-Agent', request.headers['User-Agent'])
         self.assertEqual('Test-Type', request.headers['Content-Type'])
+
+    def test_appended_headers_are_joined_with_separator(self):
+        sender = smarty.RequestsSender()
+        header = {'User-Agent': ['base-value', 'custom-value']}
+        append_headers = {'User-Agent': ' '}
+        sender = smarty.CustomHeaderSender(header, sender, append_headers)
+        smartyrequest = smarty.Request()
+        smartyrequest.url_prefix = "http://localhost"
+        smartyrequest.payload = "This is the test content."
+
+        request = sender.build_request(smartyrequest)
+
+        self.assertEqual('base-value custom-value', request.headers['User-Agent'])
