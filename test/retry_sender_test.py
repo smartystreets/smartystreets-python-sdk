@@ -1,7 +1,7 @@
 import unittest
 from smartystreets_python_sdk import Request, RetrySender
 from mock import patch
-from .mocks import FailingSender
+from test.mocks import FailingSender
 
 
 def mock_backoff(attempt, ignore_max=False):

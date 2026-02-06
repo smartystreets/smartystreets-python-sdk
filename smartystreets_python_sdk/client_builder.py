@@ -27,6 +27,7 @@ class ClientBuilder:
         self.ip = None
         self.debug = None
         self.header = None
+        self.append_headers = {}
         self.licenses = []
         self.pool_size = None
         self.custom_queries = None
@@ -113,13 +114,36 @@ class ClientBuilder:
 
     def with_custom_header(self, custom_header):
         """
-        Create custom headers when necessary.
+        Create custom headers when necessary. Headers are merged with any existing custom headers.
         :param custom_header: Input your custom headers
         :return: Returns self to accommodate method chaining
         """
-        self.header = custom_header
+        if self.header is None:
+            self.header = {}
+        self.header.update(custom_header)
         return self
-    
+
+    def with_appended_header(self, key, value, separator):
+        """
+        Appends the provided value to the existing header value using the specified separator,
+        rather than adding a separate header value. This is useful for single-value headers like User-Agent.
+        :param key: The header key
+        :param value: The header value to append
+        :param separator: The separator to use when joining values
+        :return: Returns self to accommodate method chaining
+        """
+        self.append_headers[key] = separator
+        if self.header is None:
+            self.header = {}
+        if key in self.header:
+            if isinstance(self.header[key], list):
+                self.header[key].append(value)
+            else:
+                self.header[key] = [self.header[key], value]
+        else:
+            self.header[key] = [value]
+        return self
+
     def with_x_forwarded_for(self, ip):
         """
         Add and X-Forwarded-For header when necessary.
@@ -235,7 +259,7 @@ class ClientBuilder:
         sender = smarty.StatusCodeSender(sender)
 
         if self.header is not None:
-            sender = smarty.CustomHeaderSender(self.header, sender)
+            sender = smarty.CustomHeaderSender(self.header, sender, self.append_headers)
 
         if self.custom_queries is not None:
             sender = smarty.CustomQuerySender(self.custom_queries, sender)
