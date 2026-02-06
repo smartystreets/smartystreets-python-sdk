@@ -17,7 +17,7 @@ dependencies:
 
 package: test
 	echo "__version__=\"${VERSION}\"" >> "$(VERSION_FILE)" \
-		&& python3 setup.py sdist
+		&& python3 -m build
 
 international_autocomplete_api:
 	PYTHONPATH=. python3 examples/international_autocomplete_example.py
