@@ -40,6 +40,14 @@ class TestCustomHeaderSender(unittest.TestCase):
         self.assertEqual('Test-Agent', request.headers['User-Agent'])
         self.assertEqual('Test-Type', request.headers['Content-Type'])
 
+    def test_multiple_with_custom_header_calls_merge_headers(self):
+        builder = smarty.ClientBuilder(None)
+        builder.with_custom_header({'User-Agent': 'Test-Agent'})
+        builder.with_custom_header({'Content-Type': 'Test-Type'})
+
+        self.assertEqual('Test-Agent', builder.header['User-Agent'])
+        self.assertEqual('Test-Type', builder.header['Content-Type'])
+
     def test_appended_headers_are_joined_with_separator(self):
         sender = smarty.RequestsSender()
         header = {'User-Agent': ['base-value', 'custom-value']}

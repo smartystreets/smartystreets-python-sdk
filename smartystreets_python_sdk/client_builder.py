@@ -114,11 +114,13 @@ class ClientBuilder:
 
     def with_custom_header(self, custom_header):
         """
-        Create custom headers when necessary.
+        Create custom headers when necessary. Headers are merged with any existing custom headers.
         :param custom_header: Input your custom headers
         :return: Returns self to accommodate method chaining
         """
-        self.header = custom_header
+        if self.header is None:
+            self.header = {}
+        self.header.update(custom_header)
         return self
 
     def with_appended_header(self, key, value, separator):
