@@ -1,5 +1,6 @@
 from smartystreets_python_sdk.us_street.match_type import MatchType
 from smartystreets_python_sdk.us_street.output_format import OutputFormat
+import json
 
 
 class Lookup:
@@ -31,3 +32,26 @@ class Lookup:
 
     def add_custom_parameter(self, parameter, value):
         self.custom_parameter_array[parameter] = value
+
+    def to_dict(self):
+        return {
+            "input_id": self.input_id,
+            "street": self.street,
+            "street2": self.street2,
+            "secondary": self.secondary,
+            "city": self.city,
+            "state": self.state,
+            "zipcode": self.zipcode,
+            "lastline": self.lastline,
+            "addressee": self.addressee,
+            "urbanization": self.urbanization,
+            "match": self.match,
+            "candidates": self.candidates,
+            "outputformat": self.outputformat,
+            "country_source": self.county_source,
+            "result": [candidate.to_dict() for candidate in self.result],
+            "custom_parameter_array": self.custom_parameter_array
+        }
+
+    def to_json(self):
+        return json.dumps(self.to_dict())

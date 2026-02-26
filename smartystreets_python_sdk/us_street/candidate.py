@@ -1,3 +1,5 @@
+import json
+
 from .components import Components
 from .metadata import Metadata
 from .analysis import Analysis
@@ -24,3 +26,22 @@ class Candidate:
         self.components = Components(obj.get('components', {}))
         self.metadata = Metadata(obj.get('metadata', {}))
         self.analysis = Analysis(obj.get('analysis', {}))
+
+    def to_dict(self):
+        return {
+            "input_id": self.input_id,
+            "input_index": self.input_index,
+            "candidate_index": self.candidate_index,
+            "addressee": self.addressee,
+            "delivery_line_1": self.delivery_line_1,
+            "delivery_line_2": self.delivery_line_2,
+            "last_line": self.last_line,
+            "delivery_point_barcode": self.delivery_point_barcode,
+            "smarty_key": self.smarty_key,
+            "components": self.components.to_dict() if self.components else {},
+            "metadata": self.metadata.to_dict() if self.metadata else {},
+            "analysis": self.analysis.to_dict() if self.analysis else {}
+        }
+
+    def to_json(self):
+        return json.dumps(self.to_dict())

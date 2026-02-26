@@ -5,3 +5,6 @@ class MatchInfo:
         """
         self.status = obj.get('status', None)
         self.change = obj.get('change', None)
+
+    def to_dict(self):
+        return {"status": self.status, **({"change": self.change} if self.change is not None else {})}

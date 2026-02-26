@@ -19,3 +19,21 @@ class ComponentAnalysis:
         self.zipcode = MatchInfo(obj['zipcode']) if 'zipcode' in obj else None
         self.plus4_code = MatchInfo(obj['plus4_code']) if 'plus4_code' in obj else None
         self.urbanization = MatchInfo(obj['urbanization']) if 'urbanization' in obj else None
+
+    def to_dict(self):
+        return {
+            'primary_number': self.primary_number.to_dict() if self.primary_number else None,
+            'street_predirection': self.street_predirection.to_dict() if self.street_predirection else None,
+            'street_name': self.street_name.to_dict() if self.street_name else None,
+            'street_postdirection': self.street_postdirection.to_dict() if self.street_postdirection else None,
+            'street_suffix': self.street_suffix.to_dict() if self.street_suffix else None,
+            'secondary_number': self.secondary_number.to_dict() if self.secondary_number else None,
+            'secondary_designator': self.secondary_designator.to_dict() if self.secondary_designator else None,
+            'extra_secondary_number': self.extra_secondary_number.to_dict() if self.extra_secondary_number else None,
+            'extra_secondary_designator': self.extra_secondary_designator.to_dict() if self.extra_secondary_designator else None,
+            'city_name': self.city_name.to_dict() if self.city_name else None,
+            'state_abbreviation': self.state_abbreviation.to_dict() if self.state_abbreviation else None,
+            'zipcode': self.zipcode.to_dict() if self.zipcode else None,
+            'plus4_code': self.plus4_code.to_dict() if self.plus4_code else None,
+            'urbanization': self.urbanization.to_dict() if self.urbanization else None,
+        }
