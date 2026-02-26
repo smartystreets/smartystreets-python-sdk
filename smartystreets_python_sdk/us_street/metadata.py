@@ -21,3 +21,26 @@ class Metadata:
         self.utc_offset = obj.get('utc_offset', None)
         self.obeys_dst = obj.get('dst', None)
         self.is_ews_match = obj.get('ews_match', None)
+
+    def to_dict(self):
+        result = {
+            "record_type": self.record_type,
+            "zip_type": self.zip_type,
+            "county_fips": self.county_fips,
+            "county_name": self.county_name,
+            "carrier_route": self.carrier_route,
+            "congressional_district": self.congressional_district,
+            "building_default_indicator": self.building_default_indicator,
+            "rdi": self.rdi,
+            "elot_sequence": self.elot_sequence,
+            "elot_sort": self.elot_sort,
+            "latitude": self.latitude,
+            "longitude": self.longitude,
+            "coordinate_license": self.coordinate_license,
+            "precision": self.precision,
+            "time_zone": self.time_zone,
+            "utc_offset": self.utc_offset,
+            "dst": self.obeys_dst,
+            "ews_match": self.is_ews_match
+        }
+        return {k: v for k, v in result.items() if v is not None}
