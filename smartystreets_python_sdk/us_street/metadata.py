@@ -23,7 +23,7 @@ class Metadata:
         self.is_ews_match = obj.get('ews_match', None)
 
     def to_dict(self):
-        return {
+        result = {
             "record_type": self.record_type,
             "zip_type": self.zip_type,
             "county_fips": self.county_fips,
@@ -43,3 +43,4 @@ class Metadata:
             "dst": self.obeys_dst,
             "ews_match": self.is_ews_match
         }
+        return {k: v for k, v in result.items() if v is not None}

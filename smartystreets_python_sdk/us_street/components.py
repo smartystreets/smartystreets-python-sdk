@@ -26,7 +26,7 @@ class Components:
         self.delivery_point_check_digit = obj.get('delivery_point_check_digit', None)
 
     def to_dict(self):
-        return {
+        result = {
             "urbanization": self.urbanization,
             "primary_number": self.primary_number,
             "street_name": self.street_name,
@@ -47,3 +47,4 @@ class Components:
             "delivery_point": self.delivery_point,
             "delivery_point_check_digit": self.delivery_point_check_digit
         }
+        return {k: v for k, v in result.items() if v is not None}

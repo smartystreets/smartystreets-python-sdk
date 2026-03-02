@@ -21,7 +21,7 @@ class ComponentAnalysis:
         self.urbanization = MatchInfo(obj['urbanization']) if 'urbanization' in obj else None
 
     def to_dict(self):
-        return {
+        result = {
             'primary_number': self.primary_number.to_dict() if self.primary_number else None,
             'street_predirection': self.street_predirection.to_dict() if self.street_predirection else None,
             'street_name': self.street_name.to_dict() if self.street_name else None,
@@ -37,3 +37,4 @@ class ComponentAnalysis:
             'plus4_code': self.plus4_code.to_dict() if self.plus4_code else None,
             'urbanization': self.urbanization.to_dict() if self.urbanization else None,
         }
+        return {k: v for k, v in result.items() if v is not None}

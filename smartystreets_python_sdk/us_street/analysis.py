@@ -21,18 +21,18 @@ class Analysis:
         self.components = ComponentAnalysis(components_obj) if components_obj else None
 
     def to_dict(self):
-        return {
+        result = {
             "dpv_match_code": self.dpv_match_code,
             "dpv_footnotes": self.dpv_footnotes,
             "dpv_cmra": self.cmra,
             "dpv_vacant": self.vacant,
             "active": self.active,
             "dpv_no_stat": self.dpv_no_stat,
-            "ews_match": None if self.is_ews_match is DeprecationWarning else self.is_ews_match,
             "footnotes": self.footnotes,
             "lacslink_code": self.lacs_link_code,
             "lacslink_indicator": self.lacs_link_indicator,
             "suitelink_match": self.is_suite_link_match,
             "enhanced_match": self.enhanced_match,
-            "components": self.components.to_dict() if self.components else {}
+            "components": self.components.to_dict() if self.components and self.components.to_dict() else None
         }
+        return {k: v for k, v in result.items() if v is not None}

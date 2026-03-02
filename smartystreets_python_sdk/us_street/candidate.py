@@ -28,7 +28,7 @@ class Candidate:
         self.analysis = Analysis(obj.get('analysis', {}))
 
     def to_dict(self):
-        return {
+        result = {
             "input_id": self.input_id,
             "input_index": self.input_index,
             "candidate_index": self.candidate_index,
@@ -38,10 +38,11 @@ class Candidate:
             "last_line": self.last_line,
             "delivery_point_barcode": self.delivery_point_barcode,
             "smarty_key": self.smarty_key,
-            "components": self.components.to_dict() if self.components else {},
-            "metadata": self.metadata.to_dict() if self.metadata else {},
-            "analysis": self.analysis.to_dict() if self.analysis else {}
+            "components": self.components.to_dict() if self.components and self.components.to_dict() else None,
+            "metadata": self.metadata.to_dict() if self.metadata and self.metadata.to_dict() else None,
+            "analysis": self.analysis.to_dict() if self.analysis and self.analysis.to_dict() else None
         }
+        return {k: v for k, v in result.items() if v is not None}
 
     def to_json(self):
         return json.dumps(self.to_dict())

@@ -7,4 +7,8 @@ class MatchInfo:
         self.change = obj.get('change', None)
 
     def to_dict(self):
-        return {"status": self.status, **({"change": self.change} if self.change is not None else {})}
+        result = {
+            "status": self.status,
+            "change": self.change
+        }
+        return {k: v for k, v in result.items() if v is not None}

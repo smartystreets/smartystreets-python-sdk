@@ -34,7 +34,7 @@ class Lookup:
         self.custom_parameter_array[parameter] = value
 
     def to_dict(self):
-        return {
+        result =  {
             "input_id": self.input_id,
             "street": self.street,
             "street2": self.street2,
@@ -48,10 +48,11 @@ class Lookup:
             "match": self.match,
             "candidates": self.candidates,
             "outputformat": self.outputformat,
-            "country_source": self.county_source,
+            "county_source": self.county_source,
             "result": [candidate.to_dict() for candidate in self.result],
             "custom_parameter_array": self.custom_parameter_array
         }
+        return {k: v for k, v in result.items() if v is not None}
 
     def to_json(self):
         return json.dumps(self.to_dict())
