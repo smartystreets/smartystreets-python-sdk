@@ -21,6 +21,8 @@ class Analysis:
         self.components = ComponentAnalysis(components_obj) if components_obj else None
 
     def to_dict(self):
+        components_dict = self.components.to_dict() if self.components else None
+
         result = {
             "dpv_match_code": self.dpv_match_code,
             "dpv_footnotes": self.dpv_footnotes,
@@ -33,6 +35,6 @@ class Analysis:
             "lacslink_indicator": self.lacs_link_indicator,
             "suitelink_match": self.is_suite_link_match,
             "enhanced_match": self.enhanced_match,
-            "components": self.components.to_dict() if self.components and self.components.to_dict() else None
+            "components": components_dict or None
         }
         return {k: v for k, v in result.items() if v is not None}

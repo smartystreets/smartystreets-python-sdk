@@ -28,6 +28,10 @@ class Candidate:
         self.analysis = Analysis(obj.get('analysis', {}))
 
     def to_dict(self):
+        components_dict = self.components.to_dict() if self.components else None
+        metadata_dict = self.metadata.to_dict() if self.metadata else None
+        analysis_dict = self.analysis.to_dict() if self.analysis else None
+
         result = {
             "input_id": self.input_id,
             "input_index": self.input_index,
@@ -38,9 +42,9 @@ class Candidate:
             "last_line": self.last_line,
             "delivery_point_barcode": self.delivery_point_barcode,
             "smarty_key": self.smarty_key,
-            "components": self.components.to_dict() if self.components and self.components.to_dict() else None,
-            "metadata": self.metadata.to_dict() if self.metadata and self.metadata.to_dict() else None,
-            "analysis": self.analysis.to_dict() if self.analysis and self.analysis.to_dict() else None
+            "components": components_dict or None,
+            "metadata": metadata_dict or None,
+            "analysis": analysis_dict or None
         }
         return {k: v for k, v in result.items() if v is not None}
 
