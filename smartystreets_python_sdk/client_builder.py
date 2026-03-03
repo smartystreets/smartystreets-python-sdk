@@ -213,6 +213,13 @@ class ClientBuilder:
         """
         return self.with_custom_comma_separated_query('features', 'component-analysis')
 
+    def with_feature_iana_timezone(self):
+        """
+        Adds to the request query to use the IANA timezone feature.
+        :return: Returns self to accommodate method chaining
+        """
+        return self.with_custom_comma_separated_query('features', 'iana-timezone')
+
     def build_international_street_api_client(self):
         self.ensure_url_prefix_not_null(self.INTERNATIONAL_STREET_API_URL)
         return InternationalStreetClient(self.build_sender(), self.serializer)
