@@ -1,3 +1,4 @@
+import json
 import unittest
 
 from smartystreets_python_sdk import Response, exceptions, Batch, native_serializer
@@ -348,3 +349,192 @@ class TestClient(unittest.TestCase):
         self.assertNotIn('match', sender.request.parameters)
         self.assertEqual(3, sender.request.parameters['candidates'])
 
+    def test_lookup_object_to_json(self):
+        lookup = Lookup()
+        lookup.input_id = '00'
+        lookup.street = '0'
+        lookup.street2 = '1.1'
+        lookup.secondary = '2'
+        lookup.city = '3'
+        lookup.state = '4'
+        lookup.zipcode = '5'
+        lookup.lastline = '6'
+        lookup.addressee = '7'
+        lookup.urbanization = '8'
+        lookup.county_source = '9'
+        lookup.match = MatchType.ENHANCED
+        lookup.outputformat = OutputFormat.PROJECT_USA
+        lookup.candidates = 0
+        lookup.add_custom_parameter('custom', '10')
+
+        payload = [{
+                    "input_index": 0,
+                    "input_id": "00",
+                    "addressee": "John Smith",
+                    "delivery_line_1": "3214 N University Ave # 409",
+                    "delivery_line_2": "blah blah",
+                    "last_line": "6",
+                    "delivery_point_barcode": "846044405140",
+                    "smarty_key": "1750774478",
+                    "components": {}
+                }]
+
+        sender = MockSender(Response(payload, 200))
+        serializer = FakeDeserializer(payload)
+        client = Client(sender, serializer)
+        client.send_lookup(lookup)
+        expected = ('{'
+                    '"input_id": "00", '
+                    '"street": "0", '
+                    '"street2": "1.1", '
+                    '"secondary": "2", '
+                    '"city": "3", '
+                    '"state": "4", '
+                    '"zipcode": "5", '
+                    '"lastline": "6", '
+                    '"addressee": "7", '
+                    '"urbanization": "8", '
+                    '"match": "enhanced", '
+                    '"candidates": 0, '
+                    '"outputformat": "project-usa", '
+                    '"county_source": "9", '
+                    '"result": ['
+                    '{'
+                    '"input_id": "00", '
+                    '"addressee": "John Smith", '
+                    '"delivery_line_1": "3214 N University Ave # 409", '
+                    '"delivery_line_2": "blah blah", '
+                    '"last_line": "6", '
+                    '"input_index": 0, '
+                    '"delivery_point_barcode": "846044405140", '
+                    '"smarty_key": "1750774478" '
+                    '}'
+                    '], '
+                    '"custom_parameter_array": {"custom": "10"}'
+                    '}')
+
+        actual = lookup.to_json()
+
+        self.assertEqual(json.loads(expected), json.loads(actual), "the lookup.to_json didn't match the expected JSON")
+
+
+    def test_candidate_object_to_json(self):
+        body = """{
+                "input_id": "blah",
+                "input_index": 0,
+                "candidate_index": 4242,
+                "addressee": "John Smith",
+                "delivery_line_1": "3214 N University Ave # 409",
+                "delivery_line_2": "blah blah",
+                "last_line": "Provo UT 84604-4405",
+                "delivery_point_barcode": "846044405140",
+                "smarty_key": "1750774478",
+                "components": {
+                    "primary_number": "3214",
+                    "street_predirection": "N",
+                    "street_postdirection": "Q",
+                    "street_name": "University",
+                    "street_suffix": "Ave",
+                    "secondary_number": "409",
+                    "secondary_designator": "#",
+                    "extra_secondary_number": "410",
+                    "extra_secondary_designator": "Apt",
+                    "pmb_number": "411",
+                    "pmb_designator": "Box",
+                    "city_name": "Provo",
+                    "default_city_name": "Provo",
+                    "state_abbreviation": "UT",
+                    "zipcode": "84604",
+                    "plus4_code": "4405",
+                    "delivery_point": "14",
+                    "delivery_point_check_digit": "0",
+                    "urbanization": "urbanization"
+                },
+                "metadata": {
+                    "record_type": "S",
+                    "zip_type": "Standard",
+                    "county_fips": "49049",
+                    "county_name": "Utah",
+                    "carrier_route": "C016",
+                    "congressional_district": "03",
+                    "building_default_indicator": "hi",
+                    "rdi": "Commercial",
+                    "elot_sequence": "0016",
+                    "elot_sort": "A",
+                    "latitude": 40.27658,
+                    "longitude": -111.65759,
+                    "coordinate_license": 1,
+                    "precision": "Zip9",
+                    "time_zone": "Mountain",
+                    "utc_offset": -7,
+                    "dst": true,
+                    "ews_match": true
+                },
+                "analysis": {
+                    "dpv_match_code": "S",
+                    "dpv_footnotes": "AACCRR",
+                    "dpv_cmra": "Y",
+                    "dpv_vacant": "N",
+                    "active": "Y",
+                    "dpv_no_stat": "N",
+                    "footnotes": "footnotes",
+                    "lacslink_code": "lacslink_code",
+                    "lacslink_indicator": "lacslink_indicator",
+                    "suitelink_match": true,
+                    "enhanced_match": "enhanced_match",
+                    "components": {
+                        "primary_number": {
+                            "status": "confirmed",
+                            "change": ["spelling"]
+                        },
+                        "street_predirection": {
+                            "status": "confirmed",
+                            "change": ["spelling"]
+                        },
+                        "street_name": {
+                            "status": "confirmed",
+                            "change": ["added"]
+                        },
+                        "street_postdirection": {
+                            "status": "confirmed"
+                        },
+                        "street_suffix": {
+                            "status": "confirmed"
+                        },
+                        "secondary_number": {
+                            "status": "confirmed"
+                        },
+                        "secondary_designator": {
+                            "status": "confirmed"
+                        },
+                        "extra_secondary_number": {
+                            "status": "confirmed"
+                        },
+                        "extra_secondary_designator": {
+                            "status": "confirmed",
+                            "change": ["abbreviated"]
+                        },
+                        "city_name": {
+                            "status": "confirmed"
+                        },
+                        "state_abbreviation": {
+                            "status": "confirmed"
+                        },
+                        "zipcode": {
+                            "status": "confirmed"
+                        },
+                        "plus4_code": {
+                            "status": "confirmed"
+                        },
+                        "urbanization": {
+                            "status": "unconfirmed"
+                        }
+                    }
+                }
+            }"""
+
+        obj = native_serializer.NativeSerializer().deserialize(body)
+        candidate = Candidate(obj)
+        actual = candidate.to_json()
+
+        self.assertEqual(json.loads(body), json.loads(actual), "the candidate.to_json didn't match the expected JSON")
