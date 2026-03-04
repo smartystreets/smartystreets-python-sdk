@@ -275,7 +275,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual(actual_candidate.metadata.obeys_dst, True)
         self.assertEqual(actual_candidate.metadata.iana_time_zone, "America/Denver")
         self.assertEqual(actual_candidate.metadata.iana_utc_offset, -7.0)
-        self.assertEqual(actual_candidate.metadata.iana_dst, True)
+        self.assertEqual(actual_candidate.metadata.iana_obeys_dst, True)
         self.assertEqual(actual_candidate.metadata.is_ews_match, True)
         self.assertEqual(actual_candidate.analysis.dpv_match_code, "S")
         self.assertEqual(actual_candidate.analysis.dpv_footnotes, "AACCRR")
@@ -354,16 +354,16 @@ class TestClient(unittest.TestCase):
         self.assertNotIn('match', sender.request.parameters)
         self.assertEqual(3, sender.request.parameters['candidates'])
 
-    def test_with_feature_iana_timezone(self):
+    def test_with_feature_iana_time_zone(self):
         from smartystreets_python_sdk import ClientBuilder, StaticCredentials
         builder = ClientBuilder(StaticCredentials('auth-id', 'auth-token'))
-        builder.with_feature_iana_timezone()
+        builder.with_feature_iana_time_zone()
         self.assertEqual('iana-timezone', builder.custom_queries['features'])
 
-    def test_with_feature_iana_timezone_and_component_analysis_should_append(self):
+    def test_with_feature_iana_time_zone_and_component_analysis_should_append(self):
         from smartystreets_python_sdk import ClientBuilder, StaticCredentials
         builder = ClientBuilder(StaticCredentials('auth-id', 'auth-token'))
         builder.with_feature_component_analysis()
-        builder.with_feature_iana_timezone()
+        builder.with_feature_iana_time_zone()
         self.assertEqual('component-analysis,iana-timezone', builder.custom_queries['features'])
 

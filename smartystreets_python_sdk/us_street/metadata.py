@@ -22,5 +22,5 @@ class Metadata:
         self.obeys_dst = obj.get('dst', None)
         self.iana_time_zone = obj.get('iana_time_zone', None)
         self.iana_utc_offset = obj.get('iana_utc_offset', None)
-        self.iana_dst = obj.get('iana_dst', None)
+        self.iana_obeys_dst = obj.get('iana_dst', None)
         self.is_ews_match = obj.get('ews_match', None)
