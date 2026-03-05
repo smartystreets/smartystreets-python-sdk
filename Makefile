@@ -40,13 +40,16 @@ us_extract_api:
 us_reverse_geo_api:
 	PYTHONPATH=. python3 examples/us_reverse_geo_example.py
 
+us_street_iana_timezone_api:
+	PYTHONPATH=. python3 examples/us_street_iana_timezone_example.py
+
 us_street_api:
-	PYTHONPATH=. python3 examples/us_street_single_address_example.py && PYTHONPATH=. python3 examples/us_street_multiple_addresses_example.py && PYTHONPATH=. python3 examples/us_street_component_analysis_example.py
+	PYTHONPATH=. python3 examples/us_street_single_address_example.py && PYTHONPATH=. python3 examples/us_street_multiple_addresses_example.py && PYTHONPATH=. python3 examples/us_street_component_analysis_example.py && PYTHONPATH=. python3 examples/us_street_iana_timezone_example.py
 
 us_zipcode_api:
 	PYTHONPATH=. python3 examples/us_zipcode_single_lookup_example.py && PYTHONPATH=. python3 examples/us_zipcode_multiple_lookups_example.py
 
-examples: international_autocomplete_api international_street_api us_autocomplete_pro_api us_enrichment_api us_extract_api us_reverse_geo_api us_street_api us_zipcode_api
+examples: international_autocomplete_api international_street_api us_autocomplete_pro_api us_enrichment_api us_extract_api us_reverse_geo_api us_street_api us_street_iana_timezone_api us_zipcode_api
 
 
-.PHONY: clean test dependencies package examples international_autocomplete_api international_street_api us_autocomplete_pro_api us_enrichment_api us_extract_api us_reverse_geo_api us_street_api us_zipcode_api
+.PHONY: clean test dependencies package examples international_autocomplete_api international_street_api us_autocomplete_pro_api us_enrichment_api us_extract_api us_reverse_geo_api us_street_api us_street_iana_timezone_api us_zipcode_api
