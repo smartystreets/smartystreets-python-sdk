@@ -81,12 +81,10 @@ def remap_keys(obj):
         add_field(converted_lookup, 'urbanization', lookup.urbanization)
         add_field(converted_lookup, 'county_source', lookup.county_source)
 
-        # Only send match parameter if not STRICT
-        if match_strategy != MatchType.STRICT and match_strategy != "strict":
-            if isinstance(match_strategy, MatchType):
-                add_field(converted_lookup, 'match', match_strategy.value)
-            else:
-                add_field(converted_lookup, 'match', match_strategy)
+        if isinstance(match_strategy, MatchType):
+            add_field(converted_lookup, 'match', match_strategy.value)
+        else:
+            add_field(converted_lookup, 'match', match_strategy)
 
         if isinstance(lookup.outputformat, OutputFormat):
             add_field(converted_lookup, 'format', lookup.outputformat.value)

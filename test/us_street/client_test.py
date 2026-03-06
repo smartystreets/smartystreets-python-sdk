@@ -339,7 +339,7 @@ class TestClient(unittest.TestCase):
 
         client.send_lookup(lookup)
 
-        self.assertNotIn('match', sender.request.parameters)
+        self.assertEqual('strict', sender.request.parameters['match'])
         self.assertNotIn('candidates', sender.request.parameters)
 
     def test_explicit_match_strict_with_candidates(self):
@@ -352,8 +352,77 @@ class TestClient(unittest.TestCase):
 
         client.send_lookup(lookup)
 
-        self.assertNotIn('match', sender.request.parameters)
+        self.assertEqual('strict', sender.request.parameters['match'])
         self.assertEqual(3, sender.request.parameters['candidates'])
+
+    def test_batch_defaults_include_match_and_candidates(self):
+        sender = RequestCapturingSender()
+        serializer = native_serializer.NativeSerializer()
+        client = Client(sender, serializer)
+        batch = Batch()
+        batch.add(Lookup("123 Main St"))
+        batch.add(Lookup("456 Oak Ave"))
+
+        client.send_batch(batch)
+
+        payload = json.loads(sender.request.payload)
+        for entry in payload:
+            self.assertEqual('enhanced', entry['match'])
+            self.assertEqual(5, entry['candidates'])
+
+    def test_batch_strict_match_is_sent(self):
+        sender = RequestCapturingSender()
+        serializer = native_serializer.NativeSerializer()
+        client = Client(sender, serializer)
+        batch = Batch()
+        lookup = Lookup("123 Main St")
+        lookup.match = MatchType.STRICT
+        batch.add(lookup)
+        batch.add(Lookup("456 Oak Ave"))
+
+        client.send_batch(batch)
+
+        payload = json.loads(sender.request.payload)
+        self.assertEqual('strict', payload[0]['match'])
+        self.assertEqual('enhanced', payload[1]['match'])
+
+    def test_batch_custom_params_are_top_level(self):
+        sender = RequestCapturingSender()
+        serializer = native_serializer.NativeSerializer()
+        client = Client(sender, serializer)
+        batch = Batch()
+        lookup = Lookup("123 Main St")
+        lookup.add_custom_parameter('my_param', 'my_value')
+        batch.add(lookup)
+        batch.add(Lookup("456 Oak Ave"))
+
+        client.send_batch(batch)
+
+        payload = json.loads(sender.request.payload)
+        self.assertEqual('my_value', payload[0]['my_param'])
+        self.assertNotIn('custom_parameter_array', payload[0])
+
+    def test_explicit_match_strict_as_string(self):
+        sender = RequestCapturingSender()
+        serializer = FakeDeserializer({})
+        client = Client(sender, serializer)
+        lookup = Lookup()
+        lookup.match = "strict"
+
+        client.send_lookup(lookup)
+
+        self.assertEqual('strict', sender.request.parameters['match'])
+
+    def test_default_output_format_is_sent(self):
+        sender = RequestCapturingSender()
+        serializer = FakeDeserializer({})
+        client = Client(sender, serializer)
+        lookup = Lookup()
+        lookup.outputformat = OutputFormat.DEFAULT
+
+        client.send_lookup(lookup)
+
+        self.assertEqual('default', sender.request.parameters['format'])
 
     def test_with_feature_iana_time_zone(self):
         from smartystreets_python_sdk import ClientBuilder, StaticCredentials

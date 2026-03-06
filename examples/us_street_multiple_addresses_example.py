@@ -56,7 +56,13 @@ def run():
     batch[3].zipcode = "95014"  # You can just input the street and ZIP if you want.
     batch[3].candidates = 1
 
-    assert len(batch) == 4
+    batch.add(StreetLookup("1 Rosedale, Baltimore, Maryland"))
+    batch[4].match = MatchType.STRICT  # Strict match requires a valid address.
+    batch[4].candidates = 1
+
+    batch.add(StreetLookup("1 Infinite Loop, Cupertino, CA"))  # Uses default match (enhanced).
+
+    assert len(batch) == 6
 
     try:
         client.send_batch(batch)
