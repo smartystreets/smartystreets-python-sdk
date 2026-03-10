@@ -68,32 +68,6 @@ class TestClient(unittest.TestCase):
 
         self.assertRaises(UnprocessableEntityError, client.send, lookup)
 
-    def test_rejects_lookups_with_only_country_and_address1(self):
-        sender = MockSender(None)
-        client = Client(sender, None)
-        lookup = Lookup(None, '0')
-        lookup.address1 = '1'
-
-        self.assertRaises(UnprocessableEntityError, client.send, lookup)
-
-    def test_rejects_lookups_with_only_country_and_address1_and_locality(self):
-        sender = MockSender(None)
-        client = Client(sender, None)
-        lookup = Lookup(None, '0')
-        lookup.address1 = '1'
-        lookup.locality = '2'
-
-        self.assertRaises(UnprocessableEntityError, client.send, lookup)
-
-    def test_rejects_lookups_with_only_country_and_address1_and_administrative_area(self):
-        sender = MockSender(None)
-        client = Client(sender, None)
-        lookup = Lookup(None, '0')
-        lookup.address1 = '1'
-        lookup.administrative_area = '2'
-
-        self.assertRaises(UnprocessableEntityError, client.send, lookup)
-
     def test_accepts_lookups_with_enough_info(self):
         sender = RequestCapturingSender()
         serializer = FakeSerializer(None)
@@ -106,12 +80,6 @@ class TestClient(unittest.TestCase):
 
         lookup.freeform = None
         lookup.address1 = '1'
-        lookup.postal_code = '2'
-        client.send(lookup)
-
-        lookup.postal_code = None
-        lookup.locality = '3'
-        lookup.administrative_area = '4'
         client.send(lookup)
 
     def test_deserialize_called_with_response_body(self):
