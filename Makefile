@@ -3,7 +3,7 @@
 VERSION_FILE := smartystreets_python_sdk_version/__init__.py
 
 clean:
-	rm -rf dist/ MANIFEST
+	rm -rf dist/ build/ *.egg-info MANIFEST
 	git checkout "$(VERSION_FILE)"
 
 test_dev: clean
@@ -16,8 +16,13 @@ dependencies:
 	python3 -m pip install -r requirements.txt
 
 package: test
-	echo "__version__=\"${VERSION}\"" >> "$(VERSION_FILE)" \
-		&& python3 setup.py sdist
+	python3 -m pip install build \
+		&& echo "__version__=\"${VERSION}\"" >> "$(VERSION_FILE)" \
+		&& python3 -m build
+
+publish: package
+	python3 -m pip install twine \
+		&& python3 -m twine upload dist/*
 
 international_autocomplete_api:
 	PYTHONPATH=. python3 examples/international_autocomplete_example.py
@@ -52,4 +57,4 @@ us_zipcode_api:
 examples: international_autocomplete_api international_street_api us_autocomplete_pro_api us_enrichment_api us_extract_api us_reverse_geo_api us_street_api us_street_iana_timezone_api us_zipcode_api
 
 
-.PHONY: clean test dependencies package examples international_autocomplete_api international_street_api us_autocomplete_pro_api us_enrichment_api us_extract_api us_reverse_geo_api us_street_api us_street_iana_timezone_api us_zipcode_api
+.PHONY: clean test dependencies package publish examples international_autocomplete_api international_street_api us_autocomplete_pro_api us_enrichment_api us_extract_api us_reverse_geo_api us_street_api us_street_iana_timezone_api us_zipcode_api

@@ -1,10 +1,6 @@
 from smartystreets_python_sdk_version import __version__
 
-import os
-from distutils.core import setup
-
-if hasattr(os, 'link'):
-    del os.link
+from setuptools import setup
 
 setup(
     name='smartystreets_python_sdk',
@@ -45,7 +41,6 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3'
     ],
     install_requires=['requests']
