@@ -15,6 +15,7 @@ class TestClient(unittest.TestCase):
 
         self.assertEqual('1', sender.request.parameters['search'])
         self.assertEqual(5, sender.request.parameters['max_results'])
+        self.assertEqual(100, sender.request.parameters['max_group_results'])
 
     def test_sending_fully_populated_lookup(self):
         sender = RequestCapturingSender()
@@ -23,6 +24,8 @@ class TestClient(unittest.TestCase):
         lookup = Lookup('1')
         lookup.country = '2'
         lookup.max_results = 7
+        lookup.max_group_results = 50
+        lookup.geolocation = True
         lookup.locality = '3'
         lookup.postal_code = '4'
         lookup.address_id = '5'
@@ -33,10 +36,34 @@ class TestClient(unittest.TestCase):
         self.assertEqual('1', sender.request.parameters['search'])
         self.assertEqual('2', sender.request.parameters['country'])
         self.assertEqual(7, sender.request.parameters['max_results'])
+        self.assertEqual(50, sender.request.parameters['max_group_results'])
+        self.assertEqual('on', sender.request.parameters['geolocation'])
         self.assertEqual('3', sender.request.parameters['include_only_locality'])
         self.assertEqual('4', sender.request.parameters['include_only_postal_code'])
         self.assertEqual('/5', sender.request.url_components)
         self.assertEqual('6', sender.request.parameters['custom'])
+
+    def test_sending_lookup_with_custom_max_group_results(self):
+        sender = RequestCapturingSender()
+        serializer = FakeSerializer({})
+        client = Client(sender, serializer)
+        lookup = Lookup('1')
+        lookup.max_group_results = 50
+
+        client.send(lookup)
+
+        self.assertEqual(50, sender.request.parameters['max_group_results'])
+
+    def test_sending_lookup_with_geolocation(self):
+        sender = RequestCapturingSender()
+        serializer = FakeSerializer({})
+        client = Client(sender, serializer)
+        lookup = Lookup('1')
+        lookup.geolocation = True
+
+        client.send(lookup)
+
+        self.assertEqual('on', sender.request.parameters['geolocation'])
 
     def test_deserialize_called_with_response_body(self):
         response = Response('Hello, World!', 0)

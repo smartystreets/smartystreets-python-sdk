@@ -25,6 +25,8 @@ def run():
 
     lookup = InternationalAutocompleteLookup('Louis')
     lookup.country = "FRA"
+    lookup.max_group_results = 50
+    lookup.geolocation = True
 
     # Uncomment the below line to add a custom parameter
     # lookup.add_custom_parameter("parameter", "value")

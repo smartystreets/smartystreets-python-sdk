@@ -40,6 +40,9 @@ class Client:
         self.add_parameter(request, 'country', lookup.country)
         self.add_parameter(request, 'search', lookup.search)
         self.add_parameter(request, 'max_results', lookup.max_results)
+        self.add_parameter(request, 'max_group_results', lookup.max_group_results)
+        if lookup.geolocation:
+            self.add_parameter(request, 'geolocation', 'on')
         self.add_parameter(request, 'include_only_locality', lookup.locality)
         self.add_parameter(request, 'include_only_postal_code', lookup.postal_code)
 
