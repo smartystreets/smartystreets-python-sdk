@@ -270,13 +270,17 @@ class ClientBuilder:
         if self.wrapped_http_sender is not None:
             sender = self.wrapped_http_sender
         else:
-            sender = smarty.RequestsSender(self.max_timeout, self.proxy, self.ip, self.pool_size)
+            sender = smarty.RequestsSender(self.max_timeout, self.proxy, self.pool_size)
             sender.debug = self.debug
 
         sender = smarty.StatusCodeSender(sender)
 
-        if self.header is not None:
-            sender = smarty.CustomHeaderSender(self.header, sender, self.append_headers)
+        effective_header = dict(self.header) if self.header is not None else {}
+        if self.ip is not None:
+            effective_header['X-Forwarded-For'] = self.ip
+
+        if effective_header:
+            sender = smarty.CustomHeaderSender(effective_header, sender, self.append_headers)
 
         if self.custom_queries is not None:
             sender = smarty.CustomQuerySender(self.custom_queries, sender)
