@@ -6,6 +6,22 @@ from test.mocks import RequestCapturingSender
 
 
 class TestClientBuilder(unittest.TestCase):
+    def test_with_sender_throws_when_combined_with_max_timeout(self):
+        capturing_sender = RequestCapturingSender()
+        credentials = StaticCredentials("test-id", "test-token")
+        builder = ClientBuilder(credentials) \
+            .with_sender(capturing_sender) \
+            .with_max_timeout(5)
+        self.assertRaises(ValueError, builder.build_us_street_api_client)
+
+    def test_with_sender_throws_when_combined_with_proxy(self):
+        capturing_sender = RequestCapturingSender()
+        credentials = StaticCredentials("test-id", "test-token")
+        builder = ClientBuilder(credentials) \
+            .with_sender(capturing_sender) \
+            .with_http_proxy("localhost:8080")
+        self.assertRaises(ValueError, builder.build_us_street_api_client)
+
     def test_with_sender_wraps_with_middleware_chain(self):
         capturing_sender = RequestCapturingSender()
         credentials = StaticCredentials("test-id", "test-token")

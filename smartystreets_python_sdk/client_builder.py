@@ -255,6 +255,17 @@ class ClientBuilder:
 
     def build_sender(self):
         if self.http_sender is not None:
+            conflicts = []
+            if self.max_timeout != 10:
+                conflicts.append("with_max_timeout()")
+            if self.proxy is not None:
+                conflicts.append("with_http_proxy()/with_https_proxy()")
+            if self.debug is not None:
+                conflicts.append("with_debug()")
+            if self.pool_size is not None:
+                conflicts.append("with_connection_pool_size()")
+            if conflicts:
+                raise ValueError("with_sender() cannot be combined with: {}. These options only apply to the built-in HTTP transport.".format(", ".join(conflicts)))
             sender = self.http_sender
         else:
             sender = smarty.RequestsSender(self.max_timeout, self.proxy, self.pool_size)
