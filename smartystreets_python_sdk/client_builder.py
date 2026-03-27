@@ -62,7 +62,7 @@ class ClientBuilder:
 
     def with_sender(self, sender):
         """
-        Default is a series of nested senders. (See build_sender()
+        Sets the innermost HTTP transport sender while keeping the full middleware chain intact.
 
         Returns self to accommodate method chaining.
         """
@@ -255,15 +255,30 @@ class ClientBuilder:
 
     def build_sender(self):
         if self.http_sender is not None:
-            return self.http_sender
-
-        sender = smarty.RequestsSender(self.max_timeout, self.proxy, self.ip, self.pool_size)
-        sender.debug = self.debug
+            conflicts = []
+            if self.max_timeout != 10:
+                conflicts.append("with_max_timeout()")
+            if self.proxy is not None:
+                conflicts.append("with_http_proxy()/with_https_proxy()")
+            if self.debug is not None:
+                conflicts.append("with_debug()")
+            if self.pool_size is not None:
+                conflicts.append("with_connection_pool_size()")
+            if conflicts:
+                raise ValueError("with_sender() cannot be combined with: {}. These options only apply to the built-in HTTP transport.".format(", ".join(conflicts)))
+            sender = self.http_sender
+        else:
+            sender = smarty.RequestsSender(self.max_timeout, self.proxy, self.pool_size)
+            sender.debug = self.debug
 
         sender = smarty.StatusCodeSender(sender)
 
-        if self.header is not None:
-            sender = smarty.CustomHeaderSender(self.header, sender, self.append_headers)
+        effective_header = dict(self.header) if self.header is not None else {}
+        if self.ip is not None:
+            effective_header['X-Forwarded-For'] = self.ip
+
+        if effective_header:
+            sender = smarty.CustomHeaderSender(effective_header, sender, self.append_headers)
 
         if self.custom_queries is not None:
             sender = smarty.CustomQuerySender(self.custom_queries, sender)

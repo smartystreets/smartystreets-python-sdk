@@ -1,54 +1,38 @@
 import smartystreets_python_sdk as smarty
 import unittest
-from mock import patch
+from test.mocks import RequestCapturingSender
 
 
-def mocked_session_send(request, **kwargs):
-    class MockResponse:
-        def __init__(self, payload, status_code):
-            self.text = payload
-            self.status_code = status_code
-            self.headers = None
+class TestXForwardedFor(unittest.TestCase):
 
-        def __enter__(self):
-            return self
+    def test_x_forwarded_for_header_set_via_client_builder(self):
+        capturing_sender = RequestCapturingSender()
+        credentials = smarty.StaticCredentials("test-id", "test-token")
+        client = smarty.ClientBuilder(credentials) \
+            .with_x_forwarded_for('0.0.0.0') \
+            .with_sender(capturing_sender) \
+            .build_us_street_api_client()
 
-        def __exit__(self, type, value, traceback):
-            pass
+        from smartystreets_python_sdk.us_street import Lookup
+        lookup = Lookup()
+        lookup.street = "1 Rosedale"
+        client.send_lookup(lookup)
 
-        def json(self):
-            return self.text
+        self.assertEqual('0.0.0.0', capturing_sender.request.headers['X-Forwarded-For'])
 
-    mockresponse = MockResponse("This is the test payload.", 200)
+    def test_x_forwarded_for_combined_with_custom_headers(self):
+        capturing_sender = RequestCapturingSender()
+        credentials = smarty.StaticCredentials("test-id", "test-token")
+        client = smarty.ClientBuilder(credentials) \
+            .with_x_forwarded_for('0.0.0.0') \
+            .with_custom_header({'X-Custom': 'value'}) \
+            .with_sender(capturing_sender) \
+            .build_us_street_api_client()
 
-    return mockresponse
+        from smartystreets_python_sdk.us_street import Lookup
+        lookup = Lookup()
+        lookup.street = "1 Rosedale"
+        client.send_lookup(lookup)
 
-
-class TestCustomHeaderSender(unittest.TestCase):
-
-    def test_populates_header(self):
-        sender = smarty.RequestsSender(ip = '0.0.0.0')
-
-        self.assertEqual(sender.ip, '0.0.0.0')
-
-    @patch('requests.Session.send', side_effect=mocked_session_send)
-    def test_x_forwarded_for_header_set(self, mock_send):
-        sender = smarty.RequestsSender(ip = '0.0.0.0')
-        smartyrequest = smarty.Request()
-        smartyrequest.url_prefix = "http://localhost"
-        smartyrequest.payload = "This is the test content."
-
-        request = smarty.requests_sender.build_request(smartyrequest, '0.0.0.0')
-
-        self.assertEqual('0.0.0.0', request.headers['X-Forwarded-For'])
-
-    @patch('requests.Session.send', side_effect=mocked_session_send)
-    def test_custom_headers_used(self, mock_send):
-        sender = smarty.RequestsSender(ip = '0.0.0.0')
-        smartyrequest = smarty.Request()
-        smartyrequest.url_prefix = "http://localhost"
-        smartyrequest.payload = "This is the test content."
-
-        request = smarty.requests_sender.build_request(smartyrequest, '0.0.0.0')
-
-        self.assertEqual('0.0.0.0', request.headers['X-Forwarded-For'])
+        self.assertEqual('0.0.0.0', capturing_sender.request.headers['X-Forwarded-For'])
+        self.assertEqual('value', capturing_sender.request.headers['X-Custom'])
