@@ -20,7 +20,6 @@ class ClientBuilder:
         self.signer = signer
         self.serializer = smarty.NativeSerializer()
         self.http_sender = None
-        self.wrapped_http_sender = None
         self.max_retries = 5
         self.max_timeout = 10
         self.url_prefix = None
@@ -63,20 +62,11 @@ class ClientBuilder:
 
     def with_sender(self, sender):
         """
-        Default is a series of nested senders. (See build_sender()
+        Sets the innermost HTTP transport sender while keeping the full middleware chain intact.
 
         Returns self to accommodate method chaining.
         """
         self.http_sender = sender
-        return self
-
-    def with_wrapped_sender(self, sender):
-        """
-        Replaces the innermost RequestsSender while keeping the rest of the sender chain intact.
-
-        Returns self to accommodate method chaining.
-        """
-        self.wrapped_http_sender = sender
         return self
 
     def with_serializer(self, serializer):
@@ -265,10 +255,7 @@ class ClientBuilder:
 
     def build_sender(self):
         if self.http_sender is not None:
-            return self.http_sender
-
-        if self.wrapped_http_sender is not None:
-            sender = self.wrapped_http_sender
+            sender = self.http_sender
         else:
             sender = smarty.RequestsSender(self.max_timeout, self.proxy, self.pool_size)
             sender.debug = self.debug

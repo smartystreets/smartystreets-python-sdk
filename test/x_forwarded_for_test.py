@@ -10,7 +10,7 @@ class TestXForwardedFor(unittest.TestCase):
         credentials = smarty.StaticCredentials("test-id", "test-token")
         client = smarty.ClientBuilder(credentials) \
             .with_x_forwarded_for('0.0.0.0') \
-            .with_wrapped_sender(capturing_sender) \
+            .with_sender(capturing_sender) \
             .build_us_street_api_client()
 
         from smartystreets_python_sdk.us_street import Lookup
@@ -26,7 +26,7 @@ class TestXForwardedFor(unittest.TestCase):
         client = smarty.ClientBuilder(credentials) \
             .with_x_forwarded_for('0.0.0.0') \
             .with_custom_header({'X-Custom': 'value'}) \
-            .with_wrapped_sender(capturing_sender) \
+            .with_sender(capturing_sender) \
             .build_us_street_api_client()
 
         from smartystreets_python_sdk.us_street import Lookup
