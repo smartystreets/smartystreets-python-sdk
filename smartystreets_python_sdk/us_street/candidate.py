@@ -23,6 +23,7 @@ class Candidate:
         self.last_line = obj.get('last_line', None)
         self.delivery_point_barcode = obj.get('delivery_point_barcode', None)
         self.smarty_key = obj.get('smarty_key', None)
+        self.smarty_key_ext = obj.get('smarty_key_ext', None)
         self.components = Components(obj.get('components', {}))
         self.metadata = Metadata(obj.get('metadata', {}))
         self.analysis = Analysis(obj.get('analysis', {}))
@@ -42,6 +43,7 @@ class Candidate:
             "last_line": self.last_line,
             "delivery_point_barcode": self.delivery_point_barcode,
             "smarty_key": self.smarty_key,
+            "smarty_key_ext": self.smarty_key_ext,
             "components": components_dict or None,
             "metadata": metadata_dict or None,
             "analysis": analysis_dict or None
