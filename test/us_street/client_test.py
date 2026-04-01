@@ -120,6 +120,7 @@ class TestClient(unittest.TestCase):
                 "last_line": "Provo UT 84604-4405",
                 "delivery_point_barcode": "846044405140",
                 "smarty_key": "1750774478",
+                "smarty_key_ext": "0",
                 "components": {
                     "primary_number": "3214",
                     "street_predirection": "N",
@@ -238,6 +239,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual(actual_candidate.last_line, "Provo UT 84604-4405")
         self.assertEqual(actual_candidate.delivery_point_barcode, "846044405140")
         self.assertEqual(actual_candidate.smarty_key, "1750774478")
+        self.assertEqual(actual_candidate.smarty_key_ext, "0")
         self.assertEqual(actual_candidate.components.primary_number, "3214")
         self.assertEqual(actual_candidate.components.street_predirection, "N")
         self.assertEqual(actual_candidate.components.street_name, "University")
@@ -517,6 +519,7 @@ class TestClient(unittest.TestCase):
                 "last_line": "Provo UT 84604-4405",
                 "delivery_point_barcode": "846044405140",
                 "smarty_key": "1750774478",
+                "smarty_key_ext": "0",
                 "components": {
                     "primary_number": "3214",
                     "street_predirection": "N",
