@@ -1,6 +1,18 @@
+from urllib.parse import quote
+
 from smartystreets_python_sdk import Request
 from smartystreets_python_sdk.exceptions import SmartyException
-from .lookup import PrincipalLookup, GeoReferenceLookup, RiskLookup, SecondaryLookup, SecondaryCountLookup, Lookup
+from .business import BusinessSummaryResponse, BusinessDetailResponse
+from .lookup import (
+    BusinessDetailLookup,
+    BusinessLookup,
+    GeoReferenceLookup,
+    Lookup,
+    PrincipalLookup,
+    RiskLookup,
+    SecondaryCountLookup,
+    SecondaryLookup,
+)
 from .response import Response
 
 
@@ -22,7 +34,7 @@ class Client:
             lookup.dataSubset = 'principal'
             send_lookup(self, lookup)
             return lookup.result
-    
+
     def send_geo_reference_lookup(self, lookup):
         if isinstance(lookup, str):
             l = GeoReferenceLookup(lookup)
@@ -33,7 +45,7 @@ class Client:
             lookup.dataSubset = None
             send_lookup(self, lookup)
             return lookup.result
-    
+
     def send_risk_lookup(self, lookup):
         if isinstance(lookup, str):
             l = RiskLookup(lookup)
@@ -55,7 +67,7 @@ class Client:
             lookup.dataSubset = None
             send_lookup(self, lookup)
             return lookup.result
-    
+
     def send_secondary_count_lookup(self, lookup):
         if isinstance(lookup, str):
             l = SecondaryCountLookup(lookup)
@@ -66,7 +78,7 @@ class Client:
             lookup.dataSubset = 'count'
             send_lookup(self, lookup)
             return lookup.result
-    
+
     def send_generic_lookup(self, lookup, dataset, dataSubset):
         if isinstance(lookup, str):
             l = Lookup(lookup, dataset, dataSubset)
@@ -78,81 +90,117 @@ class Client:
             send_lookup(self, lookup)
             return lookup.result
 
+    def send_business_lookup(self, lookup):
+        if isinstance(lookup, str):
+            l = BusinessLookup(lookup)
+            send_lookup(self, l, BusinessSummaryResponse)
+            return l.result
+        else:
+            lookup.dataset = 'business'
+            lookup.dataSubset = None
+            send_lookup(self, lookup, BusinessSummaryResponse)
+            return lookup.result
 
-def send_lookup(client: Client, lookup):
+    def send_business_detail_lookup(self, lookup):
+        if isinstance(lookup, str):
+            l = BusinessDetailLookup(lookup)
+            send_business_detail_lookup(self, l)
+            return l.result
+        else:
+            send_business_detail_lookup(self, lookup)
+            return lookup.result
+
+
+def send_lookup(client: Client, lookup, response_class=Response):
     """
     Sends a Lookup object to the US Enrichment API and stores the result in the Lookup's result field.
     """
-    if lookup is None or (lookup.smartykey is None and lookup.street is None and lookup.freeform is None):
-        raise SmartyException('Client.send() requires a Lookup with either the "smartykey", "street, or "freeform" field set as a string')
+    if lookup is None or (
+        _is_blank(getattr(lookup, 'smartykey', None))
+        and _is_blank(getattr(lookup, 'street', None))
+        and _is_blank(getattr(lookup, 'freeform', None))
+    ):
+        raise SmartyException("Lookup requires one of 'smartykey', 'street', or 'freeform' to be set")
 
     request = build_request(lookup)
+    raw = _dispatch(client, request, lookup)
+    lookup.result = [response_class(candidate) for candidate in raw]
+    return lookup.result
 
-    response = client.sender.send(request)
-    if response.error:
-        raise response.error
 
-    response = client.serializer.deserialize(response.payload)
-    result = []
-    for candidate in response:
-        result.append(Response(candidate))
-    lookup.result = result
-    return result
+def send_business_detail_lookup(client: Client, lookup):
+    if lookup is None or _is_blank(getattr(lookup, 'business_id', None)):
+        raise SmartyException("BusinessDetailLookup requires a non-empty 'business_id'")
+
+    request = Request()
+    request.url_components = 'business/' + quote(lookup.business_id, safe='')
+    request.parameters = _common_parameters(lookup)
+    _apply_etag_header(request, lookup)
+
+    raw = _dispatch(client, request, lookup)
+    if not raw:
+        lookup.result = None
+    elif len(raw) > 1:
+        raise SmartyException(
+            "business detail response contained {} results; expected at most 1".format(len(raw))
+        )
+    else:
+        lookup.result = BusinessDetailResponse(raw[0])
+    return lookup.result
 
 
 def build_request(lookup):
     request = Request()
-    if lookup.smartykey != None:
-        if lookup.dataSubset == None:
-            request.url_components = lookup.smartykey + "/" + lookup.dataset
-            request.parameters = remap_keys(lookup)
-            return request
-    
-        request.url_components = lookup.smartykey + "/" + lookup.dataset + "/" + lookup.dataSubset
-        request.parameters = remap_keys(lookup)
+    request.url_components = _url_components(lookup)
+    request.parameters = _address_parameters(lookup)
+    request.parameters.update(_common_parameters(lookup))
+    _apply_etag_header(request, lookup)
+    return request
 
-        return request
+
+def _url_components(lookup):
+    if lookup.smartykey is not None:
+        base = lookup.smartykey + "/" + lookup.dataset
     else:
-        if lookup.dataSubset == None:
-            request.url_components = 'search/' + lookup.dataset
-            request.parameters = remap_keys(lookup)
-            return request
-    
-        request.url_components = 'search/' + lookup.dataset + "/" + lookup.dataSubset
-
-        request.parameters = remap_keys(lookup)
-        return request
-    
-def remap_keys(lookup):
-    converted_lookup = {}
-
-    if (lookup.freeform != None):
-        add_field(converted_lookup, 'freeform', lookup.freeform)
-    if (lookup.street != None):
-        add_field(converted_lookup, 'street', lookup.street)
-    if (lookup.city != None):
-        add_field(converted_lookup, 'city', lookup.city)
-    if (lookup.state != None):
-        add_field(converted_lookup, 'state', lookup.state)
-    if (lookup.zipcode != None):
-        add_field(converted_lookup, 'zipcode', lookup.zipcode)
-    if (lookup.include_array != None):
-        add_field(converted_lookup, 'include', build_filter_string(lookup.include_array))
-    if (lookup.exclude_array != None):
-        add_field(converted_lookup, 'exclude', build_filter_string(lookup.exclude_array))
-    if (lookup.features != None):
-        add_field(converted_lookup, 'features', lookup.features)
+        base = 'search/' + lookup.dataset
+    if lookup.dataSubset is None:
+        return base
+    return base + "/" + lookup.dataSubset
 
 
-    for parameter in lookup.custom_parameter_array:
-        add_field(converted_lookup, parameter, lookup.custom_parameter_array[parameter])
+def _address_parameters(lookup):
+    params = {}
+    for key in ('freeform', 'street', 'city', 'state', 'zipcode', 'features'):
+        value = getattr(lookup, key, None)
+        if value:
+            params[key] = value
+    return params
 
-    return converted_lookup
+
+def _common_parameters(lookup):
+    params = {}
+    if lookup.include_array:
+        params['include'] = ','.join(lookup.include_array)
+    if lookup.exclude_array:
+        params['exclude'] = ','.join(lookup.exclude_array)
+    for key, value in lookup.custom_parameter_array.items():
+        params[key] = value
+    return params
 
 
-def add_field(converted_lookup, key, value):
-    if value:
-        converted_lookup[key] = value
+def _apply_etag_header(request, lookup):
+    if lookup.request_etag is not None:
+        request.headers['Etag'] = lookup.request_etag
 
-def build_filter_string(filter_list):
-    return ','.join(filter_list or []) or None
+
+def _dispatch(client, request, lookup):
+    response = client.sender.send(request)
+    lookup.response_etag = response.find_header('etag')
+    if response.error:
+        raise response.error
+    raw = client.serializer.deserialize(response.payload)
+    return raw or []
+
+
+def _is_blank(value):
+    return value is None or (isinstance(value, str) and value.strip() == '')

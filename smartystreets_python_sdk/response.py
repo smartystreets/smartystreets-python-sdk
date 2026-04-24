@@ -10,3 +10,12 @@ class Response:
             return None
         else:
             return self.headers[header]
+
+    def find_header(self, name):
+        if self.headers is None:
+            return None
+        target = name.lower()
+        for key, value in self.headers.items():
+            if key.lower() == target:
+                return value
+        return None

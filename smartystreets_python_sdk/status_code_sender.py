@@ -25,10 +25,12 @@ class StatusCodeSender:
         response = self.inner.send(request)
 
         if not response.error:
-            if response.status_code != 429:
-                response.error = statuses.get(response.status_code)
-            else:
+            if response.status_code == 304:
+                response.error = exceptions.NotModifiedError(errors.NOT_MODIFIED, response.find_header('etag'))
+            elif response.status_code == 429:
                 response.error = self.parse_rate_limit_response(response)
+            else:
+                response.error = statuses.get(response.status_code)
 
         return response
 

@@ -10,3 +10,4 @@ class Request:
         self.referer = None
         self.content_type = 'application/json'
         self.auth = None
+        self.headers = {}

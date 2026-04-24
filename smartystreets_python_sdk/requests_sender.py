@@ -55,6 +55,9 @@ def build_request(smarty_request):
         request.headers['Content-Type'] = smarty_request.content_type
         if smarty_request.referer:
             request.headers['Referer'] = smarty_request.referer
+        if smarty_request.headers:
+            for key, value in smarty_request.headers.items():
+                request.headers[key] = value
         if smarty_request.auth:
             request.auth = smarty_request.auth
         if smarty_request.payload:

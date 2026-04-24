@@ -44,3 +44,9 @@ class GatewayTimeoutError(SmartyException):
 
 class BatchFullError(SmartyException):
     pass
+
+
+class NotModifiedError(SmartyException):
+    def __init__(self, message=None, response_etag=None):
+        super().__init__(message)
+        self.response_etag = response_etag

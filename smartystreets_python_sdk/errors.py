@@ -22,3 +22,5 @@ SERVICE_UNAVAILABLE = "Service Unavailable. Try again later."
 
 GATEWAY_TIMEOUT = "The upstream data provider did not respond in a timely fashion and the request failed. " \
                   "A serious, yet rare occurrence indeed."
+
+NOT_MODIFIED = "Not Modified: The requested record has not been modified since the previous request with the Etag value."
