@@ -1,22 +1,10 @@
 from smartystreets_python_sdk_version import __version__
 
-from setuptools import setup
+from setuptools import find_packages, setup
 
 setup(
     name='smartystreets_python_sdk',
-    packages=[
-        'smartystreets_python_sdk',
-        'smartystreets_python_sdk_version',
-        'smartystreets_python_sdk.us_street',
-        'smartystreets_python_sdk.us_zipcode',
-        'smartystreets_python_sdk.us_extract',
-        'smartystreets_python_sdk.international_street',
-        'smartystreets_python_sdk.us_reverse_geo',
-        'smartystreets_python_sdk.us_autocomplete_pro',
-        'smartystreets_python_sdk.international_autocomplete',
-        'smartystreets_python_sdk.international_postal_code',
-        'smartystreets_python_sdk.us_enrichment'
-    ],
+    packages=find_packages(include=['smartystreets_python_sdk*', 'smartystreets_python_sdk_version*']),
     version=__version__,
     description='An official library to help Python developers easily access the SmartyStreets APIs',
     long_description='Official Python library for SmartyStreets',
