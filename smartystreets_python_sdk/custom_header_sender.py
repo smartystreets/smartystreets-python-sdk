@@ -1,28 +1,13 @@
-from requests import Request
-
-
 class CustomHeaderSender:
     def __init__(self, headers, inner, append_headers=None):
         self.headers = headers
         self.inner = inner
         self.append_headers = append_headers or {}
 
-    def send(self, smarty_request):
-        request = self.build_request(smarty_request)
+    def send(self, request):
+        for key, value in self.apply_headers().items():
+            request.headers[key] = value
         return self.inner.send(request)
-
-    def build_request(self, smarty_request):
-        request = Request(url=smarty_request.url_prefix, params=smarty_request.parameters)
-        request.headers = self.apply_headers()
-        if smarty_request.headers:
-            for key, value in smarty_request.headers.items():
-                request.headers[key] = value
-        if smarty_request.payload:
-            request.data = smarty_request.payload
-            request.method = 'POST'
-        else:
-            request.method = 'GET'
-        return request
 
     def apply_headers(self):
         result = {}
