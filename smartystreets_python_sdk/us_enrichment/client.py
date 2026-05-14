@@ -9,7 +9,6 @@ from .lookup import (
     GeoReferenceLookup,
     Lookup,
     PrincipalLookup,
-    RiskLookup,
     SecondaryCountLookup,
     SecondaryLookup,
 )
@@ -42,17 +41,6 @@ class Client:
             return l.result
         else:
             lookup.dataset = 'geo-reference'
-            lookup.dataSubset = None
-            send_lookup(self, lookup)
-            return lookup.result
-
-    def send_risk_lookup(self, lookup):
-        if isinstance(lookup, str):
-            l = RiskLookup(lookup)
-            send_lookup(self, l)
-            return l.result
-        else:
-            lookup.dataset = 'risk'
             lookup.dataSubset = None
             send_lookup(self, lookup)
             return lookup.result

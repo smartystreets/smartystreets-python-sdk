@@ -7,7 +7,6 @@ from .lookup import (
     Lookup,
     LookupBase,
     PrincipalLookup,
-    RiskLookup,
     SecondaryCountLookup,
     SecondaryLookup,
 )
