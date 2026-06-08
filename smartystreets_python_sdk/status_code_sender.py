@@ -8,18 +8,7 @@ class StatusCodeSender:
         self.inner = inner
 
     def parse_rate_limit_response(self, response):
-        error_message = exceptions.TooManyRequestsError(errors.TOO_MANY_REQUESTS)
-        response_json = json.loads(response.payload)
-        if response_json is not None:
-            errors_json = response_json.get('errors')
-            if errors_json is not None:
-                message = ''
-                for current_error in errors_json:
-                    current_message = current_error.get('message')
-                    if current_message is not None:
-                        message = message + current_message + ' '
-                error_message = exceptions.TooManyRequestsError(message.rstrip())
-        return error_message
+        return messageFrom(response, exceptions.TooManyRequestsError(errors.TOO_MANY_REQUESTS))
 
     def send(self, request):
         response = self.inner.send(request)
@@ -29,10 +18,37 @@ class StatusCodeSender:
                 response.error = exceptions.NotModifiedError(errors.NOT_MODIFIED, response.find_header('etag'))
             elif response.status_code == 429:
                 response.error = self.parse_rate_limit_response(response)
+            elif response.status_code in [400, 401, 402, 403, 413, 422]:
+                response.error = messageFrom(response, statuses.get(response.status_code))
             else:
                 response.error = statuses.get(response.status_code)
 
         return response
+
+def messageFrom(response, fallback):
+    message = extract_message(response)
+    if message:
+        return type(fallback)(message)
+    else:
+        return fallback
+
+
+def extract_message(response):
+    try:
+        response_json = json.loads(response.payload)
+    except (ValueError, TypeError):
+        return ''
+    if response_json is None:
+        return ''
+    errors_json = response_json.get('errors')
+    if errors_json is None:
+        return ''
+    message = ''
+    for current_error in errors_json:
+        current_message = current_error.get('message')
+        if current_message is not None:
+            message = message + current_message + ' '
+    return message.rstrip()
 
 
 def ok():
