@@ -28,13 +28,14 @@ class LookupBase:
 
 
 class Lookup(LookupBase):
-    def __init__(self, smartykey=None, dataset=None, dataSubset=None, features=None, freeform=None, street=None, city=None, state=None, zipcode=None):
+    def __init__(self, smartykey=None, dataset=None, dataSubset=None, features=None, freeform=None, business_name=None, street=None, city=None, state=None, zipcode=None):
         super().__init__()
         self.smartykey = smartykey
         self.dataset = dataset
         self.dataSubset = dataSubset
         self.features = features
         self.freeform = freeform
+        self.business_name = business_name
         self.street = street
         self.city = city
         self.state = state
