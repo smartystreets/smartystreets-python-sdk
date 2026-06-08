@@ -8,14 +8,15 @@ class TestCandidate(unittest.TestCase):
     def test_all_fields_filled_correctly(self):
         response_payload = "[{\"input_id\":\"12345678\",\"organization\":\"1\",\"address1\":\"2\",\"address2\":\"3\","\
                 "\"address3\":\"4\",\"address4\":\"5\",\"address5\":\"6\",\"address6\":\"7\",\"address7\":\"8\","\
-                "\"address8\":\"9\",\"address9\":\"10\",\"address10\":\"11\",\"address11\":\"12\",\"address12\":\"13\","\
+                "\"address8\":\"9\","\
                 "\"components\":{\"country_iso_3\":\"14\",\"super_administrative_area\":\"15\","\
-                "\"administrative_area\":\"16\",\"administrative_area_iso2\":\"16.1\",\"administrative_area_short\":\"16.2\",\"administrative_area_long\":\"16.3\","\
+                "\"administrative_area\":\"16\",\"administrative_area_iso2\":\"16.1\",\"attention\":\"119\","\
                 "\"sub_administrative_area\":\"17\",\"dependent_locality\":\"18\","\
                 "\"dependent_locality_name\":\"19\",\"double_dependent_locality\":\"20\",\"locality\":\"21\","\
                 "\"postal_code\":\"22\",\"postal_code_short\":\"23\",\"postal_code_extra\":\"24\","\
                 "\"premise\":\"25\",\"premise_extra\":\"26\",\"premise_number\":\"27\"," \
                 "\"premise_prefix_number\":\"27.5\",\"premise_type\":\"28\","\
+                "\"short_address_code\":\"120\",\"sub_building_leading_type\":\"121\",\"sub_building_block\":\"122\",\"sub_building_door\":\"123\",\"sub_building_staircase\":\"124\","\
                 "\"thoroughfare\":\"29\",\"thoroughfare_predirection\":\"30\",\"thoroughfare_postdirection\":\"31\","\
                 "\"thoroughfare_name\":\"32\",\"thoroughfare_trailing_type\":\"33\",\"thoroughfare_type\":\"34\","\
                 "\"dependent_thoroughfare\":\"35\",\"dependent_thoroughfare_predirection\":\"36\","\
@@ -33,14 +34,16 @@ class TestCandidate(unittest.TestCase):
                 "\"analysis\":{\"verification_status\":\"57\",\"address_precision\":\"58\","\
                 "\"max_address_precision\":\"59\",\"changes\":{\"organization\":\"60\","\
                 "\"address1\":\"61\",\"address2\":\"62\",\"address3\":\"63\",\"address4\":\"64\",\"address5\":\"65\","\
-                "\"address6\":\"66\",\"address7\":\"67\",\"address8\":\"68\",\"address9\":\"69\",\"address10\":\"70\","\
-                "\"address11\":\"71\",\"address12\":\"72\",\"components\":{\"super_administrative_area\":\"73\"," \
-                "\"administrative_area\":\"74\",\"administrative_area_short\":\"74.1\",\"administrative_area_long\":\"74.2\"," \
+                "\"address6\":\"66\",\"address7\":\"67\",\"address8\":\"68\",\"country\":\"125\","\
+                "\"components\":{\"super_administrative_area\":\"73\"," \
+                "\"administrative_area\":\"74\",\"attention\":\"126\"," \
                 "\"sub_administrative_area\":\"75\",\"building\":\"76\","\
                 "\"dependent_locality\":\"77\",\"dependent_locality_name\":\"78\",\"double_dependent_locality\":\"79\","\
                 "\"country_iso_3\":\"80\",\"locality\":\"81\",\"postal_code\":\"82\",\"postal_code_short\":\"83\","\
                 "\"postal_code_extra\":\"84\",\"premise\":\"85\",\"premise_extra\":\"86\",\"premise_number\":\"87\","\
-                "\"premise_type\":\"88\",\"premise_prefix_number\":\"89\",\"thoroughfare\":\"90\","\
+                "\"premise_type\":\"88\",\"premise_prefix_number\":\"89\","\
+                "\"short_address_code\":\"127\",\"sub_building_leading_type\":\"128\",\"sub_building_block\":\"129\",\"sub_building_door\":\"130\",\"sub_building_staircase\":\"131\","\
+                "\"thoroughfare\":\"90\","\
                 "\"thoroughfare_predirection\":\"91\",\"thoroughfare_postdirection\":\"92\","\
                 "\"thoroughfare_name\":\"93\",\"thoroughfare_trailing_type\":\"94\",\"thoroughfare_type\":\"95\","\
                 "\"dependent_thoroughfare\":\"96\",\"dependent_thoroughfare_predirection\":\"97\","\
@@ -64,10 +67,6 @@ class TestCandidate(unittest.TestCase):
         self.assertEqual("7", candidate.address6)
         self.assertEqual("8", candidate.address7)
         self.assertEqual("9", candidate.address8)
-        self.assertEqual("10", candidate.address9)
-        self.assertEqual("11", candidate.address10)
-        self.assertEqual("12", candidate.address11)
-        self.assertEqual("13", candidate.address12)
 
         components = candidate.components
         self.assertIsNotNone(components)
@@ -75,8 +74,7 @@ class TestCandidate(unittest.TestCase):
         self.assertEqual("15", components.super_administrative_area)
         self.assertEqual("16", components.administrative_area)
         self.assertEqual("16.1", components.administrative_area_iso2)
-        self.assertEqual("16.2", components.administrative_area_short)
-        self.assertEqual("16.3", components.administrative_area_long)
+        self.assertEqual("119", components.attention)
         self.assertEqual("17", components.sub_administrative_area)
         self.assertEqual("18", components.dependent_locality)
         self.assertEqual("19", components.dependent_locality_name)
@@ -90,6 +88,11 @@ class TestCandidate(unittest.TestCase):
         self.assertEqual("27", components.premise_number)
         self.assertEqual("27.5", components.premise_prefix_number)
         self.assertEqual("28", components.premise_type)
+        self.assertEqual("120", components.short_address_code)
+        self.assertEqual("121", components.sub_building_leading_type)
+        self.assertEqual("122", components.sub_building_block)
+        self.assertEqual("123", components.sub_building_door)
+        self.assertEqual("124", components.sub_building_staircase)
         self.assertEqual("29", components.thoroughfare)
         self.assertEqual("30", components.thoroughfare_predirection)
         self.assertEqual("31", components.thoroughfare_postdirection)
@@ -150,17 +153,13 @@ class TestCandidate(unittest.TestCase):
         self.assertEqual("66", changes.address6)
         self.assertEqual("67", changes.address7)
         self.assertEqual("68", changes.address8)
-        self.assertEqual("69", changes.address9)
-        self.assertEqual("70", changes.address10)
-        self.assertEqual("71", changes.address11)
-        self.assertEqual("72", changes.address12)
+        self.assertEqual("125", changes.country)
 
         components = changes.components
         self.assertIsNotNone(components)
         self.assertEqual("73", components.super_administrative_area)
         self.assertEqual("74", components.administrative_area)
-        self.assertEqual("74.1", components.administrative_area_short)
-        self.assertEqual("74.2", components.administrative_area_long)
+        self.assertEqual("126", components.attention)
         self.assertEqual("75", components.sub_administrative_area)
         self.assertEqual("76", components.building)
         self.assertEqual("77", components.dependent_locality)
@@ -176,6 +175,11 @@ class TestCandidate(unittest.TestCase):
         self.assertEqual("87", components.premise_number)
         self.assertEqual("88", components.premise_type)
         self.assertEqual("89", components.premise_prefix_number)
+        self.assertEqual("127", components.short_address_code)
+        self.assertEqual("128", components.sub_building_leading_type)
+        self.assertEqual("129", components.sub_building_block)
+        self.assertEqual("130", components.sub_building_door)
+        self.assertEqual("131", components.sub_building_staircase)
         self.assertEqual("90", components.thoroughfare)
         self.assertEqual("91", components.thoroughfare_predirection)
         self.assertEqual("92", components.thoroughfare_postdirection)
