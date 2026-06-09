@@ -59,16 +59,11 @@ class TestBusinessSummary(unittest.TestCase):
         client, _ = self._client(capturing)
 
         lookup = BusinessLookup()
-        lookup.freeform = "1600 amphitheatre pkwy mountain view ca"
-        lookup.business_name = "Google"
+        lookup.business_name = "Style Studio"
         client.send_business_lookup(lookup)
 
         self.assertEqual("search/business", capturing.request.url_components)
-        self.assertEqual(
-            "1600 amphitheatre pkwy mountain view ca",
-            capturing.request.parameters['freeform'],
-        )
-        self.assertEqual("Google", capturing.request.parameters['business_name'])
+        self.assertEqual("Style Studio", capturing.request.parameters['business_name'])
 
     def test_business_lookup_omits_empty_business_name(self):
         capturing = RequestCapturingSender()

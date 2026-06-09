@@ -11,11 +11,9 @@ def run():
     credentials = BasicAuthCredentials(auth_id, auth_token)
     client = ClientBuilder(credentials).build_us_enrichment_api_client()
 
-    # Business summary SEARCH path: no smartykey, set freeform (+ optional city)
-    # and business_name to narrow the search to a specific business.
     lookup = BusinessLookup()
-    lookup.freeform = "1600 amphitheatre pkwy mountain view ca"
-    lookup.business_name = "Google"
+    lookup.business_name = "delta air"
+    lookup.city = "atlanta"
 
     try:
         summary_results = client.send_business_lookup(lookup)
@@ -24,12 +22,12 @@ def run():
         return
 
     if not summary_results:
-        print("No matching businesses returned")
+        print("No response returned for business name {}".format(lookup.business_name))
         return
 
     summary = summary_results[0]
     if not summary.businesses:
-        print("No business tenants matched the search")
+        print("Business name {} has no business tenants".format(lookup.business_name))
         return
 
     print("Matching businesses for business_name '{}':".format(lookup.business_name))

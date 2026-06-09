@@ -107,8 +107,9 @@ def send_lookup(client: Client, lookup, response_class=Response):
         _is_blank(getattr(lookup, 'smartykey', None))
         and _is_blank(getattr(lookup, 'street', None))
         and _is_blank(getattr(lookup, 'freeform', None))
+        and _is_blank(getattr(lookup, 'business_name', None))
     ):
-        raise SmartyException("Lookup requires one of 'smartykey', 'street', or 'freeform' to be set")
+        raise SmartyException("Lookup requires one of 'smartykey', 'street', 'freeform', or 'business_name' to be set")
 
     request = build_request(lookup)
     raw = _dispatch(client, request, lookup)
