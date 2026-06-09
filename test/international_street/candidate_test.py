@@ -34,7 +34,7 @@ class TestCandidate(unittest.TestCase):
                 "\"analysis\":{\"verification_status\":\"57\",\"address_precision\":\"58\","\
                 "\"max_address_precision\":\"59\",\"changes\":{\"organization\":\"60\","\
                 "\"address1\":\"61\",\"address2\":\"62\",\"address3\":\"63\",\"address4\":\"64\",\"address5\":\"65\","\
-                "\"address6\":\"66\",\"address7\":\"67\",\"address8\":\"68\",\"country\":\"125\","\
+                "\"address6\":\"66\",\"address7\":\"67\",\"address8\":\"68\","\
                 "\"components\":{\"super_administrative_area\":\"73\"," \
                 "\"administrative_area\":\"74\",\"attention\":\"126\"," \
                 "\"sub_administrative_area\":\"75\",\"building\":\"76\","\
@@ -153,7 +153,6 @@ class TestCandidate(unittest.TestCase):
         self.assertEqual("66", changes.address6)
         self.assertEqual("67", changes.address7)
         self.assertEqual("68", changes.address8)
-        self.assertEqual("125", changes.country)
 
         components = changes.components
         self.assertIsNotNone(components)
