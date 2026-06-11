@@ -7,25 +7,10 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        python-version: ['3.10', '3.11', '3.12', '3.13']
-
-    steps:
-      - uses: actions/checkout@master
-
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Test
-        run: make test
+    uses: ./.github/workflows/test.yml
 
   publish:
-    needs: [test]
+    needs: test
     runs-on: ubuntu-latest
 
     steps:
