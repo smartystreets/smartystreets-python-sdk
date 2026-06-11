@@ -37,7 +37,7 @@ us_autocomplete_pro_api:
 	PYTHONPATH=. python3 examples/us_autocomplete_pro_example.py
 
 us_enrichment_api:
-	PYTHONPATH=. python3 examples/us_enrichment_example.py
+	PYTHONPATH=. python3 examples/us_enrichment_example.py && PYTHONPATH=. python3 examples/us_enrichment_etag_example.py && PYTHONPATH=. python3 examples/us_enrichment_business_example.py && PYTHONPATH=. python3 examples/us_enrichment_business_name_search_example.py && PYTHONPATH=. python3 examples/us_enrichment_generic_example.py && PYTHONPATH=. python3 examples/us_enrichment_geo_reference_example.py && PYTHONPATH=. python3 examples/us_enrichment_secondary_example.py && PYTHONPATH=. python3 examples/us_enrichment_secondary_count_example.py
 
 us_extract_api:
 	PYTHONPATH=. python3 examples/us_extract_example.py

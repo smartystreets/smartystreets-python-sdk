@@ -159,7 +159,7 @@ def _url_components(lookup):
 
 def _address_parameters(lookup):
     params = {}
-    for key in ('freeform', 'business_name', 'street', 'city', 'state', 'zipcode', 'features'):
+    for key in ('freeform', 'street', 'city', 'state', 'zipcode', 'features', 'business_name'):
         value = getattr(lookup, key, None)
         if value:
             params[key] = value
