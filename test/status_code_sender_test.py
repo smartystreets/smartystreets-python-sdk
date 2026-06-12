@@ -68,7 +68,7 @@ class TestStatusCodeSender(unittest.TestCase):
         response = sender.send(None)
 
         self.assertIsInstance(response.error, BadRequestError)
-        self.assertEqual(errors.BAD_REQUEST, str(response.error))
+        self.assertEqual(errors.BAD_REQUEST + " Body:", str(response.error))
 
     def test_each_status_code_uses_api_message_when_present(self):
         payload = '{"errors": [{"message": "API says no"}]}'
@@ -114,7 +114,7 @@ class TestStatusCodeSender(unittest.TestCase):
 
                 response = StatusCodeSender(inner).send(None)
 
-                self.assertEqual(message, str(response.error))
+                self.assertEqual(message + " Body:", str(response.error))
 
     def test_standard_messages_match_shared_wording(self):
         self.assertEqual("Bad Request (Malformed Payload): A GET request lacked a required field or the"
@@ -132,7 +132,7 @@ class TestStatusCodeSender(unittest.TestCase):
         response = StatusCodeSender(inner).send(None)
 
         self.assertIsInstance(response.error, exceptions.SmartyException)
-        self.assertEqual('The server returned an unexpected HTTP status code: 418', str(response.error))
+        self.assertEqual('The server returned an unexpected HTTP status code: 418 Body:', str(response.error))
 
     def test_unexpected_status_code_uses_api_message_when_present(self):
         payload = '{"errors": [{"message": "API teapot message"}]}'
@@ -142,6 +142,31 @@ class TestStatusCodeSender(unittest.TestCase):
 
         self.assertIsInstance(response.error, exceptions.SmartyException)
         self.assertEqual('API teapot message', str(response.error))
+
+    def test_fallback_appends_unparseable_body(self):
+        inner = MockSender(Response("not json", 400, {}))
+        sender = StatusCodeSender(inner)
+
+        response = sender.send(None)
+
+        self.assertIsInstance(response.error, BadRequestError)
+        self.assertEqual(errors.BAD_REQUEST + " Body: not json", str(response.error))
+
+    def test_fallback_appends_body_without_messages(self):
+        inner = MockSender(Response('{"errors": []}', 422, {}))
+        sender = StatusCodeSender(inner)
+
+        response = sender.send(None)
+
+        self.assertEqual(errors.UNPROCESSABLE_ENTITY + ' Body: {"errors": []}', str(response.error))
+
+    def test_blank_body_yields_empty_body_label(self):
+        inner = MockSender(Response("   ", 422, {}))
+        sender = StatusCodeSender(inner)
+
+        response = sender.send(None)
+
+        self.assertEqual(errors.UNPROCESSABLE_ENTITY + " Body:", str(response.error))
 
 
 if __name__ == '__main__':

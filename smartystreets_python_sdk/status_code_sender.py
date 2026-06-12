@@ -35,8 +35,16 @@ def messageFrom(response, fallback):
     message = extract_message(response)
     if message:
         return type(fallback)(message)
-    else:
-        return fallback
+    return type(fallback)('{} Body: {}'.format(fallback, unused_body(response)).rstrip())
+
+
+def unused_body(response):
+    payload = response.payload
+    if payload is None:
+        return ''
+    if isinstance(payload, bytes):
+        payload = payload.decode('utf-8', 'replace')
+    return str(payload).strip()
 
 
 def extract_message(response):
