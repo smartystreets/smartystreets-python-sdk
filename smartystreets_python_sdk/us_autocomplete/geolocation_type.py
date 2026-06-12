@@ -1,0 +1,3 @@
+CITY = 'city'
+
+NONE = 'none'
