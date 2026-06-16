@@ -2,6 +2,7 @@ import os
 
 from smartystreets_python_sdk import SharedCredentials, BasicAuthCredentials, ClientBuilder
 from smartystreets_python_sdk.us_autocomplete_pro import Lookup as AutocompleteProLookup, geolocation_type
+from smartystreets_python_sdk.us_autocomplete_pro.source import Source
 
 
 def run():
@@ -45,7 +46,7 @@ def run():
     lookup.max_results = 5
     lookup.prefer_geo = geolocation_type.NONE
     lookup.prefer_ratio = 33
-    lookup.source = 'all'
+    lookup.source = Source.ALL
 
     suggestions = client.send(lookup)  # The client will also return the suggestions directly
 
