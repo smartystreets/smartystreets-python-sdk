@@ -9,4 +9,6 @@ class NativeSerializer:
         return json.dumps(obj).encode("UTF-8")
 
     def deserialize(self, payload):
+        if not payload:
+            return {}
         return json.loads(payload)
