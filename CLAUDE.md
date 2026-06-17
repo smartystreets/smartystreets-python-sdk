@@ -28,7 +28,7 @@ No linting or type-checking tools are configured in this project.
 
 ## Architecture Overview
 
-This is the official SmartyStreets Python SDK. It provides clients for 9 address validation/geocoding APIs.
+This is the official SmartyStreets Python SDK. It provides clients for 9 address validation/geocoding APIs. It is compatible with Python 3.10 and later.
 
 ### HTTP Pipeline Architecture
 

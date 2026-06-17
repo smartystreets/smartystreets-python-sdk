@@ -2,7 +2,7 @@
 
 # SmartyStreets Python SDK
 
-The official client libraries for accessing SmartyStreets APIs from Python 2.7 and 3.5
+The official client libraries for accessing SmartyStreets APIs from Python 3.10 and later.
 
 You may have noticed this page is curiously sparse. Don't panic, there's [documentation](https://smartystreets.com/docs/sdk/python) and [examples](examples).
 

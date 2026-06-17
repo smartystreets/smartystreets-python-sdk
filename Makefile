@@ -15,7 +15,7 @@ test: clean dependencies
 dependencies:
 	python3 -m pip install -r requirements.txt
 
-package: test
+package: clean
 	python3 -m pip install build \
 		&& echo "__version__=\"${VERSION}\"" >> "$(VERSION_FILE)" \
 		&& python3 -m build
