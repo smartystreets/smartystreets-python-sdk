@@ -28,7 +28,7 @@ class LookupBase:
 
 
 class Lookup(LookupBase):
-    def __init__(self, smartykey=None, dataset=None, dataSubset=None, features=None, freeform=None, street=None, city=None, state=None, zipcode=None):
+    def __init__(self, smartykey=None, dataset=None, dataSubset=None, features=None, freeform=None, street=None, city=None, state=None, zipcode=None, business_name=None):
         super().__init__()
         self.smartykey = smartykey
         self.dataset = dataset
@@ -40,6 +40,7 @@ class Lookup(LookupBase):
         self.state = state
         self.zipcode = zipcode
         self.result = []
+        self.business_name = business_name
 
 
 class PrincipalLookup(Lookup):
