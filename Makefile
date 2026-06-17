@@ -15,7 +15,7 @@ test: clean dependencies
 dependencies:
 	python3 -m pip install -r requirements.txt
 
-package: test
+package: clean
 	python3 -m pip install build \
 		&& echo "__version__=\"${VERSION}\"" >> "$(VERSION_FILE)" \
 		&& python3 -m build
@@ -49,7 +49,10 @@ us_street_iana_timezone_api:
 	PYTHONPATH=. python3 examples/us_street_iana_timezone_example.py
 
 us_street_api:
-	PYTHONPATH=. python3 examples/us_street_single_address_example.py && PYTHONPATH=. python3 examples/us_street_multiple_addresses_example.py && PYTHONPATH=. python3 examples/us_street_component_analysis_example.py && PYTHONPATH=. python3 examples/us_street_iana_timezone_example.py
+	PYTHONPATH=. python3 examples/us_street_single_address_example.py && PYTHONPATH=. python3 examples/us_street_multiple_addresses_example.py && PYTHONPATH=. python3 examples/us_street_component_analysis_example.py && PYTHONPATH=. python3 examples/us_street_iana_timezone_example.py && PYTHONPATH=. python3 examples/us_street_match_strategy_example.py
+
+us_street_match_strategy_api:
+	PYTHONPATH=. python3 examples/us_street_match_strategy_example.py
 
 us_zipcode_api:
 	PYTHONPATH=. python3 examples/us_zipcode_single_lookup_example.py && PYTHONPATH=. python3 examples/us_zipcode_multiple_lookups_example.py
@@ -57,4 +60,4 @@ us_zipcode_api:
 examples: international_autocomplete_api international_postal_code_api international_street_api us_autocomplete_pro_api us_enrichment_api us_extract_api us_reverse_geo_api us_street_api us_street_iana_timezone_api us_zipcode_api
 
 
-.PHONY: clean test dependencies package publish examples international_autocomplete_api international_postal_code_api international_street_api us_autocomplete_pro_api us_enrichment_api us_extract_api us_reverse_geo_api us_street_api us_street_iana_timezone_api us_zipcode_api
+.PHONY: clean test dependencies package publish examples international_autocomplete_api international_postal_code_api international_street_api us_autocomplete_pro_api us_enrichment_api us_extract_api us_reverse_geo_api us_street_api us_street_iana_timezone_api us_street_match_strategy_api us_zipcode_api
