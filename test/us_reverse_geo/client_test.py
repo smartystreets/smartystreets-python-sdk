@@ -29,6 +29,7 @@ class TestClient(unittest.TestCase):
 
         client.send(lookup)
 
+        self.assertIs(type(sender.request.parameters['source']), str)
         self.assertEqual('all', sender.request.parameters['source'])
 
     def test_source_postal_enum_serializes_as_string_value(self):
@@ -39,6 +40,7 @@ class TestClient(unittest.TestCase):
 
         client.send(lookup)
 
+        self.assertIs(type(sender.request.parameters['source']), str)
         self.assertEqual('postal', sender.request.parameters['source'])
 
     def test_source_none_omits_parameter(self):
