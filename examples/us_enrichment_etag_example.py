@@ -1,7 +1,6 @@
 import os
 
 from smartystreets_python_sdk import BasicAuthCredentials, ClientBuilder
-from smartystreets_python_sdk.exceptions import NotModifiedError
 from smartystreets_python_sdk.us_enrichment import BusinessDetailLookup, BusinessLookup
 
 
@@ -44,11 +43,12 @@ def exercise_summary_etag(client, smarty_key):
     second.request_etag = captured_etag
     try:
         client.send_business_lookup(second)
-        print("  Call 2 (matching Etag): 200 — server did NOT honor the conditional. Results={}, Etag={}".format(
-            len(second.result or []), display(second.response_etag)))
-    except NotModifiedError as ex:
-        print("  Call 2 (matching Etag): 304 NotModifiedError — caller treats this as cache-valid. Refreshed Etag={}".format(
-            display(ex.response_etag)))
+        if not second.result:
+            print("  Call 2 (matching Etag): 304 not modified — cache is still valid. Refreshed Etag={}".format(
+                display(second.response_etag)))
+        else:
+            print("  Call 2 (matching Etag): 200 — server did NOT honor the conditional. Results={}, Etag={}".format(
+                len(second.result or []), display(second.response_etag)))
     except Exception as ex:
         print("  Call 2 unexpected failure: {}: {}".format(type(ex).__name__, ex))
         return None
@@ -57,10 +57,11 @@ def exercise_summary_etag(client, smarty_key):
     third.request_etag = captured_etag + "X"
     try:
         client.send_business_lookup(third)
-        print("  Call 3 (mutated Etag): 200 as expected. Results={}, Etag={}".format(
-            len(third.result or []), display(third.response_etag)))
-    except NotModifiedError:
-        print("  Call 3 (mutated Etag): 304 — UNEXPECTED. Server treated a different Etag as matching.")
+        if not third.result:
+            print("  Call 3 (mutated Etag): 304 — UNEXPECTED. Server treated a different Etag as matching.")
+        else:
+            print("  Call 3 (mutated Etag): 200 as expected. Results={}, Etag={}".format(
+                len(third.result or []), display(third.response_etag)))
     except Exception as ex:
         print("  Call 3 unexpected failure: {}: {}".format(type(ex).__name__, ex))
 
@@ -92,12 +93,13 @@ def exercise_detail_etag(client, business_id):
     second.request_etag = captured_etag
     try:
         client.send_business_detail_lookup(second)
-        second_id = second.result.business_id if second.result is not None else "<null>"
-        print("  Call 2 (matching Etag): 200 — server did NOT honor the conditional. businessId={}, Etag={}".format(
-            second_id, display(second.response_etag)))
-    except NotModifiedError as ex:
-        print("  Call 2 (matching Etag): 304 NotModifiedError — caller treats this as cache-valid. Refreshed Etag={}".format(
-            display(ex.response_etag)))
+        if not second.result:
+            print("  Call 2 (matching Etag): 304 not modified — cache is still valid. Refreshed Etag={}".format(
+                display(second.response_etag)))
+        else:
+            second_id = second.result.business_id if second.result is not None else "<null>"
+            print("  Call 2 (matching Etag): 200 — server did NOT honor the conditional. businessId={}, Etag={}".format(
+                second_id, display(second.response_etag)))
     except Exception as ex:
         print("  Call 2 unexpected failure: {}: {}".format(type(ex).__name__, ex))
         return
@@ -106,11 +108,12 @@ def exercise_detail_etag(client, business_id):
     third.request_etag = captured_etag + "X"
     try:
         client.send_business_detail_lookup(third)
-        third_id = third.result.business_id if third.result is not None else "<null>"
-        print("  Call 3 (mutated Etag): 200 as expected. businessId={}, Etag={}".format(
-            third_id, display(third.response_etag)))
-    except NotModifiedError:
-        print("  Call 3 (mutated Etag): 304 — UNEXPECTED. Server treated a different Etag as matching.")
+        if not third.result:
+            print("  Call 3 (mutated Etag): 304 — UNEXPECTED. Server treated a different Etag as matching.")
+        else:
+            third_id = third.result.business_id if third.result is not None else "<null>"
+            print("  Call 3 (mutated Etag): 200 as expected. businessId={}, Etag={}".format(
+                third_id, display(third.response_etag)))
     except Exception as ex:
         print("  Call 3 unexpected failure: {}: {}".format(type(ex).__name__, ex))
 

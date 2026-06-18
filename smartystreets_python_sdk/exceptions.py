@@ -22,6 +22,14 @@ class BadRequestError(SmartyException):
     pass
 
 
+class RequestTimeoutError(SmartyException):
+    pass
+
+
+class BadGatewayError(SmartyException):
+    pass
+
+
 class UnprocessableEntityError(SmartyException):
     pass
 

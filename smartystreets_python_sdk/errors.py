@@ -4,19 +4,23 @@ BAD_CREDENTIALS = "Unauthorized: The credentials were provided incorrectly or di
 PAYMENT_REQUIRED = "Payment Required: There is no active subscription\
  for the account associated with the credentials submitted with the request."
 
-FORBIDDEN = "Because the international service is currently in a limited release phase, only approved accounts" \
-            " may access the service."
+FORBIDDEN = "Forbidden: The request contained valid data and was understood by the server, but the server is\
+ refusing action."
+
+REQUEST_TIMEOUT = "Request timeout error."
 
 REQUEST_ENTITY_TOO_LARGE = "Request Entity Too Large: The request body has exceeded the maximum size."
 
-BAD_REQUEST = "Bad Request (Malformed Payload): A GET request lacked a street field or the request body of a\
+BAD_REQUEST = "Bad Request (Malformed Payload): A GET request lacked a required field or the request body of a\
  POST request contained malformed JSON."
 
 UNPROCESSABLE_ENTITY = "GET request lacked required fields."
 
-TOO_MANY_REQUESTS = "The rate limit has been exceeded."
+TOO_MANY_REQUESTS = "Too Many Requests: The rate limit for your account has been exceeded."
 
 INTERNAL_SERVER_ERROR = "Internal Server Error."
+
+BAD_GATEWAY = "Bad Gateway error."
 
 SERVICE_UNAVAILABLE = "Service Unavailable. Try again later."
 
