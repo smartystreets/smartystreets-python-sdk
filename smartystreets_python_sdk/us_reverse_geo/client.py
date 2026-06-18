@@ -1,3 +1,5 @@
+from enum import Enum
+
 from smartystreets_python_sdk import Request
 from smartystreets_python_sdk.us_reverse_geo import Response
 
@@ -41,4 +43,4 @@ class Client:
     @staticmethod
     def add_parameter(request, key, value):
         if value and value != 'none':
-            request.parameters[key] = value
+            request.parameters[key] = value.value if isinstance(value, Enum) else value

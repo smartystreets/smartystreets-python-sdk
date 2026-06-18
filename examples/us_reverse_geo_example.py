@@ -2,6 +2,7 @@ import os
 
 from smartystreets_python_sdk import SharedCredentials, BasicAuthCredentials, ClientBuilder
 from smartystreets_python_sdk.us_reverse_geo import Lookup
+from smartystreets_python_sdk.us_reverse_geo.source import Source
 
 
 def run():
@@ -27,6 +28,7 @@ def run():
     # https://smartystreets.com/docs/cloud/us-reverse-geo-api#http-input-fields
 
     lookup = Lookup(40.111111, -111.111111)
+    lookup.source = Source.ALL
 
     # Uncomment the below line to add a custom parameter
     # lookup.add_custom_parameter("parameter", "value")
