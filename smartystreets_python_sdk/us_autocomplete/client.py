@@ -1,3 +1,5 @@
+from enum import Enum
+
 from smartystreets_python_sdk import Request
 from smartystreets_python_sdk.exceptions import SmartyException
 from smartystreets_python_sdk.us_autocomplete import Suggestion, geolocation_type
@@ -65,4 +67,4 @@ class Client:
     @staticmethod
     def add_parameter(request, key, value):
         if value and value != 'none':
-            request.parameters[key] = value
+            request.parameters[key] = value.value if isinstance(value, Enum) else value

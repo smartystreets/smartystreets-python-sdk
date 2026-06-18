@@ -33,10 +33,8 @@ class Lookup:
                             when you may not desire it
         :param selected: Used by UI components to request a list of secondaries (up to 100) for the specified address
         :param exclude: Removes the given partial address from the suggestion results
-        :param source: Include results from alternate data sources. If no value is passed, the default will be `postal`.
-                            Allowed values are:
-                            all - will include non-postal addresses in the results
-                            postal - will limit the results to postal addresses only
+        :param source: Include results from alternate data sources. Defaults to None (API default: postal).
+                            Use Source.ALL to include non-postal addresses, Source.POSTAL to limit to postal only.
         """
         self.result = []
         self.custom_parameter_array = {}

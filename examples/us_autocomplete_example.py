@@ -2,6 +2,7 @@ import os
 
 from smartystreets_python_sdk import SharedCredentials, BasicAuthCredentials, ClientBuilder
 from smartystreets_python_sdk.us_autocomplete import Lookup as AutocompleteLookup, geolocation_type
+from smartystreets_python_sdk.us_autocomplete.source import Source
 
 # This example is for us-autocomplete (V2). It has the same name as a previous product
 # which has been deprecated since 2022 which we refer to as US Autocomplete Basic.
@@ -49,7 +50,7 @@ def run():
     lookup.max_results = 5
     lookup.prefer_geo = geolocation_type.NONE
     lookup.prefer_ratio = 33
-    lookup.source = 'all'
+    lookup.source = Source.ALL
 
     suggestions = client.send(lookup)  # The client will also return the suggestions directly
 

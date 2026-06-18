@@ -3,6 +3,7 @@ import unittest
 from smartystreets_python_sdk import Response, exceptions
 from test.mocks import *
 from smartystreets_python_sdk.us_autocomplete import Client, Lookup, geolocation_type
+from smartystreets_python_sdk.us_autocomplete.source import Source
 
 
 class TestClient(unittest.TestCase):
@@ -30,7 +31,7 @@ class TestClient(unittest.TestCase):
         lookup.add_state_preference('state4')
         lookup.prefer_ratio = 3
         lookup.prefer_geo = geolocation_type.CITY
-        lookup.source = 'all'
+        lookup.source = Source.ALL
         lookup.selected = 'selectedAddress'
         lookup.exclude = 'excludedAddress'
         lookup.add_custom_parameter('custom', '6')
@@ -103,6 +104,37 @@ class TestClient(unittest.TestCase):
         client = Client(sender, serializer)
 
         client.send(Lookup('1'))
+
+        self.assertNotIn('source', sender.request.parameters)
+
+    def test_source_all_enum_serializes_as_string_value(self):
+        sender = RequestCapturingSender()
+        client = Client(sender, FakeDeserializer({}))
+        lookup = Lookup('1')
+        lookup.source = Source.ALL
+
+        client.send(lookup)
+
+        self.assertIs(type(sender.request.parameters['source']), str)
+        self.assertEqual('all', sender.request.parameters['source'])
+
+    def test_source_postal_enum_serializes_as_string_value(self):
+        sender = RequestCapturingSender()
+        client = Client(sender, FakeDeserializer({}))
+        lookup = Lookup('1')
+        lookup.source = Source.POSTAL
+
+        client.send(lookup)
+
+        self.assertIs(type(sender.request.parameters['source']), str)
+        self.assertEqual('postal', sender.request.parameters['source'])
+
+    def test_source_none_omits_parameter(self):
+        sender = RequestCapturingSender()
+        client = Client(sender, FakeDeserializer({}))
+        lookup = Lookup('1')
+
+        client.send(lookup)
 
         self.assertNotIn('source', sender.request.parameters)
 
