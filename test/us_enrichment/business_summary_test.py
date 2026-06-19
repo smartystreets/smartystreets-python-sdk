@@ -54,6 +54,27 @@ class TestBusinessSummary(unittest.TestCase):
             capturing.request.parameters['freeform'],
         )
 
+    def test_business_lookup_with_business_name_builds_search_param(self):
+        capturing = RequestCapturingSender()
+        client, _ = self._client(capturing)
+
+        lookup = BusinessLookup()
+        lookup.business_name = "Style Studio"
+        client.send_business_lookup(lookup)
+
+        self.assertEqual("search/business", capturing.request.url_components)
+        self.assertEqual("Style Studio", capturing.request.parameters['business_name'])
+
+    def test_business_lookup_omits_empty_business_name(self):
+        capturing = RequestCapturingSender()
+        client, _ = self._client(capturing)
+
+        lookup = BusinessLookup()
+        lookup.freeform = "1600 amphitheatre pkwy mountain view ca"
+        client.send_business_lookup(lookup)
+
+        self.assertNotIn('business_name', capturing.request.parameters)
+
     def test_rejects_whitespace_smartykey_on_summary_lookup(self):
         capturing = RequestCapturingSender()
         client, _ = self._client(capturing)

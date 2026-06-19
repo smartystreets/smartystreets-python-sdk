@@ -10,7 +10,3 @@ class RootLevel:
         self.address6 = obj.get("address6", None)
         self.address7 = obj.get("address7", None)
         self.address8 = obj.get("address8", None)
-        self.address9 = obj.get("address9", None)
-        self.address10 = obj.get("address10", None)
-        self.address11 = obj.get("address11", None)
-        self.address12 = obj.get("address12", None)

@@ -1,0 +1,31 @@
+name: Publish Python Package
+
+on:
+  push:
+    tags:
+      - '**'
+
+jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+
+      - name: Package
+        run: VERSION="${GITHUB_REF#refs/tags/}" make package
+
+      - name: Publish Package to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}

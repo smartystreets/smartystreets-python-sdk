@@ -107,11 +107,14 @@ def send_lookup(client: Client, lookup, response_class=Response):
         _is_blank(getattr(lookup, 'smartykey', None))
         and _is_blank(getattr(lookup, 'street', None))
         and _is_blank(getattr(lookup, 'freeform', None))
+        and _is_blank(getattr(lookup, 'business_name', None))
     ):
-        raise SmartyException("Lookup requires one of 'smartykey', 'street', or 'freeform' to be set")
+        raise SmartyException("Lookup requires one of 'smartykey', 'street', 'freeform', or 'business_name' to be set")
 
     request = build_request(lookup)
     raw = _dispatch(client, request, lookup)
+    if raw is None:
+        return lookup.result
     lookup.result = [response_class(candidate) for candidate in raw]
     return lookup.result
 
@@ -126,6 +129,8 @@ def send_business_detail_lookup(client: Client, lookup):
     _apply_etag_header(request, lookup)
 
     raw = _dispatch(client, request, lookup)
+    if raw is None:
+        return lookup.result
     if not raw:
         lookup.result = None
     elif len(raw) > 1:
@@ -158,7 +163,7 @@ def _url_components(lookup):
 
 def _address_parameters(lookup):
     params = {}
-    for key in ('freeform', 'street', 'city', 'state', 'zipcode', 'features'):
+    for key in ('freeform', 'street', 'city', 'state', 'zipcode', 'features', 'business_name'):
         value = getattr(lookup, key, None)
         if value:
             params[key] = value
@@ -184,6 +189,8 @@ def _apply_etag_header(request, lookup):
 def _dispatch(client, request, lookup):
     response = client.sender.send(request)
     lookup.response_etag = response.find_header('etag')
+    if response.status_code == 304:
+        return None
     if response.error:
         raise response.error
     raw = client.serializer.deserialize(response.payload)

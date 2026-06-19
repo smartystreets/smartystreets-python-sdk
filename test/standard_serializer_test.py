@@ -40,3 +40,10 @@ class TestStandardSerializer(unittest.TestCase):
         self.assertNotIn('city_states', results[2])
         self.assertEqual("invalid_zipcode", results[2]['status'])
         self.assertEqual("Invalid ZIP Code.", results[2]['reason'])
+
+    def test_deserialize_empty_payload_does_not_raise(self):
+        serializer = smarty.NativeSerializer()
+
+        self.assertEqual({}, serializer.deserialize(""))
+        self.assertEqual({}, serializer.deserialize(b""))
+        self.assertEqual({}, serializer.deserialize(None))

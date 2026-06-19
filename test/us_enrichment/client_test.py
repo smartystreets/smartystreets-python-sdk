@@ -177,3 +177,19 @@ class TestClient(unittest.TestCase):
 
         function_result = client.send_secondary_count_lookup(lookup)
         self.assertEqual(result, function_result)
+
+
+class TestNotModified(unittest.TestCase):
+    def test_304_is_success_with_refreshed_etag_and_untouched_results(self):
+        from smartystreets_python_sdk import Response as HttpResponse, StatusCodeSender
+        sender = StatusCodeSender(MockSender(HttpResponse("", 304, {'Etag': 'refreshed-etag'})))
+        client = Client(sender, FakeSerializer(None))
+        lookup = PrincipalLookup("xxx")
+        lookup.request_etag = 'old-etag'
+        lookup.result = ['prior']
+
+        result = send_lookup(client, lookup)
+
+        self.assertEqual('refreshed-etag', lookup.response_etag)
+        self.assertEqual(['prior'], lookup.result)
+        self.assertEqual(['prior'], result)
