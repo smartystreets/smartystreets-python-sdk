@@ -11,3 +11,4 @@ class Suggestion:
         self.state = obj.get('state', None)
         self.zipcode = obj.get('zipcode', None)
         self.entries = obj.get('entries', None)
+        self.source = obj.get('source', None)
