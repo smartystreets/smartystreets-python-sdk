@@ -33,7 +33,7 @@ class TestClient(unittest.TestCase):
         lookup.prefer_geolocation = geolocation_type.CITY
         lookup.source = Source.ALL
         lookup.selected = 'selectedAddress'
-        lookup.exclude = ['excludedAddress']
+        lookup.add_exclude('excludedAddress')
         lookup.add_custom_parameter('custom', '6')
 
         client.send(lookup)

@@ -76,5 +76,8 @@ class Lookup:
         self.prefer_geolocation = geolocation_type.NONE
         self.prefer_zips.append(zipcode)
 
+    def add_exclude(self, exclude_type):
+        self.exclude.append(exclude_type)
+
     def add_custom_parameter(self, parameter, value):
         self.custom_parameter_array[parameter] = value
