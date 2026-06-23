@@ -4,7 +4,7 @@ from smartystreets_python_sdk.us_autocomplete import geolocation_type
 class Lookup:
     def __init__(self, search=None, max_results=None, city_filter=None, state_filter=None, zip_filter=None,
                  exclude_states=None, prefer_cities=None, prefer_states=None, prefer_zips=None, prefer_ratio=None,
-                 prefer_geo=None, selected=None, exclude=None, source=None):
+                 prefer_geolocation=None, selected=None, exclude=None, source=None):
 
         """
         In addition to holding all of the input data for this lookup, this class also will contain the result
@@ -26,7 +26,7 @@ class Lookup:
                                 When this parameter is used, no other _cities or _state parameters can be used
         :param prefer_ratio: Specifies the percentage of address suggestions that should be preferred
                                 and will appear at the top of the suggestion list
-        :param prefer_geo: If omitted or set to city it uses the sender's IP address to determine location,
+        :param prefer_geolocation: If omitted or set to city it uses the sender's IP address to determine location,
                             then automatically adds the city and state to the prefer_cities value.
                             This parameter takes precedence over other _include or exclude parameters,
                             meaning that if it is not set to none, you may see addresses from the customer's area
@@ -48,9 +48,9 @@ class Lookup:
         self.prefer_states = prefer_states or []
         self.prefer_zips = prefer_zips or []
         self.prefer_ratio = prefer_ratio
-        self.prefer_geo = prefer_geo
+        self.prefer_geolocation = prefer_geolocation
         self.selected = selected
-        self.exclude = exclude
+        self.exclude = exclude or []
         self.source = source
 
     def add_city_filter(self, city):
@@ -60,7 +60,7 @@ class Lookup:
         self.state_filter.append(state)
 
     def add_zip_filter(self, zipcode):
-        self.prefer_geo = geolocation_type.NONE
+        self.prefer_geolocation = geolocation_type.NONE
         self.zip_filter.append(zipcode)
 
     def add_state_exclusion(self, state):
@@ -73,7 +73,7 @@ class Lookup:
         self.prefer_states.append(state)
 
     def add_zip_preference(self, zipcode):
-        self.prefer_geo = geolocation_type.NONE
+        self.prefer_geolocation = geolocation_type.NONE
         self.prefer_zips.append(zipcode)
 
     def add_custom_parameter(self, parameter, value):

@@ -46,10 +46,10 @@ class Client:
         self.add_parameter(request, 'prefer_states', self.build_filter_string(lookup.prefer_states))
         self.add_parameter(request, 'prefer_zip_codes', self.build_filter_string(lookup.prefer_zips))
         self.add_parameter(request, 'prefer_ratio', lookup.prefer_ratio)
-        self.add_parameter(request, 'prefer_geolocation', lookup.prefer_geo)
+        self.add_parameter(request, 'prefer_geolocation', lookup.prefer_geolocation)
         self.add_parameter(request, 'source', lookup.source)
         self.add_parameter(request, 'selected', lookup.selected)
-        self.add_parameter(request, 'exclude', lookup.exclude)
+        self.add_parameter(request, 'exclude', self.build_filter_string(lookup.exclude, ','))
 
         for parameter in lookup.custom_parameter_array:
             self.add_parameter(request, parameter, lookup.custom_parameter_array[parameter])
@@ -57,8 +57,8 @@ class Client:
         return request
 
     @staticmethod
-    def build_filter_string(filter_list):
-        return ';'.join(filter_list or []) or None
+    def build_filter_string(filter_list, separator=';'):
+        return separator.join(filter_list or []) or None
 
     @staticmethod
     def convert_suggestions(suggestion_dictionaries):

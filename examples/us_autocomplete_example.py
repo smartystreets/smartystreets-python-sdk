@@ -48,7 +48,7 @@ def run():
     lookup.add_state_preference('CO')
     # lookup.selected = '1042 W Center St Apt A (24) Orem UT 84057'
     lookup.max_results = 5
-    lookup.prefer_geo = geolocation_type.NONE
+    lookup.prefer_geolocation = geolocation_type.NONE
     lookup.prefer_ratio = 33
     lookup.source = Source.ALL
 

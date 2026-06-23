@@ -30,10 +30,10 @@ class TestClient(unittest.TestCase):
         lookup.add_city_preference('city3')
         lookup.add_state_preference('state4')
         lookup.prefer_ratio = 3
-        lookup.prefer_geo = geolocation_type.CITY
+        lookup.prefer_geolocation = geolocation_type.CITY
         lookup.source = Source.ALL
         lookup.selected = 'selectedAddress'
-        lookup.exclude = 'excludedAddress'
+        lookup.exclude = ['excludedAddress']
         lookup.add_custom_parameter('custom', '6')
 
         client.send(lookup)
@@ -57,18 +57,18 @@ class TestClient(unittest.TestCase):
         serializer = FakeSerializer({})
         client = Client(sender, serializer)
         lookup = Lookup('1')
-        lookup.exclude = 'excludedAddress'
+        lookup.exclude = ['excluded1', 'excluded2', 'excluded3']
 
         client.send(lookup)
 
-        self.assertEqual('excludedAddress', sender.request.parameters['exclude'])
+        self.assertEqual('excluded1,excluded2,excluded3', sender.request.parameters['exclude'])
 
     def test_prefer_geolocation_none_is_omitted(self):
         sender = RequestCapturingSender()
         serializer = FakeSerializer({})
         client = Client(sender, serializer)
         lookup = Lookup('1')
-        lookup.prefer_geo = geolocation_type.NONE
+        lookup.prefer_geolocation = geolocation_type.NONE
 
         client.send(lookup)
 
