@@ -5,6 +5,7 @@ class Suggestion:
         """
         self.smarty_key = obj.get('smarty_key', None)
         self.entry_id = obj.get('entry_id', None)
+        self.urbanization = obj.get('urbanization', None)
         self.street_line = obj.get('street_line', None)
         self.secondary = obj.get('secondary', None)
         self.city = obj.get('city', None)

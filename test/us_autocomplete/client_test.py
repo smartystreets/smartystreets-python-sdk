@@ -167,6 +167,7 @@ class TestClient(unittest.TestCase):
         expected_result = {"suggestions": [{
             "smarty_key": "key",
             "entry_id": "entry",
+            "urbanization": "urb",
             "street_line": "street",
             "secondary": "secondary",
             "city": "city",
@@ -184,6 +185,7 @@ class TestClient(unittest.TestCase):
         suggestion = lookup.result[0]
         self.assertEqual('key', suggestion.smarty_key)
         self.assertEqual('entry', suggestion.entry_id)
+        self.assertEqual('urb', suggestion.urbanization)
         self.assertEqual('street', suggestion.street_line)
         self.assertEqual('secondary', suggestion.secondary)
         self.assertEqual('city', suggestion.city)
