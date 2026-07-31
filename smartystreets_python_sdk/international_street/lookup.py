@@ -1,4 +1,5 @@
 from smartystreets_python_sdk.exceptions import UnprocessableEntityError
+from smartystreets_python_sdk.international_street.language_mode import LanguageMode
 
 
 class Lookup:
@@ -68,6 +69,9 @@ class Lookup:
 
         if self.field_is_missing(self.freeform) and self.field_is_missing(self.address1):
             raise UnprocessableEntityError('Either freeform or address1 is required.')
-        
+
+        if self.language is not None:
+            LanguageMode.from_value(self.language)
+
     def add_custom_parameter(self, parameter, value):
         self.custom_parameter_array[parameter] = value

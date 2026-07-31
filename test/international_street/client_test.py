@@ -2,7 +2,7 @@ import unittest
 
 from smartystreets_python_sdk import Response
 from smartystreets_python_sdk.exceptions import UnprocessableEntityError
-from smartystreets_python_sdk.international_street import Lookup, Client, language_mode, Candidate
+from smartystreets_python_sdk.international_street import Lookup, Client, LanguageMode, Candidate
 from test.mocks import *
 
 
@@ -25,7 +25,7 @@ class TestClient(unittest.TestCase):
         lookup = Lookup()
         lookup.country = '0'
         lookup.geocode = True
-        lookup.language = language_mode.NATIVE
+        lookup.language = LanguageMode.NATIVE
         lookup.freeform = '1'
         lookup.address1 = '2'
         lookup.address2 = '3'
@@ -42,7 +42,7 @@ class TestClient(unittest.TestCase):
 
         self.assertEqual('0', sender.request.parameters['country'])
         self.assertEqual('true', sender.request.parameters['geocode'])
-        self.assertEqual(language_mode.NATIVE, sender.request.parameters['language'])
+        self.assertEqual(LanguageMode.NATIVE.value, sender.request.parameters['language'])
         self.assertEqual('1', sender.request.parameters['freeform'])
         self.assertEqual('2', sender.request.parameters['address1'])
         self.assertEqual('3', sender.request.parameters['address2'])
@@ -54,6 +54,36 @@ class TestClient(unittest.TestCase):
         self.assertEqual('9', sender.request.parameters['postal_code'])
         self.assertEqual('10', sender.request.parameters['features'])
         self.assertEqual('11', sender.request.parameters['custom'])
+
+    def test_sending_lookup_with_mixed_case_language_value(self):
+        sender = RequestCapturingSender()
+        serializer = FakeDeserializer({})
+        client = Client(sender, serializer)
+        lookup = Lookup('1', '0')
+        lookup.language = 'Latin'
+
+        client.send(lookup)
+
+        self.assertEqual('latin', sender.request.parameters['language'])
+
+    def test_mixed_case_language_not_mutated(self):
+        sender = RequestCapturingSender()
+        serializer = FakeDeserializer({})
+        client = Client(sender, serializer)
+        lookup = Lookup('1', '0')
+        lookup.language = 'Latin'
+
+        client.send(lookup)
+
+        self.assertEqual('Latin', lookup.language)
+
+    def test_rejects_invalid_mixed_case_language_value(self):
+        sender = MockSender(None)
+        client = Client(sender, None)
+        lookup = Lookup('1', '0')
+        lookup.language = 'Klingon'
+
+        self.assertRaises(UnprocessableEntityError, client.send, lookup)
 
     def test_empty_lookup_rejected(self):
         sender = MockSender(None)
