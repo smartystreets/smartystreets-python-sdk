@@ -1,5 +1,6 @@
 from smartystreets_python_sdk import Request
 from smartystreets_python_sdk.international_street import Candidate
+from smartystreets_python_sdk.international_street.language_mode import LanguageMode
 
 
 class Client:
@@ -32,7 +33,7 @@ class Client:
         self.add_parameter(request, 'input_id', lookup.input_id)
         self.add_parameter(request, 'country', lookup.country)
         self.add_parameter(request, 'geocode', str(lookup.geocode).lower())
-        self.add_parameter(request, 'language', lookup.language)
+        self.add_parameter(request, 'language', self.normalized_language(lookup.language))
         self.add_parameter(request, 'freeform', lookup.freeform)
         self.add_parameter(request, 'address1', lookup.address1)
         self.add_parameter(request, 'address2', lookup.address2)
@@ -57,3 +58,9 @@ class Client:
     def add_parameter(request, key, value):
         if value and value != 'none':
             request.parameters[key] = value
+
+    @staticmethod
+    def normalized_language(language):
+        if language is None:
+            return None
+        return LanguageMode.from_value(language).value
