@@ -76,6 +76,7 @@ Each API service follows a consistent structure under `smartystreets_python_sdk/
 Three credential types in `smartystreets_python_sdk/`, all implementing `sign(request)`:
 - `StaticCredentials` - Server-to-server (auth_id + auth_token as query params)
 - `SharedCredentials` - Client-side/embedded (API key + hostname via referer)
+- Embedded/website keys are GET-only — not valid for batch (POST) requests or the US Extract API (POST-only): https://www.smarty.com/docs/cloud/authentication
 - `BasicAuthCredentials` - HTTP Basic Auth (sets `request.auth` tuple)
 
 ### Header Handling

@@ -1,21 +1,14 @@
 import os
 
-from smartystreets_python_sdk import SharedCredentials, BasicAuthCredentials, exceptions, Batch, ClientBuilder
+from smartystreets_python_sdk import BasicAuthCredentials, exceptions, Batch, ClientBuilder
 from smartystreets_python_sdk.us_zipcode import Lookup as ZIPCodeLookup
 
 
 def run():
-    # key = "Your SmartyStreets Key here"
-    # hostname = "Your Hostname here"
-
     # We recommend storing your secret keys in environment variables instead---it's safer!
-    # for client-side requests (browser/mobile), use this code:
-    # key = os.environ['SMARTY_AUTH_WEB']
-    # hostname = os.environ['SMARTY_WEBSITE_DOMAIN']
     #
-    # credentials = SharedCredentials(key, hostname)
-
-    # for server-to-server requests, use this code:
+    # Batch requests are sent via HTTP POST. Embedded keys are restricted to GET, so
+    # batches require secret keys: https://www.smarty.com/docs/cloud/authentication
     auth_id = os.environ['SMARTY_AUTH_ID']
     auth_token = os.environ['SMARTY_AUTH_TOKEN']
 
