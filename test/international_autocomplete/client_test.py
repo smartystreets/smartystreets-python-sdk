@@ -3,6 +3,8 @@ import unittest
 from smartystreets_python_sdk import Response, exceptions
 from test.mocks import *
 from smartystreets_python_sdk.international_autocomplete import Client, Lookup
+from smartystreets_python_sdk.international_autocomplete import client as autocomplete_client
+from smartystreets_python_sdk.international_street import LanguageMode
 
 
 class TestClient(unittest.TestCase):
@@ -29,6 +31,7 @@ class TestClient(unittest.TestCase):
         lookup.locality = '3'
         lookup.postal_code = '4'
         lookup.address_id = '5'
+        lookup.language = LanguageMode.NATIVE
         lookup.add_custom_parameter('custom', '6')
 
         client.send(lookup)
@@ -41,6 +44,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual('3', sender.request.parameters['include_only_locality'])
         self.assertEqual('4', sender.request.parameters['include_only_postal_code'])
         self.assertEqual('/5', sender.request.url_components)
+        self.assertEqual(LanguageMode.NATIVE.value, sender.request.parameters['language'])
         self.assertEqual('6', sender.request.parameters['custom'])
 
     def test_sending_lookup_with_custom_max_group_results(self):
@@ -64,6 +68,59 @@ class TestClient(unittest.TestCase):
         client.send(lookup)
 
         self.assertEqual('on', sender.request.parameters['geolocation'])
+
+    def test_sending_lookup_with_language(self):
+        sender = RequestCapturingSender()
+        serializer = FakeSerializer({})
+        client = Client(sender, serializer)
+        lookup = Lookup('1')
+        lookup.language = LanguageMode.NATIVE
+
+        client.send(lookup)
+
+        self.assertEqual(LanguageMode.NATIVE.value, sender.request.parameters['language'])
+
+    def test_sending_lookup_with_mixed_case_language_value(self):
+        sender = RequestCapturingSender()
+        serializer = FakeSerializer({})
+        client = Client(sender, serializer)
+        lookup = Lookup('1')
+        lookup.language = 'Latin'
+
+        client.send(lookup)
+
+        self.assertEqual('latin', sender.request.parameters['language'])
+
+    def test_mixed_case_language_not_mutated(self):
+        sender = RequestCapturingSender()
+        serializer = FakeSerializer({})
+        client = Client(sender, serializer)
+        lookup = Lookup('1')
+        lookup.language = 'Latin'
+
+        client.send(lookup)
+
+        self.assertEqual('Latin', lookup.language)
+
+    def test_rejects_invalid_mixed_case_language_value(self):
+        sender = MockSender(None)
+        client = Client(sender, None)
+        lookup = Lookup('1')
+        lookup.language = 'Klingon'
+
+        self.assertRaises(exceptions.UnprocessableEntityError, client.send, lookup)
+
+    def test_language_omitted_when_not_set(self):
+        sender = RequestCapturingSender()
+        serializer = FakeSerializer({})
+        client = Client(sender, serializer)
+
+        client.send(Lookup('1'))
+
+        self.assertNotIn('language', sender.request.parameters)
+
+    def test_language_mode_shared_with_international_street(self):
+        self.assertIs(LanguageMode, autocomplete_client.LanguageMode)
 
     def test_deserialize_called_with_response_body(self):
         response = Response('Hello, World!', 0)

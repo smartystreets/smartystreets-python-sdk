@@ -1,6 +1,6 @@
 class Lookup:
     def __init__(self, search=None, address_id=None, country=None, max_results=5, max_group_results=100,
-                 geolocation=False, locality=None, postal_code=None):
+                 geolocation=False, locality=None, postal_code=None, language=None):
         """
         In addition to holding all the input data for this lookup, this class also will contain the result
         of the lookup after it comes back from the API.
@@ -10,6 +10,7 @@ class Lookup:
         :param administrative_area: Limit the results to only the administrative area provided
         :param locality: Limit the results to only the locality provided
         :param postal_code: Limit the results to only the postal code provided
+        :param language: The output language, Native or Latin (defaults to the country's language)
         """
         self.result = []
 
@@ -22,6 +23,7 @@ class Lookup:
         self.geolocation = geolocation
         self.locality = locality
         self.postal_code = postal_code
+        self.language = language
 
     def add_custom_parameter(self, parameter, value):
         self.custom_parameter_array[parameter] = value
