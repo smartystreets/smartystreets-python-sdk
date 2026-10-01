@@ -2,9 +2,8 @@ import unittest
 
 from smartystreets_python_sdk import Response, exceptions
 from test.mocks import *
-from smartystreets_python_sdk.international_autocomplete import Client, Lookup
-from smartystreets_python_sdk.international_autocomplete import client as autocomplete_client
-from smartystreets_python_sdk.international_street import LanguageMode
+from smartystreets_python_sdk.international_autocomplete import Client, LanguageMode, Lookup
+from smartystreets_python_sdk.international_street import LanguageMode as StreetLanguageMode
 
 
 class TestClient(unittest.TestCase):
@@ -119,8 +118,8 @@ class TestClient(unittest.TestCase):
 
         self.assertNotIn('language', sender.request.parameters)
 
-    def test_language_mode_shared_with_international_street(self):
-        self.assertIs(LanguageMode, autocomplete_client.LanguageMode)
+    def test_language_mode_not_shared_with_international_street(self):
+        self.assertIsNot(LanguageMode, StreetLanguageMode)
 
     def test_deserialize_called_with_response_body(self):
         response = Response('Hello, World!', 0)

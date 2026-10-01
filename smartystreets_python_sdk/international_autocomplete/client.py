@@ -1,7 +1,7 @@
 from smartystreets_python_sdk import Request
 from smartystreets_python_sdk.exceptions import SmartyException
 from smartystreets_python_sdk.international_autocomplete import Candidate
-from smartystreets_python_sdk.international_street.language_mode import LanguageMode
+from smartystreets_python_sdk.international_autocomplete.language_mode import LanguageMode
 
 
 class Client:
