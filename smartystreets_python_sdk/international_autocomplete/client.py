@@ -1,6 +1,7 @@
 from smartystreets_python_sdk import Request
 from smartystreets_python_sdk.exceptions import SmartyException
 from smartystreets_python_sdk.international_autocomplete import Candidate
+from smartystreets_python_sdk.international_autocomplete.language_mode import LanguageMode
 
 
 class Client:
@@ -45,6 +46,7 @@ class Client:
             self.add_parameter(request, 'geolocation', 'on')
         self.add_parameter(request, 'include_only_locality', lookup.locality)
         self.add_parameter(request, 'include_only_postal_code', lookup.postal_code)
+        self.add_parameter(request, 'language', self.normalized_language(lookup.language))
 
         for parameter in lookup.custom_parameter_array:
             self.add_parameter(request, parameter, lookup.custom_parameter_array[parameter])
@@ -59,3 +61,9 @@ class Client:
     def add_parameter(request, key, value):
         if value and value != 'none':
             request.parameters[key] = value
+
+    @staticmethod
+    def normalized_language(language):
+        if language is None:
+            return None
+        return LanguageMode.from_value(language).value

@@ -2,6 +2,7 @@ import os
 
 from smartystreets_python_sdk import SharedCredentials, ClientBuilder, BasicAuthCredentials
 from smartystreets_python_sdk.international_autocomplete import Lookup as InternationalAutocompleteLookup
+from smartystreets_python_sdk.international_autocomplete import LanguageMode
 
 
 def run():
@@ -27,6 +28,7 @@ def run():
     lookup.country = "FRA"
     lookup.max_group_results = 50
     lookup.geolocation = True
+    lookup.language = LanguageMode.NATIVE
 
     # Uncomment the below line to add a custom parameter
     # lookup.add_custom_parameter("parameter", "value")
