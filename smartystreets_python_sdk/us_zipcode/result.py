@@ -1,3 +1,5 @@
+from typing import Any
+
 from smartystreets_python_sdk.us_zipcode import City, ZipCode
 
 
@@ -5,21 +7,21 @@ class Result:
     """
     See "https://smartystreets.com/docs/cloud/us-zipcode-api#root"
     """
-    def __init__(self, obj):
-        self.status = obj.get('status')
-        self.reason = obj.get('reason')
-        self.input_index = obj.get('input_index')
-        self.cities = obj.get('city_states', [])
-        self.zipcodes = obj.get('zipcodes', [])
+    def __init__(self, obj: dict) -> None:
+        self.status: str | None = obj.get('status')
+        self.reason: str | None = obj.get('reason')
+        self.input_index: int | None = obj.get('input_index')
+        self.cities: list[City] = obj.get('city_states', [])
+        self.zipcodes: list[ZipCode] = obj.get('zipcodes', [])
 
         self.cities = convert_cities(self.cities)
         self.zipcodes = convert_zipcodes(self.zipcodes)
 
-    def is_valid(self):
+    def is_valid(self) -> bool:
         return self.status is None and self.reason is None
 
 
-def convert_cities(cities):
+def convert_cities(cities: list[dict[str, Any]]) -> list[City]:
     converted_cities = []
 
     for city in cities:
@@ -28,7 +30,7 @@ def convert_cities(cities):
     return converted_cities
 
 
-def convert_zipcodes(zipcodes):
+def convert_zipcodes(zipcodes: list[dict[str, Any]]) -> list[ZipCode]:
     converted_zipcodes = []
 
     for zipcode in zipcodes:

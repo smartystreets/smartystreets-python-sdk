@@ -11,7 +11,7 @@ class LanguageMode(Enum):
     LATIN = 'latin'
 
     @staticmethod
-    def from_value(value):
+    def from_value(value: 'LanguageMode | str') -> 'LanguageMode':
         """
         Resolves a LanguageMode instance or a raw value (eg. from user input or config) into a LanguageMode,
         matching 'native'/'latin' regardless of case.

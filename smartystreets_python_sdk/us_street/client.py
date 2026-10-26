@@ -2,18 +2,21 @@ from smartystreets_python_sdk.us_street.match_type import MatchType
 from smartystreets_python_sdk.us_street.output_format import OutputFormat
 
 from smartystreets_python_sdk.us_street import Candidate
+from smartystreets_python_sdk.us_street.lookup import Lookup
 from smartystreets_python_sdk import Request, Batch
+from smartystreets_python_sdk.protocols import Sender, Serializer
+from typing import Any, cast
 
 
 class Client:
-    def __init__(self, sender, serializer):
+    def __init__(self, sender: Sender, serializer: Serializer) -> None:
         """
         It is recommended to instantiate this class using ClientBuilder.build_us_street_api_client()
         """
         self.sender = sender
         self.serializer = serializer
 
-    def send_lookup(self, lookup):
+    def send_lookup(self, lookup: Lookup) -> None:
         """
         Sends a Lookup object to the US Street API and stores the result in the Lookup's result field.
         """
@@ -21,7 +24,7 @@ class Client:
         batch.add(lookup)
         self.send_batch(batch)
 
-    def send_batch(self, batch):
+    def send_batch(self, batch: Batch) -> None:
         """
         Sends a Batch object containing no more than 100 Lookup objects to the US Street API and stores the
         results in the result field of the Lookup object.
@@ -47,16 +50,16 @@ class Client:
         assign_candidates_to_lookups(batch, candidates)
 
 
-def assign_candidates_to_lookups(batch, candidates):
+def assign_candidates_to_lookups(batch: Batch, candidates: list[dict[str, Any]]) -> None:
     for raw_candidate in candidates:
         candidate = Candidate(raw_candidate)
-        batch[candidate.input_index].result.append(candidate)
+        batch[cast(int, candidate.input_index)].result.append(candidate)
 
 
-def remap_keys(obj):
+def remap_keys(obj: list[Lookup]) -> list[dict[str, Any]]:
     converted_obj = []
     for lookup in obj:
-        converted_lookup = {}
+        converted_lookup: dict[str, Any] = {}
 
         # Determine effective match strategy (default to ENHANCED if not specified)
         match_strategy = lookup.match
@@ -99,6 +102,6 @@ def remap_keys(obj):
     return converted_obj
 
 
-def add_field(converted_lookup, key, value):
+def add_field(converted_lookup: dict[str, Any], key: str, value: Any) -> None:
     if value:
         converted_lookup[key] = value

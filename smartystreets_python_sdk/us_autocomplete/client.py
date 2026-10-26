@@ -1,19 +1,22 @@
 from enum import Enum
+from typing import Any
 
 from smartystreets_python_sdk import Request
 from smartystreets_python_sdk.exceptions import SmartyException
 from smartystreets_python_sdk.us_autocomplete import Suggestion, geolocation_type
+from smartystreets_python_sdk.us_autocomplete.lookup import Lookup
+from smartystreets_python_sdk.protocols import Sender, Serializer
 
 
 class Client:
-    def __init__(self, sender, serializer):
+    def __init__(self, sender: Sender, serializer: Serializer) -> None:
         """
         It is recommended to instantiate this class using ClientBuilder.build_us_autocomplete_api_client()
         """
         self.sender = sender
         self.serializer = serializer
 
-    def send(self, lookup):
+    def send(self, lookup: Lookup) -> list[Suggestion]:
         """
         Sends a Lookup object to the US Autocomplete API and stores the result in the Lookup's result field.
         """
@@ -33,7 +36,7 @@ class Client:
 
         return suggestions
 
-    def build_request(self, lookup):
+    def build_request(self, lookup: Lookup) -> Request:
         request = Request()
 
         self.add_parameter(request, 'search', lookup.search)
@@ -57,14 +60,14 @@ class Client:
         return request
 
     @staticmethod
-    def build_filter_string(filter_list, separator=';'):
+    def build_filter_string(filter_list: list[str] | None, separator: str = ';') -> str | None:
         return separator.join(filter_list or []) or None
 
     @staticmethod
-    def convert_suggestions(suggestion_dictionaries):
+    def convert_suggestions(suggestion_dictionaries: list[dict[str, Any]]) -> list[Suggestion]:
         return [Suggestion(suggestion) for suggestion in suggestion_dictionaries]
 
     @staticmethod
-    def add_parameter(request, key, value):
+    def add_parameter(request: Request, key: str, value: Any) -> None:
         if value and value != 'none':
             request.parameters[key] = value.value if isinstance(value, Enum) else value

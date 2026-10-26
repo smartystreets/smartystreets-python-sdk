@@ -1,16 +1,19 @@
 from smartystreets_python_sdk.us_zipcode import Result
+from smartystreets_python_sdk.us_zipcode.lookup import Lookup
 from smartystreets_python_sdk import Request, Batch
+from smartystreets_python_sdk.protocols import Sender, Serializer
+from typing import Any, cast
 
 
 class Client:
-    def __init__(self, sender, serializer):
+    def __init__(self, sender: Sender, serializer: Serializer) -> None:
         """
         It is recommended to instantiate this class using ClientBuilder.build_us_zipcode_api_client()
         """
         self.sender = sender
         self.serializer = serializer
 
-    def send_lookup(self, lookup):
+    def send_lookup(self, lookup: Lookup) -> None:
         """
         Sends a Lookup object to the US ZIP Code API and stores the result in the Lookup's result field.
         """
@@ -18,7 +21,7 @@ class Client:
         batch.add(lookup)
         self.send_batch(batch)
 
-    def send_batch(self, batch):
+    def send_batch(self, batch: Batch) -> None:
         """
         Sends a Batch object containing no more than 100 Lookup objects to the US ZIP Code API and stores the
         results in the result field of the Lookup object.
@@ -46,16 +49,16 @@ class Client:
         assign_results_to_lookups(batch, results)
 
 
-def assign_results_to_lookups(batch, results):
+def assign_results_to_lookups(batch: Batch, results: list[dict[str, Any]]) -> None:
     for raw_result in results:
         result = Result(raw_result)
-        batch[result.input_index].result = result
+        batch[cast(int, result.input_index)].result = result
 
 
-def remap_keys(obj):
+def remap_keys(obj: list[Lookup]) -> list[dict[str, Any]]:
     converted_obj = []
     for lookup in obj:
-        converted_lookup = {}
+        converted_lookup: dict[str, Any] = {}
 
         add_field(converted_lookup, 'city', lookup.city)
         add_field(converted_lookup, 'state', lookup.state)
@@ -69,6 +72,6 @@ def remap_keys(obj):
     return converted_obj
 
 
-def add_field(converted_lookup, key, value):
+def add_field(converted_lookup: dict[str, Any], key: str, value: Any) -> None:
     if value:
         converted_lookup[key] = value

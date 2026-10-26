@@ -1,18 +1,21 @@
 from smartystreets_python_sdk import Request
 from smartystreets_python_sdk.exceptions import SmartyException
 from smartystreets_python_sdk.us_extract import Result
+from smartystreets_python_sdk.us_extract.lookup import Lookup
 from smartystreets_python_sdk.us_street.match_type import MatchType
+from smartystreets_python_sdk.protocols import Sender, Serializer
+from typing import Any
 
 
 class Client:
-    def __init__(self, sender, serializer):
+    def __init__(self, sender: Sender, serializer: Serializer) -> None:
         """
         It is recommended to instantiate this class using ClientBuilder.build_us_extract_api_client()
         """
         self.sender = sender
         self.serializer = serializer
 
-    def send(self, lookup):
+    def send(self, lookup: Lookup) -> Result:
         """
         Sends a Lookup object to the US Extract Code API and stores the result in the Lookup's result field.
         It also returns the result directly.
@@ -32,7 +35,7 @@ class Client:
         return result
 
     @staticmethod
-    def build_request(lookup):
+    def build_request(lookup: Lookup) -> Request:
         request = Request()
         request.content_type = 'text/plain'
         request.payload = lookup.text
@@ -52,6 +55,6 @@ class Client:
         return request
 
     @staticmethod
-    def add_parameter(request, key, value):
+    def add_parameter(request: Request, key: str, value: Any) -> None:
         if value and value != 'none':
             request.parameters[key] = value

@@ -1,4 +1,8 @@
+from typing import Any
+
 from requests import Session, Request
+from .proxy import Proxy
+from .request import Request as SmartyRequest
 from .response import Response
 import requests.adapters
 import smartystreets_python_sdk as smarty
@@ -6,14 +10,15 @@ import smartystreets_python_sdk_version as version
 
 
 class RequestsSender:
-    def __init__(self, max_timeout=None, proxy=None, pool_size=None):
+    def __init__(self, max_timeout: float | None = None, proxy: Proxy | None = None,
+                 pool_size: int | None = None) -> None:
         self.session = Session()
         self.max_timeout = max_timeout or 10
         self.proxy = proxy
-        self.debug = None
+        self.debug: bool | None = None
         self.pool_size = pool_size
 
-    def send(self, smarty_request):
+    def send(self, smarty_request: SmartyRequest) -> Response:
         request = build_request(smarty_request)
         if (self.pool_size != None):
             adapter = requests.adapters.HTTPAdapter(pool_connections=self.pool_size, pool_maxsize=self.pool_size)
@@ -31,7 +36,7 @@ class RequestsSender:
                 print_response_data(response)
             return build_smarty_response(response)
 
-    def build_proxies(self):
+    def build_proxies(self) -> dict[str, str]:
         if not self.proxy:
             return {}
         if (self.proxy.host == 'http://' or self.proxy.host =='https://'):
@@ -48,7 +53,7 @@ class RequestsSender:
             return {'http': proxy_string, 'https': proxy_string}
 
 
-def build_request(smarty_request):
+def build_request(smarty_request: Any) -> Any:
     try:
         request = Request(url=smarty_request.url_prefix, params=smarty_request.parameters)
         request.headers['User-Agent'] = "smartystreets (sdk:python@{})".format(version.__version__)
@@ -70,11 +75,11 @@ def build_request(smarty_request):
         return smarty_request
 
 
-def build_smarty_response(inner_response, error=None):
+def build_smarty_response(inner_response: requests.Response, error: Exception | None = None) -> Response:
     return Response(inner_response.text, inner_response.status_code, inner_response.headers, error)
 
 
-def print_request_data(request):
+def print_request_data(request: requests.PreparedRequest) -> None:
     print(request.method)
     print()
     print('URL: {}\r\n'.format(request.url))
@@ -86,7 +91,7 @@ def print_request_data(request):
     print('  {}\r\n'.format(request.body))
 
 
-def print_response_data(response):
+def print_response_data(response: requests.Response) -> None:
     print('****** Response ******\r\n')
     print(response.status_code)
     print()

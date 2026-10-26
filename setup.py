@@ -5,6 +5,7 @@ from setuptools import find_packages, setup
 setup(
     name='smartystreets_python_sdk',
     packages=find_packages(include=['smartystreets_python_sdk*', 'smartystreets_python_sdk_version*']),
+    package_data={'smartystreets_python_sdk': ['py.typed']},
     version=__version__,
     description='An official library to help Python developers easily access the SmartyStreets APIs',
     long_description='Official Python library for SmartyStreets',
@@ -29,7 +30,8 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English',
-        'Programming Language :: Python :: 3'
+        'Programming Language :: Python :: 3',
+        'Typing :: Typed'
     ],
     install_requires=['requests']
 )

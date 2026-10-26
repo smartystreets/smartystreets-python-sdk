@@ -1,4 +1,7 @@
+from typing import Any, cast
+
 import smartystreets_python_sdk as smarty
+from smartystreets_python_sdk.protocols import Sender, Serializer, Signer
 from smartystreets_python_sdk.us_street import Client as USStreetClient
 from smartystreets_python_sdk.us_zipcode import Client as USZIPClient
 from smartystreets_python_sdk.us_extract import Client as USExtractClient
@@ -12,26 +15,26 @@ from smartystreets_python_sdk.international_postal_code import Client as Interna
 
 
 class ClientBuilder:
-    def __init__(self, signer):
+    def __init__(self, signer: Signer | None) -> None:
         """
         The ClientBuilder class helps you build a client object for one of the supported SmartyStreets APIs.
         You can use ClientBuilder's methods to customize settings like maximum retries or timeout duration.
         These methods are chainable, so you can usually get set up with one line of code.
         """
         self.signer = signer
-        self.serializer = smarty.NativeSerializer()
-        self.http_sender = None
+        self.serializer: Serializer = smarty.NativeSerializer()
+        self.http_sender: Sender | None = None
         self.max_retries = 5
-        self.max_timeout = 10
-        self.url_prefix = None
-        self.proxy = None
-        self.ip = None
-        self.debug = None
-        self.header = None
-        self.append_headers = {}
-        self.licenses = []
-        self.pool_size = None
-        self.custom_queries = None
+        self.max_timeout: float = 10
+        self.url_prefix: str | None = None
+        self.proxy: smarty.Proxy | None = None
+        self.ip: str | None = None
+        self.debug: bool | None = None
+        self.header: dict[str, Any] | None = None
+        self.append_headers: dict[str, str] = {}
+        self.licenses: list[str] = []
+        self.pool_size: int | None = None
+        self.custom_queries: dict[str, str] | None = None
         self.INTERNATIONAL_STREET_API_URL = "https://international-street.api.smarty.com/verify"
         self.INTERNATIONAL_AUTOCOMPLETE_API_URL = "https://international-autocomplete.api.smarty.com/v2/lookup"
         self.US_AUTOCOMPLETE_PRO_API_URL = "https://us-autocomplete-pro.api.smarty.com/lookup"
@@ -43,7 +46,7 @@ class ClientBuilder:
         self.US_ENRICHMENT_API_URL = "https://us-enrichment.api.smarty.com/lookup/"
         self.INTERNATIONAL_POSTAL_CODE_API_URL = "https://international-postal-code.api.smarty.com/lookup"
 
-    def retry_at_most(self, max_retries):
+    def retry_at_most(self, max_retries: int) -> "ClientBuilder":
         """
         Sets the maximum number of times to retry sending the request to the API. (Default is 5)
 
@@ -52,7 +55,7 @@ class ClientBuilder:
         self.max_retries = max_retries
         return self
 
-    def with_max_timeout(self, max_timeout):
+    def with_max_timeout(self, max_timeout: float) -> "ClientBuilder":
         """
         The maximum time (in seconds) to wait for a connection, and also to wait for
         the response to be read. (Default is 10)
@@ -62,7 +65,7 @@ class ClientBuilder:
         self.max_timeout = max_timeout
         return self
 
-    def with_sender(self, sender):
+    def with_sender(self, sender: Sender) -> "ClientBuilder":
         """
         Sets the innermost HTTP transport sender while keeping the full middleware chain intact.
 
@@ -71,7 +74,7 @@ class ClientBuilder:
         self.http_sender = sender
         return self
 
-    def with_serializer(self, serializer):
+    def with_serializer(self, serializer: Serializer) -> "ClientBuilder":
         """
         Changes the Serializer from the default.
 
@@ -80,7 +83,7 @@ class ClientBuilder:
         self.serializer = serializer
         return self
 
-    def with_base_url(self, base_url):
+    def with_base_url(self, base_url: str) -> "ClientBuilder":
         """
         This may be useful when using a local installation of the SmartyStreets APIs.
         base_url is a string that defaults to the URL for the API corresponding to the Client object being built.
@@ -90,7 +93,7 @@ class ClientBuilder:
         self.url_prefix = base_url
         return self
 
-    def with_http_proxy(self, host, username=None, password=None):
+    def with_http_proxy(self, host: str, username: str | None = None, password: str | None = None) -> "ClientBuilder":
         """
         Assigns a http proxy through which to send all Lookups.
         :param host: The proxy host including port, but not scheme. (example: localhost:8080)
@@ -102,7 +105,7 @@ class ClientBuilder:
         self.proxy = smarty.Proxy(full_host, username, password)
         return self
     
-    def with_https_proxy(self, host, username=None, password=None):
+    def with_https_proxy(self, host: str, username: str | None = None, password: str | None = None) -> "ClientBuilder":
         """
         Assigns a https proxy through which to send all Lookups.
         :param host: The proxy host including port, but not scheme. (example: localhost:8080)
@@ -114,7 +117,7 @@ class ClientBuilder:
         self.proxy = smarty.Proxy(full_host, username, password)
         return self
 
-    def with_custom_header(self, custom_header):
+    def with_custom_header(self, custom_header: dict[str, Any]) -> "ClientBuilder":
         """
         Create custom headers when necessary. Headers are merged with any existing custom headers.
         :param custom_header: Input your custom headers
@@ -125,7 +128,7 @@ class ClientBuilder:
         self.header.update(custom_header)
         return self
 
-    def with_appended_header(self, key, value, separator):
+    def with_appended_header(self, key: str, value: str, separator: str) -> "ClientBuilder":
         """
         Appends the provided value to the existing header value using the specified separator,
         rather than adding a separate header value. This is useful for single-value headers like User-Agent.
@@ -146,7 +149,7 @@ class ClientBuilder:
             self.header[key] = [value]
         return self
 
-    def with_x_forwarded_for(self, ip):
+    def with_x_forwarded_for(self, ip: str) -> "ClientBuilder":
         """
         Add and X-Forwarded-For header when necessary.
         :param ip: Input the desired ip for the X-Forwarded-For header
@@ -155,7 +158,7 @@ class ClientBuilder:
         self.ip = ip
         return self
 
-    def with_debug(self):
+    def with_debug(self) -> "ClientBuilder":
         """
         Enables debug mode, which will print information about the HTTP request and response to the console.
 
@@ -164,7 +167,7 @@ class ClientBuilder:
         self.debug = True
         return self
 
-    def with_licenses(self, licenses):
+    def with_licenses(self, licenses: list[str]) -> "ClientBuilder":
         """
         Allows the caller to specify the subscription license (aka "track") they wish to use.
         :param licenses: Input licenses
@@ -173,7 +176,7 @@ class ClientBuilder:
         self.licenses = licenses
         return self
     
-    def with_connection_pool_size(self, connections):
+    def with_connection_pool_size(self, connections: int) -> "ClientBuilder":
         """
         Allows the caller to specify the size of the connection pool for multithreading.
         :param connections: The desired size of the connection pool
@@ -181,7 +184,7 @@ class ClientBuilder:
         self.pool_size = connections
         return self
     
-    def with_custom_query(self, key, value):
+    def with_custom_query(self, key: str, value: str) -> "ClientBuilder":
         """
         Allows the caller to specify key and value pair that is added to the request query.
         :param key: The key of the custom query parameter
@@ -193,7 +196,7 @@ class ClientBuilder:
         self.custom_queries[key] = value
         return self
 
-    def with_custom_comma_separated_query(self, key, values):
+    def with_custom_comma_separated_query(self, key: str, values: str) -> "ClientBuilder":
         """
         Allows the caller to specify a key and value pair and appends the value to the current value associated with the key, separated by a comma.
         :param key: The key of the custom query parameter
@@ -208,58 +211,58 @@ class ClientBuilder:
             self.custom_queries[key] = values
         return self
     
-    def with_feature_component_analysis(self):
+    def with_feature_component_analysis(self) -> "ClientBuilder":
         """
         Adds to the request query to use the component analysis feature.
         :return: Returns self to accommodate method chaining
         """
         return self.with_custom_comma_separated_query('features', 'component-analysis')
 
-    def with_feature_iana_time_zone(self):
+    def with_feature_iana_time_zone(self) -> "ClientBuilder":
         """with_feature_iana_time_zone turns on the IANA timezone feature for the request."""
         return self.with_custom_comma_separated_query('features', 'iana-timezone')
 
-    def build_international_street_api_client(self):
+    def build_international_street_api_client(self) -> InternationalStreetClient:
         self.ensure_url_prefix_not_null(self.INTERNATIONAL_STREET_API_URL)
         return InternationalStreetClient(self.build_sender(), self.serializer)
 
-    def build_international_autocomplete_api_client(self):
+    def build_international_autocomplete_api_client(self) -> InternationalAutocompleteClient:
         self.ensure_url_prefix_not_null(self.INTERNATIONAL_AUTOCOMPLETE_API_URL)
         return InternationalAutocompleteClient(self.build_sender(), self.serializer)
 
-    def build_us_autocomplete_pro_api_client(self):
+    def build_us_autocomplete_pro_api_client(self) -> USAutocompleteProClient:
         self.ensure_url_prefix_not_null(self.US_AUTOCOMPLETE_PRO_API_URL)
         return USAutocompleteProClient(self.build_sender(), self.serializer)
 
-    def build_us_autocomplete_api_client(self):
+    def build_us_autocomplete_api_client(self) -> USAutocompleteClient:
         self.ensure_url_prefix_not_null(self.US_AUTOCOMPLETE_API_URL)
         return USAutocompleteClient(self.build_sender(), self.serializer)
 
-    def build_us_extract_api_client(self):
+    def build_us_extract_api_client(self) -> USExtractClient:
         self.ensure_url_prefix_not_null(self.US_EXTRACT_API_URL)
         return USExtractClient(self.build_sender(), self.serializer)
 
-    def build_us_street_api_client(self):
+    def build_us_street_api_client(self) -> USStreetClient:
         self.ensure_url_prefix_not_null(self.US_STREET_API_URL)
         return USStreetClient(self.build_sender(), self.serializer)
 
-    def build_us_zipcode_api_client(self):
+    def build_us_zipcode_api_client(self) -> USZIPClient:
         self.ensure_url_prefix_not_null(self.US_ZIP_CODE_API_URL)
         return USZIPClient(self.build_sender(), self.serializer)
 
-    def build_us_reverse_geo_api_client(self):
+    def build_us_reverse_geo_api_client(self) -> USReverseGeoClient:
         self.ensure_url_prefix_not_null(self.US_REVERSE_GEO_API_URL)
         return USReverseGeoClient(self.build_sender(), self.serializer)
 
-    def build_us_enrichment_api_client(self):
+    def build_us_enrichment_api_client(self) -> USEnrichmentClient:
         self.ensure_url_prefix_not_null(self.US_ENRICHMENT_API_URL)
         return USEnrichmentClient(self.build_sender(), self.serializer)
 
-    def build_international_postal_code_api_client(self):
+    def build_international_postal_code_api_client(self) -> InternationalPostalCodeClient:
         self.ensure_url_prefix_not_null(self.INTERNATIONAL_POSTAL_CODE_API_URL)
         return InternationalPostalCodeClient(self.build_sender(), self.serializer)
 
-    def build_sender(self):
+    def build_sender(self) -> Sender:
         if self.http_sender is not None:
             conflicts = []
             if self.max_timeout != 10:
@@ -272,10 +275,11 @@ class ClientBuilder:
                 conflicts.append("with_connection_pool_size()")
             if conflicts:
                 raise ValueError("with_sender() cannot be combined with: {}. These options only apply to the built-in HTTP transport.".format(", ".join(conflicts)))
-            sender = self.http_sender
+            sender: Sender = self.http_sender
         else:
-            sender = smarty.RequestsSender(self.max_timeout, self.proxy, self.pool_size)
-            sender.debug = self.debug
+            requests_sender = smarty.RequestsSender(self.max_timeout, self.proxy, self.pool_size)
+            requests_sender.debug = self.debug
+            sender = requests_sender
 
         sender = smarty.StatusCodeSender(sender)
 
@@ -295,12 +299,12 @@ class ClientBuilder:
         if self.max_retries > 0:
             sender = smarty.RetrySender(self.max_retries, sender)
 
-        sender = smarty.URLPrefixSender(self.url_prefix, sender)
+        sender = smarty.URLPrefixSender(cast(str, self.url_prefix), sender)
 
         sender = smarty.LicenseSender(self.licenses, sender)
 
         return sender
 
-    def ensure_url_prefix_not_null(self, url):
+    def ensure_url_prefix_not_null(self, url: str) -> None:
         if self.url_prefix is None:
             self.url_prefix = url

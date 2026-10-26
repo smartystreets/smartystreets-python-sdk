@@ -1,18 +1,22 @@
 from enum import Enum
+from typing import Any
 
 from smartystreets_python_sdk import Request
 from smartystreets_python_sdk.us_reverse_geo import Response
+from smartystreets_python_sdk.us_reverse_geo.lookup import Lookup
+from smartystreets_python_sdk.us_reverse_geo.result import Result
+from smartystreets_python_sdk.protocols import Sender, Serializer
 
 
 class Client:
-    def __init__(self, sender, serializer):
+    def __init__(self, sender: Sender, serializer: Serializer) -> None:
         """
         It is recommended to instantiate this class using ClientBuilder.build_us_reverse_geo_api_client()
         """
         self.sender = sender
         self.serializer = serializer
 
-    def send(self, lookup):
+    def send(self, lookup: Lookup) -> list[Result]:
         """
         Sends a Lookup object to the US Reverse Geo API and stores the result in the Lookup's result field.
         """
@@ -28,7 +32,7 @@ class Client:
 
         return results
 
-    def build_request(self, lookup):
+    def build_request(self, lookup: Lookup) -> Request:
         request = Request()
 
         self.add_parameter(request, 'latitude', lookup.latitude)
@@ -41,6 +45,6 @@ class Client:
         return request
 
     @staticmethod
-    def add_parameter(request, key, value):
+    def add_parameter(request: Request, key: str, value: Any) -> None:
         if value and value != 'none':
             request.parameters[key] = value.value if isinstance(value, Enum) else value

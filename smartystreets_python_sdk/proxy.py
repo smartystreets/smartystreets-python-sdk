@@ -1,5 +1,5 @@
 class Proxy:
-    def __init__(self, host, username=None, password=None):
+    def __init__(self, host: str, username: str | None = None, password: str | None = None) -> None:
         """
         Contains information about a proxy through which lookups should be sent
         :param host: The proxy host including port, but not scheme. (example: localhost:8080)

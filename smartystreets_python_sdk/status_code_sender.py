@@ -1,16 +1,21 @@
 import json
 
+from typing import Any
+
 from smartystreets_python_sdk import errors, exceptions
+from .protocols import Sender
+from .request import Request
+from .response import Response
 
 
 class StatusCodeSender:
-    def __init__(self, inner):
+    def __init__(self, inner: Sender) -> None:
         self.inner = inner
 
-    def parse_rate_limit_response(self, response):
+    def parse_rate_limit_response(self, response: Response) -> exceptions.SmartyException:
         return messageFrom(response, exceptions.TooManyRequestsError(errors.TOO_MANY_REQUESTS))
 
-    def send(self, request):
+    def send(self, request: Request) -> Response:
         response = self.inner.send(request)
 
         if not response.error:
@@ -21,7 +26,7 @@ class StatusCodeSender:
 
         return response
 
-def fallback_error(status_code):
+def fallback_error(status_code: int) -> exceptions.SmartyException:
     error = statuses.get(status_code)
     if error is None:
         error = exceptions.SmartyException(
@@ -29,14 +34,14 @@ def fallback_error(status_code):
     return error
 
 
-def messageFrom(response, fallback):
+def messageFrom(response: Response, fallback: exceptions.SmartyException) -> exceptions.SmartyException:
     message = extract_message(response)
     if message:
         return type(fallback)(message)
     return type(fallback)('{} Body: {}'.format(fallback, unused_body(response)).rstrip())
 
 
-def unused_body(response):
+def unused_body(response: Response) -> str:
     payload = response.payload
     if payload is None:
         return ''
@@ -45,7 +50,7 @@ def unused_body(response):
     return str(payload).strip()
 
 
-def extract_message(response):
+def extract_message(response: Response) -> str:
     try:
         response_json = json.loads(response.payload)
     except (ValueError, TypeError):
@@ -63,51 +68,51 @@ def extract_message(response):
     return message.rstrip()
 
 
-def bad_credentials():
+def bad_credentials() -> exceptions.SmartyException:
     return exceptions.BadCredentialsError(errors.BAD_CREDENTIALS)
 
 
-def payment_required():
+def payment_required() -> exceptions.SmartyException:
     return exceptions.PaymentRequiredError(errors.PAYMENT_REQUIRED)
 
 
-def forbidden():
+def forbidden() -> exceptions.SmartyException:
     return exceptions.ForbiddenError(errors.FORBIDDEN)
 
 
-def request_timeout():
+def request_timeout() -> exceptions.SmartyException:
     return exceptions.RequestTimeoutError(errors.REQUEST_TIMEOUT)
 
 
-def request_entity_too_large():
+def request_entity_too_large() -> exceptions.SmartyException:
     return exceptions.RequestEntityTooLargeError(errors.REQUEST_ENTITY_TOO_LARGE)
 
 
-def bad_request():
+def bad_request() -> exceptions.SmartyException:
     return exceptions.BadRequestError(errors.BAD_REQUEST)
 
 
-def unprocessable_entity():
+def unprocessable_entity() -> exceptions.SmartyException:
     return exceptions.UnprocessableEntityError(errors.UNPROCESSABLE_ENTITY)
 
 
-def internal_server_error():
+def internal_server_error() -> exceptions.SmartyException:
     return exceptions.InternalServerError(errors.INTERNAL_SERVER_ERROR)
 
 
-def bad_gateway():
+def bad_gateway() -> exceptions.SmartyException:
     return exceptions.BadGatewayError(errors.BAD_GATEWAY)
 
 
-def service_unavailable():
+def service_unavailable() -> exceptions.SmartyException:
     return exceptions.ServiceUnavailableError(errors.SERVICE_UNAVAILABLE)
 
 
-def gateway_timeout():
+def gateway_timeout() -> exceptions.SmartyException:
     return exceptions.GatewayTimeoutError(errors.GATEWAY_TIMEOUT)
 
 
-statuses = {401: bad_credentials(),
+statuses: dict[int, exceptions.SmartyException] = {401: bad_credentials(),
             402: payment_required(),
             403: forbidden(),
             408: request_timeout(),

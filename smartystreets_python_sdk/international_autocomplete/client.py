@@ -2,17 +2,20 @@ from smartystreets_python_sdk import Request
 from smartystreets_python_sdk.exceptions import SmartyException
 from smartystreets_python_sdk.international_autocomplete import Candidate
 from smartystreets_python_sdk.international_autocomplete.language_mode import LanguageMode
+from smartystreets_python_sdk.international_autocomplete.lookup import Lookup
+from smartystreets_python_sdk.protocols import Sender, Serializer
+from typing import Any
 
 
 class Client:
-    def __init__(self, sender, serializer):
+    def __init__(self, sender: Sender, serializer: Serializer) -> None:
         """
         It is recommended to instantiate this class using ClientBuilder.build_international_autocomplete_api_client()
         """
         self.sender = sender
         self.serializer = serializer
 
-    def send(self, lookup):
+    def send(self, lookup: Lookup) -> list[Candidate]:
         """
         Sends a Lookup object to the International Autocomplete API and stores the result in the Lookup's result field.
         """
@@ -32,7 +35,7 @@ class Client:
 
         return candidates
 
-    def build_request(self, lookup):
+    def build_request(self, lookup: Lookup) -> Request:
         request = Request()
 
         if lookup.address_id is not None:
@@ -54,16 +57,16 @@ class Client:
         return request
 
     @staticmethod
-    def convert_candidates(candidate_dictionaries):
+    def convert_candidates(candidate_dictionaries: list[dict[str, Any]]) -> list[Candidate]:
         return [Candidate(candidate) for candidate in candidate_dictionaries]
 
     @staticmethod
-    def add_parameter(request, key, value):
+    def add_parameter(request: Request, key: str, value: Any) -> None:
         if value and value != 'none':
             request.parameters[key] = value
 
     @staticmethod
-    def normalized_language(language):
+    def normalized_language(language: LanguageMode | str | None) -> str | None:
         if language is None:
             return None
         return LanguageMode.from_value(language).value

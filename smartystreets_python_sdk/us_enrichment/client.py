@@ -1,13 +1,16 @@
+from typing import Any, cast
 from urllib.parse import quote
 
 from smartystreets_python_sdk import Request
 from smartystreets_python_sdk.exceptions import SmartyException
+from smartystreets_python_sdk.protocols import Sender, Serializer
 from .business import BusinessSummaryResponse, BusinessDetailResponse
 from .lookup import (
     BusinessDetailLookup,
     BusinessLookup,
     GeoReferenceLookup,
     Lookup,
+    LookupBase,
     PrincipalLookup,
     SecondaryCountLookup,
     SecondaryLookup,
@@ -16,14 +19,14 @@ from .response import Response
 
 
 class Client:
-    def __init__(self, sender, serializer):
+    def __init__(self, sender: Sender, serializer: Serializer) -> None:
         """
         It is recommended to instantiate this class using ClientBuilder.build_us_enrichment_api_client()
         """
         self.sender = sender
         self.serializer = serializer
 
-    def send_property_principal_lookup(self, lookup):
+    def send_property_principal_lookup(self, lookup: str | Lookup) -> list[Response]:
         if isinstance(lookup, str):
             l = PrincipalLookup(lookup)
             send_lookup(self, l)
@@ -34,7 +37,7 @@ class Client:
             send_lookup(self, lookup)
             return lookup.result
 
-    def send_geo_reference_lookup(self, lookup):
+    def send_geo_reference_lookup(self, lookup: str | Lookup) -> list[Response]:
         if isinstance(lookup, str):
             l = GeoReferenceLookup(lookup)
             send_lookup(self, l)
@@ -45,7 +48,7 @@ class Client:
             send_lookup(self, lookup)
             return lookup.result
 
-    def send_secondary_lookup(self, lookup):
+    def send_secondary_lookup(self, lookup: str | Lookup) -> list[Response]:
         if isinstance(lookup, str):
             l = SecondaryLookup(lookup)
             send_lookup(self, l)
@@ -56,7 +59,7 @@ class Client:
             send_lookup(self, lookup)
             return lookup.result
 
-    def send_secondary_count_lookup(self, lookup):
+    def send_secondary_count_lookup(self, lookup: str | Lookup) -> list[Response]:
         if isinstance(lookup, str):
             l = SecondaryCountLookup(lookup)
             send_lookup(self, l)
@@ -67,7 +70,7 @@ class Client:
             send_lookup(self, lookup)
             return lookup.result
 
-    def send_generic_lookup(self, lookup, dataset, dataSubset):
+    def send_generic_lookup(self, lookup: str | Lookup, dataset: str, dataSubset: str | None) -> list[Response]:
         if isinstance(lookup, str):
             l = Lookup(lookup, dataset, dataSubset)
             send_lookup(self, l)
@@ -78,7 +81,7 @@ class Client:
             send_lookup(self, lookup)
             return lookup.result
 
-    def send_business_lookup(self, lookup):
+    def send_business_lookup(self, lookup: str | Lookup) -> list[BusinessSummaryResponse]:
         if isinstance(lookup, str):
             l = BusinessLookup(lookup)
             send_lookup(self, l, BusinessSummaryResponse)
@@ -89,7 +92,7 @@ class Client:
             send_lookup(self, lookup, BusinessSummaryResponse)
             return lookup.result
 
-    def send_business_detail_lookup(self, lookup):
+    def send_business_detail_lookup(self, lookup: str | BusinessDetailLookup) -> BusinessDetailResponse | None:
         if isinstance(lookup, str):
             l = BusinessDetailLookup(lookup)
             send_business_detail_lookup(self, l)
@@ -99,7 +102,8 @@ class Client:
             return lookup.result
 
 
-def send_lookup(client: Client, lookup, response_class=Response):
+def send_lookup(client: Client, lookup: Lookup | None,
+                response_class: type[Response] | type[BusinessSummaryResponse] = Response) -> list[Any]:
     """
     Sends a Lookup object to the US Enrichment API and stores the result in the Lookup's result field.
     """
@@ -119,12 +123,12 @@ def send_lookup(client: Client, lookup, response_class=Response):
     return lookup.result
 
 
-def send_business_detail_lookup(client: Client, lookup):
+def send_business_detail_lookup(client: Client, lookup: BusinessDetailLookup | None) -> BusinessDetailResponse | None:
     if lookup is None or _is_blank(getattr(lookup, 'business_id', None)):
         raise SmartyException("BusinessDetailLookup requires a non-empty 'business_id'")
 
     request = Request()
-    request.url_components = 'business/' + quote(lookup.business_id, safe='')
+    request.url_components = 'business/' + quote(cast(str, lookup.business_id), safe='')
     request.parameters = _common_parameters(lookup)
     _apply_etag_header(request, lookup)
 
@@ -142,7 +146,7 @@ def send_business_detail_lookup(client: Client, lookup):
     return lookup.result
 
 
-def build_request(lookup):
+def build_request(lookup: Lookup) -> Request:
     request = Request()
     request.url_components = _url_components(lookup)
     request.parameters = _address_parameters(lookup)
@@ -151,18 +155,18 @@ def build_request(lookup):
     return request
 
 
-def _url_components(lookup):
+def _url_components(lookup: Lookup) -> str:
     if lookup.smartykey is not None:
-        base = lookup.smartykey + "/" + lookup.dataset
+        base = lookup.smartykey + "/" + cast(str, lookup.dataset)
     else:
-        base = 'search/' + lookup.dataset
+        base = 'search/' + cast(str, lookup.dataset)
     if lookup.dataSubset is None:
         return base
     return base + "/" + lookup.dataSubset
 
 
-def _address_parameters(lookup):
-    params = {}
+def _address_parameters(lookup: Lookup) -> dict[str, Any]:
+    params: dict[str, Any] = {}
     for key in ('freeform', 'street', 'city', 'state', 'zipcode', 'features', 'business_name'):
         value = getattr(lookup, key, None)
         if value:
@@ -170,8 +174,8 @@ def _address_parameters(lookup):
     return params
 
 
-def _common_parameters(lookup):
-    params = {}
+def _common_parameters(lookup: LookupBase) -> dict[str, Any]:
+    params: dict[str, Any] = {}
     if lookup.include_array:
         params['include'] = ','.join(lookup.include_array)
     if lookup.exclude_array:
@@ -181,12 +185,12 @@ def _common_parameters(lookup):
     return params
 
 
-def _apply_etag_header(request, lookup):
+def _apply_etag_header(request: Request, lookup: LookupBase) -> None:
     if lookup.request_etag is not None:
         request.headers['Etag'] = lookup.request_etag
 
 
-def _dispatch(client, request, lookup):
+def _dispatch(client: Client, request: Request, lookup: LookupBase) -> list[Any] | None:
     response = client.sender.send(request)
     lookup.response_etag = response.find_header('etag')
     if response.status_code == 304:
@@ -197,5 +201,5 @@ def _dispatch(client, request, lookup):
     return raw or []
 
 
-def _is_blank(value):
+def _is_blank(value: Any) -> bool:
     return value is None or (isinstance(value, str) and value.strip() == '')
