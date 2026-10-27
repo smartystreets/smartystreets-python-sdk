@@ -44,6 +44,8 @@ class Client:
         self.add_parameter(request, 'administrative_area', lookup.administrative_area)
         self.add_parameter(request, 'postal_code', lookup.postal_code)
         self.add_parameter(request, 'features', lookup.features)
+        if lookup.max_results and lookup.max_results > 0:
+            request.parameters['max_results'] = lookup.max_results
 
         for parameter in lookup.custom_parameter_array:
             self.add_parameter(request, parameter, lookup.custom_parameter_array[parameter])

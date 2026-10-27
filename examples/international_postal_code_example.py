@@ -1,7 +1,7 @@
 import os
 
 from smartystreets_python_sdk import BasicAuthCredentials, ClientBuilder, SharedCredentials
-from smartystreets_python_sdk.international_postal_code import Lookup
+from smartystreets_python_sdk.international_postal_code import Lookup, LanguageMode
 
 
 def run():
@@ -32,6 +32,8 @@ def run():
     lookup.administrative_area = "SP"
     lookup.country = "Brazil"
     lookup.postal_code = "02516"
+    # lookup.language = LanguageMode.NATIVE  # or LanguageMode.LATIN
+    # lookup.max_results = 10
 
     candidates = client.send(lookup)  # The candidates are also stored in the lookup's 'results' field.
 
@@ -61,6 +63,8 @@ def run():
             print("  postal_code: {}".format(candidate.postal_code))
         if candidate.postal_code_extra:
             print("  postal_code_extra: {}".format(candidate.postal_code_extra))
+        if candidate.thoroughfare:
+            print("  thoroughfare: {}".format(candidate.thoroughfare))
         
         print()
 

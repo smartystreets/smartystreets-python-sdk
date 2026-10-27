@@ -36,6 +36,7 @@ class TestClient(unittest.TestCase):
         lookup.administrative_area = '8'
         lookup.postal_code = '9'
         lookup.features = '10'
+        lookup.max_results = 10
         lookup.add_custom_parameter('custom', '11')
 
         client.send(lookup)
@@ -53,7 +54,27 @@ class TestClient(unittest.TestCase):
         self.assertEqual('8', sender.request.parameters['administrative_area'])
         self.assertEqual('9', sender.request.parameters['postal_code'])
         self.assertEqual('10', sender.request.parameters['features'])
+        self.assertEqual(10, sender.request.parameters['max_results'])
         self.assertEqual('11', sender.request.parameters['custom'])
+
+    def test_max_results_omitted_when_not_set(self):
+        sender = RequestCapturingSender()
+        client = Client(sender, FakeDeserializer({}))
+        lookup = Lookup('1', '2')
+
+        client.send(lookup)
+
+        self.assertNotIn('max_results', sender.request.parameters)
+
+    def test_max_results_omitted_when_zero(self):
+        sender = RequestCapturingSender()
+        client = Client(sender, FakeDeserializer({}))
+        lookup = Lookup('1', '2')
+        lookup.max_results = 0
+
+        client.send(lookup)
+
+        self.assertNotIn('max_results', sender.request.parameters)
 
     def test_sending_lookup_with_mixed_case_language_value(self):
         sender = RequestCapturingSender()
