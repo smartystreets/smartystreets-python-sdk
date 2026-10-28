@@ -1,6 +1,7 @@
 from smartystreets_python_sdk import Request
 from smartystreets_python_sdk.international_postal_code import Candidate
 from smartystreets_python_sdk.international_postal_code.language_mode import LanguageMode
+from smartystreets_python_sdk.max_results import normalize_max_results
 
 class Client:
     def __init__(self, sender, serializer):
@@ -29,8 +30,7 @@ class Client:
         self.add_parameter(request, 'locality', lookup.locality)
         self.add_parameter(request, 'administrative_area', lookup.administrative_area)
         self.add_parameter(request, 'postal_code', lookup.postal_code)
-        if lookup.max_results and lookup.max_results > 0:
-            request.parameters['max_results'] = lookup.max_results
+        self.add_parameter(request, 'max_results', normalize_max_results(lookup.max_results))
         return request
 
     @staticmethod

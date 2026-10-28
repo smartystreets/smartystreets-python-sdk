@@ -1,4 +1,5 @@
 from smartystreets_python_sdk.international_postal_code.language_mode import LanguageMode
+from smartystreets_python_sdk.max_results import normalize_max_results
 
 
 class Lookup:
@@ -37,5 +38,6 @@ class Lookup:
             params['administrative_area'] = self.administrative_area
         if self.postal_code:
             params['postal_code'] = self.postal_code
-        if self.max_results and self.max_results > 0:
-            params['max_results'] = self.max_results
+        max_results = normalize_max_results(self.max_results)
+        if max_results is not None:
+            params['max_results'] = max_results
