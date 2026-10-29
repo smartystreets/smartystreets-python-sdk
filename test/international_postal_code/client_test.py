@@ -1,7 +1,8 @@
 import unittest
 
 from smartystreets_python_sdk import Response
-from smartystreets_python_sdk.international_postal_code import Client, Lookup, Candidate
+from smartystreets_python_sdk.international_postal_code import Client, Lookup, Candidate, LanguageMode
+from smartystreets_python_sdk.international_street import LanguageMode as StreetLanguageMode
 from test.mocks import RequestCapturingSender, MockSender, FakeDeserializer
 
 
@@ -16,6 +17,8 @@ class TestClient(unittest.TestCase):
         lookup.locality = '2'
         lookup.administrative_area = '3'
         lookup.postal_code = '4'
+        lookup.language = LanguageMode.NATIVE
+        lookup.max_results = 5
 
         client.send(lookup)
 
@@ -24,6 +27,42 @@ class TestClient(unittest.TestCase):
         self.assertEqual('2', sender.request.parameters['locality'])
         self.assertEqual('3', sender.request.parameters['administrative_area'])
         self.assertEqual('4', sender.request.parameters['postal_code'])
+        self.assertEqual('native', sender.request.parameters['language'])
+        self.assertEqual(5, sender.request.parameters['max_results'])
+
+    def test_sending_lookup_with_mixed_case_language_value(self):
+        sender = RequestCapturingSender()
+        client = Client(sender, FakeDeserializer({}))
+        lookup = Lookup()
+        lookup.language = 'Latin'
+
+        client.send(lookup)
+
+        self.assertEqual('latin', sender.request.parameters['language'])
+
+    def test_language_and_max_results_omitted_when_not_set(self):
+        sender = RequestCapturingSender()
+        client = Client(sender, FakeDeserializer({}))
+        lookup = Lookup()
+        lookup.country = 'CAN'
+
+        client.send(lookup)
+
+        self.assertNotIn('language', sender.request.parameters)
+        self.assertNotIn('max_results', sender.request.parameters)
+
+    def test_max_results_omitted_when_zero(self):
+        sender = RequestCapturingSender()
+        client = Client(sender, FakeDeserializer({}))
+        lookup = Lookup()
+        lookup.max_results = 0
+
+        client.send(lookup)
+
+        self.assertNotIn('max_results', sender.request.parameters)
+
+    def test_language_mode_not_shared_with_international_street(self):
+        self.assertIsNot(LanguageMode, StreetLanguageMode)
 
     def test_empty_lookup_rejected(self):
         sender = RequestCapturingSender()
@@ -70,6 +109,16 @@ class TestClient(unittest.TestCase):
         self.assertEqual(expected_candidates[0].locality, lookup.results[0].locality)
         self.assertEqual(expected_candidates[1].input_id, lookup.results[1].input_id)
         self.assertEqual(expected_candidates[1].locality, lookup.results[1].locality)
+
+    def test_thoroughfare_deserialized(self):
+        lookup = Lookup()
+        sender = MockSender(Response('[]', 0))
+        deserializer = FakeDeserializer([{'input_id': 'ID-1', 'thoroughfare': '8'}])
+        client = Client(sender, deserializer)
+
+        client.send(lookup)
+
+        self.assertEqual('8', lookup.results[0].thoroughfare)
 
 
 if __name__ == "__main__":
