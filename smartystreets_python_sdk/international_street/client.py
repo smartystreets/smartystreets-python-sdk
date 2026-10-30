@@ -1,18 +1,21 @@
 from smartystreets_python_sdk import Request
 from smartystreets_python_sdk.international_street import Candidate
 from smartystreets_python_sdk.international_street.language_mode import LanguageMode
+from smartystreets_python_sdk.international_street.lookup import Lookup
 from smartystreets_python_sdk.max_results import normalize_max_results
+from smartystreets_python_sdk.protocols import Sender, Serializer
+from typing import Any
 
 
 class Client:
-    def __init__(self, sender, serializer):
+    def __init__(self, sender: Sender, serializer: Serializer) -> None:
         """
         It is recommended to instantiate this class using ClientBuilder.build_international_street_api_client()
         """
         self.sender = sender
         self.serializer = serializer
 
-    def send(self, lookup):
+    def send(self, lookup: Lookup) -> list[Candidate]:
         """
         Sends a Lookup object to the International Street API and stores the result in the Lookup's result field.
         """
@@ -28,7 +31,7 @@ class Client:
         lookup.result = candidates
         return candidates
 
-    def build_request(self, lookup):
+    def build_request(self, lookup: Lookup) -> Request:
         request = Request()
 
         self.add_parameter(request, 'input_id', lookup.input_id)
@@ -53,16 +56,16 @@ class Client:
         return request
 
     @staticmethod
-    def convert_candidates(raw_candidates):
+    def convert_candidates(raw_candidates: list[dict[str, Any]]) -> list[Candidate]:
         return [Candidate(candidate) for candidate in raw_candidates]
 
     @staticmethod
-    def add_parameter(request, key, value):
+    def add_parameter(request: Request, key: str, value: Any) -> None:
         if value and value != 'none':
             request.parameters[key] = value
 
     @staticmethod
-    def normalized_language(language):
+    def normalized_language(language: LanguageMode | str | None) -> str | None:
         if language is None:
             return None
         return LanguageMode.from_value(language).value

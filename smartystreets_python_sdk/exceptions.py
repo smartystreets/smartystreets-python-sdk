@@ -55,6 +55,6 @@ class BatchFullError(SmartyException):
 
 
 class NotModifiedError(SmartyException):
-    def __init__(self, message=None, response_etag=None):
+    def __init__(self, message: str | None = None, response_etag: str | None = None) -> None:
         super().__init__(message)
         self.response_etag = response_etag

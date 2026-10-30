@@ -1,12 +1,12 @@
 class MatchInfo:
-    def __init__(self, obj):
+    def __init__(self, obj: dict) -> None:
         """
         Holds matching status and change information for an address component.
         """
-        self.status = obj.get('status', None)
-        self.change = obj.get('change', None)
+        self.status: str | None = obj.get('status', None)
+        self.change: list[str] | None = obj.get('change', None)
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
         result = {
             "status": self.status,
             "change": self.change

@@ -2,6 +2,10 @@ from time import sleep
 
 import sys
 
+from .protocols import Sender
+from .request import Request
+from .response import Response
+
 
 class RetrySender:
     MAX_BACKOFF_DURATION = 10
@@ -9,11 +13,11 @@ class RetrySender:
     STATUS_TO_RETRY = [408, 500, 502, 503, 504]
     
 
-    def __init__(self, max_retries, inner):
+    def __init__(self, max_retries: int, inner: Sender) -> None:
         self.inner = inner
         self.max_retries = max_retries
 
-    def send(self, request):
+    def send(self, request: Request) -> Response:
         response = self.inner.send(request)
 
         for i in range(self.max_retries):
@@ -35,7 +39,7 @@ class RetrySender:
         return response
 
 
-def backoff(attempt, ignore_max=False):
+def backoff(attempt: int, ignore_max: bool = False) -> None:
     max_backoff = RetrySender.MAX_BACKOFF_DURATION
     if ignore_max:
         max_backoff = attempt

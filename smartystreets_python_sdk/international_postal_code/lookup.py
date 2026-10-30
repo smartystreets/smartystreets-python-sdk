@@ -1,9 +1,11 @@
 from smartystreets_python_sdk.international_postal_code.language_mode import LanguageMode
 from smartystreets_python_sdk.max_results import normalize_max_results
+from smartystreets_python_sdk.international_postal_code.candidate import Candidate
+from typing import Any
 
 
 class Lookup:
-    def __init__(self):
+    def __init__(self) -> None:
         """
         In addition to holding all the input data for this lookup, this class also will contain the result
         of the lookup after it comes back from the API.
@@ -15,17 +17,17 @@ class Lookup:
             When set to LanguageMode.LATIN, results use the Latin character set with accents and other diacritics removed.
         :field self.max_results: The maximum number of results to return. Sent only when greater than 0.
         """
-        self.results = []
+        self.results: list[Candidate] = []
 
-        self.input_id = None
-        self.country = None
-        self.language = None
-        self.locality = None
-        self.administrative_area = None
-        self.postal_code = None
-        self.max_results = None
+        self.input_id: str | None = None
+        self.country: str | None = None
+        self.language: str | None = None
+        self.locality: str | None = None
+        self.administrative_area: str | None = None
+        self.postal_code: str | None = None
+        self.max_results: str | None = None
 
-    def populate(self, params):
+    def populate(self, params: dict[str, Any]) -> None:
         if self.input_id:
             params['input_id'] = self.input_id
         if self.country:

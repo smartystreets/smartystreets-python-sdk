@@ -1,17 +1,21 @@
+from typing import Any, Mapping
+
+
 class Response:
-    def __init__(self, payload, status_code, headers=None, error=None):
+    def __init__(self, payload: Any, status_code: int, headers: Mapping[str, Any] | None = None,
+                 error: Exception | None = None) -> None:
         self.payload = payload
         self.status_code = status_code
         self.headers = headers
         self.error = error
 
-    def getHeader(self, header):
+    def getHeader(self, header: str) -> Any:
         if self.headers is None:
             return None
         else:
             return self.headers[header]
 
-    def find_header(self, name):
+    def find_header(self, name: str) -> Any:
         if self.headers is None:
             return None
         target = name.lower()

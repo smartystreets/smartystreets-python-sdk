@@ -1,13 +1,14 @@
 from collections import OrderedDict
+from typing import Any
 
 
 class Request:
-    def __init__(self):
-        self.parameters = OrderedDict()
-        self.payload = None
-        self.url_prefix = None
-        self.url_components = None
-        self.referer = None
-        self.content_type = 'application/json'
-        self.auth = None
-        self.headers = {}
+    def __init__(self) -> None:
+        self.parameters: dict[str, Any] = OrderedDict()
+        self.payload: bytes | str | None = None
+        self.url_prefix: str | None = None
+        self.url_components: str | None = None
+        self.referer: str | None = None
+        self.content_type: str = 'application/json'
+        self.auth: tuple[str, str] | None = None
+        self.headers: dict[str, Any] = {}

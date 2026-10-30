@@ -1,9 +1,16 @@
+from typing import Any
+
 from smartystreets_python_sdk.us_autocomplete_pro import geolocation_type
+from smartystreets_python_sdk.us_autocomplete_pro.source import Source
+from smartystreets_python_sdk.us_autocomplete_pro.suggestion import Suggestion
 
 class Lookup:
-    def __init__(self, search=None, max_results=None, city_filter=None, state_filter=None, zip_filter=None,
-                 exclude=None, prefer_cities=None, prefer_states=None, prefer_zips=None, prefer_ratio=None,
-                 prefer_geo=None, selected=None, source=None):
+    def __init__(self, search: str | None = None, max_results: int | None = None, city_filter: list[str] | None = None,
+                 state_filter: list[str] | None = None, zip_filter: list[str] | None = None,
+                 exclude: list[str] | None = None, prefer_cities: list[str] | None = None,
+                 prefer_states: list[str] | None = None, prefer_zips: list[str] | None = None,
+                 prefer_ratio: int | None = None, prefer_geo: str | None = None, selected: str | None = None,
+                 source: Source | str | None = None) -> None:
 
         """
         In addition to holding all of the input data for this lookup, this class also will contain the result 
@@ -34,44 +41,44 @@ class Lookup:
         :param source: Include results from alternate data sources. Defaults to None (API default: postal).
                             Use Source.ALL to include non-postal addresses, Source.POSTAL to limit to postal only.
         """
-        self.result = []
-        self.custom_parameter_array = {}
+        self.result: list[Suggestion] = []
+        self.custom_parameter_array: dict[str, Any] = {}
         self.search = search
         self.max_results = max_results
-        self.city_filter = city_filter or []
-        self.state_filter = state_filter or []
-        self.zip_filter = zip_filter or []
-        self.exclude = exclude or []
-        self.prefer_cities = prefer_cities or []
-        self.prefer_states = prefer_states or []
-        self.prefer_zips = prefer_zips or []
+        self.city_filter: list[str] = city_filter or []
+        self.state_filter: list[str] = state_filter or []
+        self.zip_filter: list[str] = zip_filter or []
+        self.exclude: list[str] = exclude or []
+        self.prefer_cities: list[str] = prefer_cities or []
+        self.prefer_states: list[str] = prefer_states or []
+        self.prefer_zips: list[str] = prefer_zips or []
         self.prefer_ratio = prefer_ratio
         self.prefer_geo = prefer_geo
         self.selected = selected
         self.source = source
 
-    def add_city_filter(self, city):
+    def add_city_filter(self, city: str) -> None:
         self.city_filter.append(city)
 
-    def add_state_filter(self, state):
+    def add_state_filter(self, state: str) -> None:
         self.state_filter.append(state)
 
-    def add_zip_filter(self, zipcode):
+    def add_zip_filter(self, zipcode: str) -> None:
         self.prefer_geo = geolocation_type.NONE
         self.zip_filter.append(zipcode)
 
-    def add_exclude(self, state):
+    def add_exclude(self, state: str) -> None:
         self.exclude.append(state)
 
-    def add_city_preference(self, city):
+    def add_city_preference(self, city: str) -> None:
         self.prefer_cities.append(city)
 
-    def add_state_preference(self, state):
+    def add_state_preference(self, state: str) -> None:
         self.prefer_states.append(state)
 
-    def add_zip_preference(self, zipcode):
+    def add_zip_preference(self, zipcode: str) -> None:
         self.prefer_geo = geolocation_type.NONE
         self.prefer_zips.append(zipcode)
 
-    def add_custom_parameter(self, parameter, value):
+    def add_custom_parameter(self, parameter: str, value: Any) -> None:
         self.custom_parameter_array[parameter] = value
