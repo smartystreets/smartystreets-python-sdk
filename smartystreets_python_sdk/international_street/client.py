@@ -2,6 +2,7 @@ from smartystreets_python_sdk import Request
 from smartystreets_python_sdk.international_street import Candidate
 from smartystreets_python_sdk.international_street.language_mode import LanguageMode
 from smartystreets_python_sdk.international_street.lookup import Lookup
+from smartystreets_python_sdk.max_results import normalize_max_results
 from smartystreets_python_sdk.protocols import Sender, Serializer
 from typing import Any
 
@@ -47,6 +48,7 @@ class Client:
         self.add_parameter(request, 'administrative_area', lookup.administrative_area)
         self.add_parameter(request, 'postal_code', lookup.postal_code)
         self.add_parameter(request, 'features', lookup.features)
+        self.add_parameter(request, 'max_results', normalize_max_results(lookup.max_results))
 
         for parameter in lookup.custom_parameter_array:
             self.add_parameter(request, parameter, lookup.custom_parameter_array[parameter])

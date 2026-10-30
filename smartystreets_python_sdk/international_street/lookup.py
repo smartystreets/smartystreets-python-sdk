@@ -19,6 +19,7 @@ class Lookup:
         :field self.language: When not set, the output language will match the language of the input values.
             When set to language_mode.NATIVE, the results will always be in the language of the output country.
             When set to language_mode.LATIN, the results will always be provided using a Latin character set.
+        :field self.max_results: The maximum number of candidates to return. Sent only when greater than 0.
         """
         self.result: list[Candidate] = []
 
@@ -37,6 +38,7 @@ class Lookup:
         self.administrative_area: str | None = None
         self.postal_code: str | None = None
         self.features: str | None = None
+        self.max_results: str | None = None
 
     @property
     def missing_country(self) -> bool:

@@ -12,3 +12,4 @@ class Candidate:
         self.double_dependent_locality: str | None = obj.get('double_dependent_locality', None)
         self.postal_code: str | None = obj.get('postal_code', None)
         self.postal_code_extra: str | None = obj.get('postal_code_extra', None)
+        self.thoroughfare: str | None = obj.get('thoroughfare', None)
